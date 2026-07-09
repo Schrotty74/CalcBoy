@@ -1,34 +1,36 @@
-# 🔒 Sicherheit & Datenschutz
+# 🔒 Security & Privacy
 
-CALC BOY wurde auf private Daten, externe Verbindungen und Tracking geprüft. Stand: Juli 2026, Version 1.0.
+🇩🇪 [Deutsche Version](SECURITY.de.md)
 
-## Ergebnis der Prüfung
+CALC BOY has been audited for private data, external connections and tracking. As of: July 2026, version 2.0.
 
-**Es sind keine privaten Daten enthalten und es werden keine erhoben.**
+## Audit result
 
-| Prüfpunkt | Ergebnis |
+**No private data is included and none is collected.**
+
+| Check | Result |
 |---|---|
-| Persönliche Daten (Namen, E-Mails, IDs) | ❌ keine enthalten |
-| Lokale Pfade (z. B. `/Users/…`, `C:\…`) | ❌ keine enthalten |
-| API-Keys, Tokens, Passwörter | ❌ keine enthalten |
-| Externe Verbindungen / Requests | ❌ keine – Schrift ist als Base64 eingebettet |
-| Tracking, Analytics, Cookies | ❌ nicht vorhanden |
-| Datenspeicherung (localStorage, IndexedDB, Cookies) | ❌ nicht vorhanden – Berechnungen existieren nur im Arbeitsspeicher |
+| Personal data (names, e-mails, IDs) | ❌ none included |
+| Local paths (e.g. `/Users/…`, `C:\…`) | ❌ none included |
+| API keys, tokens, passwords | ❌ none included |
+| External connections / requests | ❌ none – the font is embedded as Base64 |
+| Tracking, analytics, cookies | ❌ not present |
+| Data storage | ⚙️ local only (localStorage): theme, sound, calculation history, high score – never leaves the device, removable via the browser's website data |
 
-## Was das konkret bedeutet
+## What this means in practice
 
-- Die App ist eine **einzelne, in sich geschlossene HTML-Datei**. Nach dem ersten Laden funktioniert sie vollständig offline.
-- Es verlässt **keine einzige Information** das Gerät – keine IP-Übertragung an Font-CDNs, keine Telemetrie, nichts.
-- Beim Schließen der App ist alles weg. Es gibt keine gespeicherten Verläufe oder Einstellungen.
-- Damit ist die App **DSGVO-unkritisch**: Es findet keine Verarbeitung personenbezogener Daten statt.
+- The app consists of one HTML file plus a service worker (sw.js) for offline caching – **only same-origin files** are cached. After the first load it works fully offline.
+- **Not a single piece of information** leaves the device – no IP transmission to font CDNs, no telemetry, nothing.
+- Only settings and the calculation history are stored – **locally in the browser**, without transmission to anyone. To delete: remove the domain's website data in your browser.
+- This makes the app **uncritical under GDPR**: no personal data is processed by third parties, nothing leaves the device.
 
-## Berechtigungen
+## Permissions
 
-Die App fordert keine Berechtigungen an. Optional genutzt werden nur:
+The app requests no permissions. Only these are used optionally:
 
-- **Web Audio API** für die 8-Bit-Tastentöne (lokal erzeugt, abschaltbar)
-- **Vibration API** für haptisches Feedback, sofern das Gerät sie unterstützt
+- **Web Audio API** for the 8-bit key sounds (generated locally, mutable)
+- **Vibration API** for haptic feedback, where the device supports it
 
-## Sicherheitslücken melden
+## Reporting vulnerabilities
 
-Falls dir dennoch etwas auffällt, eröffne bitte ein [Issue](../../issues) in diesem Repository.
+If you spot something nonetheless, please open an [issue](../../issues) in this repository.

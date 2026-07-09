@@ -1,29 +1,45 @@
-# 🎮 CALC BOY
+<p align="center">
+  <img src="icon-512.png" width="128" height="128" alt="CALC BOY icon">
+</p>
 
-Ein Taschenrechner im klassischen Nintendo-Look – als Progressive Web App, komplett in einer einzigen HTML-Datei. Keine Installation, kein App Store, keine externen Verbindungen.
+<h1 align="center">CALC BOY</h1>
 
-## ▶️ Direkt starten
+<p align="center">
+  🇩🇪 <a href="README.de.md">Deutsche Version</a>
+</p>
 
-**[➤ CALC BOY jetzt öffnen](https://schrotty74.github.io/CalcBoy/)**
+A calculator in classic Nintendo style – built as a Progressive Web App in a single HTML file (plus a small service worker). No installation, no app store, no external connections, no tracking.
 
-## 📱 Als App aufs iPhone
+## ▶️ Launch
 
-1. Link oben in **Safari** öffnen
-2. **Teilen-Symbol** → **„Zum Home-Bildschirm"**
-3. CALC BOY startet ab dann als Vollbild-App
+**[➤ Open CALC BOY now](https://schrotty74.github.io/CalcBoy/)**
 
-## ✨ Features
+## 📱 Install on iPhone
 
-- 6 Konsolen-Themes: Game Boy, GB Color, NES, Super NES, Switch, Famicom (THEME-Taste oben links)
-- Grundrechenarten, Prozent, Vorzeichen, Quadratwurzel
-- 8-Bit-Sounds, abschaltbar (SND-Taste oben rechts)
-- Deutsches Zahlenformat (Komma, Tausenderpunkte)
-- Läuft offline, speichert nichts, verbindet sich mit nichts – Schrift ist eingebettet
+1. Open the link above in **Safari**
+2. Tap the **Share icon** → **"Add to Home Screen"**
+3. CALC BOY now launches as a full-screen app
 
-## ⌨️ Tastatur (Mac/iPad)
+## ✨ Features (v2.0)
 
-Ziffern, `+ - * /`, `Enter` = Ergebnis, `Esc` = AC, `%`, `R` oder `W` = Wurzel
+- 6 console themes: Game Boy, GB Color, NES, Super NES, Switch, Famicom (THEME button) – your choice is remembered
+- 🕹️ **MATH ATTACK**: mental math against the clock (GAME button), 30 seconds, with high score
+- 🔬 **Scientific mode**: rotate to landscape for sin/cos/tan (DEG), log, ln, x², 1/x, xʸ, π, e
+- 📜 **History**: tap the display to see your last 10 calculations, tap an entry to reuse its result
+- Basic arithmetic, percent, sign toggle, square root
+- Boot animation and 8-bit sounds, mutable (SND button)
+- German number format (decimal comma, thousands separators)
+- Works offline via service worker; all data stays on your device
+- 🥚 Legend has it an old code unlocks a seventh console …
 
-## 📄 Lizenz
+## ⌨️ Keyboard (Mac/iPad)
 
-[GPL-3.0](LICENSE) – Schrift „Press Start 2P" von CodeMan38 unter SIL Open Font License 1.1.
+Digits, `+ - * /`, `Enter` = result, `Esc` = AC, `%`, `R` or `W` = square root
+
+## 🔒 Privacy
+
+No external requests, no tracking, no analytics. Settings, history and high score are stored locally in your browser only. Details in [SECURITY.md](SECURITY.md).
+
+## 📄 License
+
+[GPL-3.0](LICENSE) – Font "Press Start 2P" by CodeMan38, licensed under the SIL Open Font License 1.1.
