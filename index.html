@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<!--
+  CALC BOY — Taschenrechner-PWA im Nintendo-Stil
+  Copyright (C) 2026 Schrotty74
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  Schrift: "Press Start 2P" von CodeMan38, lizenziert unter der
+  SIL Open Font License 1.1 (eingebettet als Base64).
+-->
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>CALC BOY</title>
+
+<!-- iOS PWA: Vollbild ohne Safari-Leiste nach "Zum Home-Bildschirm" -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CALC BOY">
+<meta name="theme-color" content="#b8b4ac">
+
+<style>
+/* Press Start 2P (latin, v16) – eingebettet, kein externer Request (DSGVO-sauber) */
+@font-face {
+  font-family: 'Press Start 2P';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(data:font/woff2;base64,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) format('woff2');
+}
+</style>
+
+<style>
+:root { font-size: 16px; }
+
+/* ---------- Theme: GAME BOY (Standard, DMG) ---------- */
+.gameboy {
+  --shell: #c5c1b8; --shell-dark: #a8a49a; --shell-shadow: #8d897f;
+  --bezel: #565b6e; --bezel-light: #61667a; --bezel-text: #c9cbd6;
+  --stripe1: #8b2a4f; --stripe2: #2a3a8b;
+  --lcd: #9bbc0f; --lcd-border: rgba(15,56,15,.13);
+  --ink: #0f380f; --ink-glow: rgba(139,172,15,.9);
+  --btn-ab: #a93671; --btn-ab-light: #c4478b; --btn-ab-dark: #7e2755;
+  --btn-dark: #3b3a38; --btn-dark-light: #4a4948; --btn-dark-shadow: #1f1e1d;
+  --btn-start: #9a9689; --btn-start-light: #b3afa4; --btn-start-shadow: #6f6c61;
+  --fn-text: #3a382f; --brand: #4a4740;
+}
+/* ---------- Theme: GB COLOR (Atomic Purple) ---------- */
+.gameboy[data-theme="color"] {
+  --shell: #6a54a8; --shell-dark: #55428c; --shell-shadow: #40316b;
+  --bezel: #2e2450; --bezel-light: #3a2d63; --bezel-text: #cfc6ea;
+  --stripe1: #e94f9d; --stripe2: #4fc3e9;
+  --lcd: #a8cc4a; --lcd-border: rgba(20,50,10,.15);
+  --ink: #16360f; --ink-glow: rgba(210,235,140,.8);
+  --btn-ab: #2b9a92; --btn-ab-light: #3fbfb5; --btn-ab-dark: #1d6e68;
+  --btn-dark: #2f2b3a; --btn-dark-light: #423c50; --btn-dark-shadow: #1a1724;
+  --btn-start: #8f86ad; --btn-start-light: #a79dc4; --btn-start-shadow: #5f5880;
+  --fn-text: #2a2440; --brand: #2e2450;
+}
+/* ---------- Theme: NES (Rot auf Schwarz) ---------- */
+.gameboy[data-theme="nes"] {
+  --shell: #d6d2cb; --shell-dark: #b4b0a8; --shell-shadow: #97938b;
+  --bezel: #1c1c1c; --bezel-light: #2b2b2b; --bezel-text: #cfcfcf;
+  --stripe1: #e03c31; --stripe2: #e03c31;
+  --lcd: #191919; --lcd-border: rgba(255,60,50,.2);
+  --ink: #ff4136; --ink-glow: rgba(120,10,10,.9);
+  --btn-ab: #c8102e; --btn-ab-light: #e2354d; --btn-ab-dark: #8a0c20;
+  --btn-dark: #333333; --btn-dark-light: #454545; --btn-dark-shadow: #171717;
+  --btn-start: #a9a5a0; --btn-start-light: #c2beb8; --btn-start-shadow: #797570;
+  --fn-text: #2e2c29; --brand: #57544f;
+}
+/* ---------- Theme: SUPER NES (PAL-Grau/Lila) ---------- */
+.gameboy[data-theme="snes"] {
+  --shell: #c6c6d2; --shell-dark: #a9a9ba; --shell-shadow: #8c8ca0;
+  --bezel: #4f4f68; --bezel-light: #5d5d7a; --bezel-text: #d6d6e6;
+  --stripe1: #4f43ae; --stripe2: #8b7bd8;
+  --lcd: #ccd2c4; --lcd-border: rgba(50,50,80,.18);
+  --ink: #33334d; --ink-glow: rgba(255,255,255,.5);
+  --btn-ab: #4f43ae; --btn-ab-light: #6a5cd0; --btn-ab-dark: #362e7c;
+  --btn-dark: #4a4a5c; --btn-dark-light: #5c5c72; --btn-dark-shadow: #2b2b38;
+  --btn-start: #a5a5b6; --btn-start-light: #bfbfd0; --btn-start-shadow: #74748a;
+  --fn-text: #33334a; --brand: #4f4f68;
+}
+/* ---------- Theme: SWITCH (Neon-Rot/Blau) ---------- */
+.gameboy[data-theme="switch"] {
+  --shell: #333336; --shell-dark: #232326; --shell-shadow: #151517;
+  --bezel: #111111; --bezel-light: #1c1c1e; --bezel-text: #9a9aa2;
+  --stripe1: #ff3c28; --stripe2: #0ab9e6;
+  --lcd: #f2f2f4; --lcd-border: rgba(0,0,0,.25);
+  --ink: #1e1e22; --ink-glow: rgba(255,255,255,.7);
+  --btn-ab: #e6382a; --btn-ab-light: #ff4f3f; --btn-ab-dark: #a1241a;
+  --btn-dark: #46464c; --btn-dark-light: #57575e; --btn-dark-shadow: #26262b;
+  --btn-start: #0aa3cc; --btn-start-light: #16bfe6; --btn-start-shadow: #06718e;
+  --fn-text: #eafcff; --brand: #8a8a92;
+}
+/* ---------- Theme: FAMICOM (Creme/Rot/Gold) ---------- */
+.gameboy[data-theme="famicom"] {
+  --shell: #e9e2d3; --shell-dark: #d4ccba; --shell-shadow: #b7ae99;
+  --bezel: #8f1a2e; --bezel-light: #a32338; --bezel-text: #f2d9b8;
+  --stripe1: #c9a227; --stripe2: #8f1a2e;
+  --lcd: #f0e7d2; --lcd-border: rgba(140,25,45,.2);
+  --ink: #7a1424; --ink-glow: rgba(255,255,255,.6);
+  --btn-ab: #b3001b; --btn-ab-light: #d31f38; --btn-ab-dark: #7c0013;
+  --btn-dark: #5a3c35; --btn-dark-light: #6f4c44; --btn-dark-shadow: #35211d;
+  --btn-start: #c9a227; --btn-start-light: #ddb83e; --btn-start-shadow: #8f7318;
+  --fn-text: #3d2e08; --brand: #8f1a2e;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overscroll-behavior: none; }
+body {
+  font-family: 'Press Start 2P', monospace;
+  background: #2b2b2e;
+  display: flex; align-items: center; justify-content: center;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  user-select: none; -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+/* ---------- Gehäuse ---------- */
+.gameboy {
+  width: min(100vw, 420px);
+  height: min(100dvh, 900px);
+  background: linear-gradient(160deg, var(--shell) 0%, var(--shell-dark) 100%);
+  border-radius: 12px 12px 48px 12px;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,.5), inset 0 -4px 8px rgba(0,0,0,.15), 0 16px 40px rgba(0,0,0,.6);
+  display: flex; flex-direction: column;
+  padding: 14px 18px calc(18px + env(safe-area-inset-bottom));
+  gap: 12px;
+}
+
+/* obere Zierlinien wie beim DMG */
+.topline {
+  border-top: 2px solid var(--shell-shadow);
+  border-bottom: 2px solid var(--shell-shadow);
+  height: 8px; margin: 0 -18px; padding: 0 18px;
+  position: relative;
+}
+.topline::after {
+  content: ""; position: absolute; top: 2px; left: 24px; right: 24px; height: 2px;
+  background: var(--shell-shadow);
+}
+
+/* ---------- Screen-Bereich ---------- */
+.bezel {
+  background: linear-gradient(180deg, var(--bezel-light), var(--bezel));
+  border-radius: 10px 10px 32px 10px;
+  padding: 16px 22px 14px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.5);
+}
+.bezel-label {
+  color: var(--bezel-text); font-size: .45rem; letter-spacing: 1px;
+  display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+}
+.bezel-label::before, .bezel-label::after {
+  content: ""; height: 2px; flex: 1;
+  background: linear-gradient(90deg, var(--stripe1), var(--stripe2));
+}
+.lcd {
+  background: var(--lcd);
+  border: 3px solid var(--lcd-border);
+  border-radius: 4px;
+  padding: 14px 12px 10px;
+  box-shadow: inset 0 0 12px rgba(0,0,0,.22);
+  position: relative;
+  overflow: hidden;
+}
+/* Scanline-/Pixelraster-Effekt */
+.lcd::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,.06) 0 1px, transparent 1px 3px),
+              repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0 1px, transparent 1px 3px);
+}
+.lcd .expr {
+  color: var(--ink); opacity: .55; font-size: .55rem; min-height: .9rem;
+  text-align: right; white-space: nowrap; overflow: hidden;
+}
+.lcd .value {
+  color: var(--ink); text-align: right; margin-top: 8px;
+  font-size: 1.6rem; line-height: 1.2;
+  white-space: nowrap; overflow: hidden;
+  text-shadow: 1px 1px 0 var(--ink-glow);
+}
+.lcd .value.small { font-size: 1.15rem; }
+.lcd .value.tiny  { font-size: .85rem; }
+.power {
+  display: flex; align-items: center; gap: 6px; margin-top: 10px;
+  color: var(--bezel-text); font-size: .4rem; letter-spacing: 1px;
+}
+.power .led {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ff8080, #c00);
+  box-shadow: 0 0 6px #f00;
+}
+
+/* Nintendo-Schriftzug */
+.brand {
+  text-align: center; color: var(--brand); font-size: .8rem; letter-spacing: 1px;
+}
+.brand span { font-size: .45rem; vertical-align: super; }
+
+/* ---------- Tasten ---------- */
+.keys {
+  flex: 1; display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  align-content: stretch;
+}
+button {
+  font-family: inherit; font-size: .85rem; border: none; cursor: pointer;
+  border-radius: 10px; color: #fff;
+  background: linear-gradient(180deg, var(--btn-dark-light), var(--btn-dark));
+  box-shadow: 0 4px 0 var(--btn-dark-shadow), inset 0 1px 0 rgba(255,255,255,.15);
+  transition: transform .05s, box-shadow .05s;
+  min-height: 52px;
+}
+button:active, button.pressed {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--btn-dark-shadow), inset 0 1px 0 rgba(255,255,255,.15);
+}
+button.op {
+  background: radial-gradient(circle at 35% 30%, var(--btn-ab-light), var(--btn-ab));
+  box-shadow: 0 4px 0 var(--btn-ab-dark), inset 0 1px 0 rgba(255,255,255,.25);
+  border-radius: 50%;
+  font-size: 1rem;
+}
+button.op:active, button.op.pressed {
+  box-shadow: 0 1px 0 var(--btn-ab-dark), inset 0 1px 0 rgba(255,255,255,.25);
+}
+button.fn {
+  background: linear-gradient(180deg, var(--btn-start-light), var(--btn-start));
+  color: var(--fn-text); font-size: .6rem;
+  border-radius: 999px; min-height: 40px;
+  box-shadow: 0 3px 0 var(--btn-start-shadow), inset 0 1px 0 rgba(255,255,255,.4);
+}
+button.fn:active, button.fn.pressed { box-shadow: 0 1px 0 var(--btn-start-shadow); }
+button.eq {
+  grid-column: 1 / -1;
+  background: radial-gradient(circle at 35% 30%, var(--btn-ab-light), var(--btn-ab));
+  box-shadow: 0 4px 0 var(--btn-ab-dark), inset 0 1px 0 rgba(255,255,255,.25);
+  border-radius: 999px;
+  font-size: 1.2rem;
+  min-height: 48px;
+}
+button.eq:active, button.eq.pressed { box-shadow: 0 1px 0 var(--btn-ab-dark); }
+button.zero { grid-column: span 2; border-radius: 26px; }
+
+/* Beschriftung unter A/B-Buttons wie beim Original */
+.op { position: relative; }
+
+.sound-toggle, .theme-toggle {
+  position: absolute; top: 12px;
+  font-size: .45rem; letter-spacing: 1px;
+  color: var(--fn-text);
+  background: linear-gradient(180deg, var(--btn-start-light), var(--btn-start));
+  border-radius: 999px;
+  min-height: 0; padding: 7px 12px;
+  box-shadow: 0 2px 0 var(--btn-start-shadow), inset 0 1px 0 rgba(255,255,255,.4);
+  z-index: 2;
+}
+.sound-toggle { right: 18px; }
+.theme-toggle { left: 18px; }
+.sound-toggle:active, .theme-toggle:active { transform: translateY(2px); box-shadow: 0 0 0 var(--btn-start-shadow); }
+.sound-toggle.off { opacity: .55; }
+.gameboy { position: relative; }
+</style>
+</head>
+<body>
+
+<div class="gameboy">
+  <button class="theme-toggle" id="themeBtn" aria-label="Theme wechseln">THEME</button>
+  <button class="sound-toggle" id="soundBtn" aria-label="Sound an/aus">SND ON</button>
+  <div class="topline"></div>
+
+  <div class="bezel">
+    <div class="bezel-label">DOT MATRIX WITH CALC POWER</div>
+    <div class="lcd">
+      <div class="expr" id="expr">&nbsp;</div>
+      <div class="value" id="display">0</div>
+    </div>
+    <div class="power"><span class="led"></span> BATTERY</div>
+  </div>
+
+  <div class="brand">CALC BOY<span>™</span></div>
+
+  <div class="keys">
+    <button class="fn" data-a="clear">AC</button>
+    <button class="fn" data-a="sign">±</button>
+    <button class="fn" data-a="percent">%</button>
+    <button class="op" data-a="sqrt">√</button>
+
+    <button data-a="digit">7</button>
+    <button data-a="digit">8</button>
+    <button data-a="digit">9</button>
+    <button class="op" data-a="op" data-op="/">÷</button>
+
+    <button data-a="digit">4</button>
+    <button data-a="digit">5</button>
+    <button data-a="digit">6</button>
+    <button class="op" data-a="op" data-op="*">×</button>
+
+    <button data-a="digit">1</button>
+    <button data-a="digit">2</button>
+    <button data-a="digit">3</button>
+    <button class="op" data-a="op" data-op="-">−</button>
+
+    <button class="zero" data-a="digit">0</button>
+    <button data-a="comma">,</button>
+    <button class="op" data-a="op" data-op="+">+</button>
+
+    <button class="eq" data-a="equals">=</button>
+  </div>
+</div>
+
+<script>
+// ---------- PWA-Manifest inline (Single-File, wie BudgetApp) ----------
+const manifest = {
+  name: "CALC BOY", short_name: "CALC BOY",
+  display: "standalone", background_color: "#2b2b2e", theme_color: "#b8b4ac",
+  start_url: ".", icons: []
+};
+const mBlob = new Blob([JSON.stringify(manifest)], {type: "application/json"});
+const mLink = document.createElement("link");
+mLink.rel = "manifest"; mLink.href = URL.createObjectURL(mBlob);
+document.head.appendChild(mLink);
+
+// ---------- Rechner-Logik ----------
+const displayEl = document.getElementById("display");
+const exprEl = document.getElementById("expr");
+
+let current = "0";      // aktuelle Eingabe (interner Punkt als Dezimaltrenner)
+let previous = null;    // gespeicherter Wert
+let operator = null;
+let justEvaluated = false;
+
+const OPS = { "+": "+", "-": "−", "*": "×", "/": "÷" };
+
+function fmt(numStr) {
+  if (numStr === "ERROR") return "ERROR";
+  let [int, dec] = numStr.split(".");
+  const neg = int.startsWith("-");
+  if (neg) int = int.slice(1);
+  int = int.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  let out = (neg ? "-" : "") + int + (dec !== undefined ? "," + dec : "");
+  return out;
+}
+
+function render() {
+  const text = fmt(current);
+  displayEl.textContent = text;
+  displayEl.classList.toggle("small", text.length > 9 && text.length <= 13);
+  displayEl.classList.toggle("tiny", text.length > 13);
+  exprEl.innerHTML = previous !== null && operator
+    ? fmt(previous) + " " + OPS[operator]
+    : "&nbsp;";
+}
+
+function roundResult(n) {
+  if (!isFinite(n)) return "ERROR";
+  const r = Math.round(n * 1e10) / 1e10;
+  let s = String(r);
+  if (s.includes("e")) return r.toPrecision(8).replace(/\.?0+$/, "");
+  if (s.replace(/[-.]/g, "").length > 12) s = String(Number(r.toPrecision(12)));
+  return s;
+}
+
+function evaluate() {
+  if (previous === null || operator === null) return;
+  const a = parseFloat(previous), b = parseFloat(current);
+  let r;
+  switch (operator) {
+    case "+": r = a + b; break;
+    case "-": r = a - b; break;
+    case "*": r = a * b; break;
+    case "/": r = b === 0 ? Infinity : a / b; break;
+  }
+  current = roundResult(r);
+  previous = null; operator = null; justEvaluated = true;
+}
+
+const actions = {
+  digit(v) {
+    if (justEvaluated || current === "ERROR") { current = "0"; justEvaluated = false; }
+    if (current.replace(/[-.]/g, "").length >= 12) return;
+    current = current === "0" ? v : current + v;
+  },
+  comma() {
+    if (justEvaluated || current === "ERROR") { current = "0"; justEvaluated = false; }
+    if (!current.includes(".")) current += ".";
+  },
+  op(_, opVal) {
+    if (current === "ERROR") return;
+    if (previous !== null && operator !== null && !justEvaluated) evaluate();
+    previous = current; operator = opVal;
+    current = "0"; justEvaluated = false;
+  },
+  equals() { if (current !== "ERROR") evaluate(); },
+  clear() { current = "0"; previous = null; operator = null; justEvaluated = false; },
+  sign() {
+    if (current === "0" || current === "ERROR") return;
+    current = current.startsWith("-") ? current.slice(1) : "-" + current;
+  },
+  percent() {
+    if (current === "ERROR") return;
+    current = roundResult(parseFloat(current) / 100);
+  },
+  sqrt() {
+    if (current === "ERROR") return;
+    const n = parseFloat(current);
+    current = n < 0 ? "ERROR" : roundResult(Math.sqrt(n));
+    justEvaluated = true;
+  }
+};
+
+// ---------- 8-Bit-Sound ----------
+let soundOn = true;
+let audioCtx = null;
+function beep(freq = 880, dur = 0.05) {
+  if (!soundOn) return;
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = "square"; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.06, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+    o.connect(g).connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + dur);
+  } catch (e) {}
+}
+
+// ---------- Themes ----------
+const THEMES = [
+  { id: "",        name: "GAME BOY" },
+  { id: "color",   name: "GB COLOR" },
+  { id: "nes",     name: "NES" },
+  { id: "snes",    name: "SUPER NES" },
+  { id: "switch",  name: "SWITCH" },
+  { id: "famicom", name: "FAMICOM" }
+];
+let themeIdx = 0, themeTimer = null;
+const gameboyEl = document.querySelector(".gameboy");
+document.getElementById("themeBtn").addEventListener("click", () => {
+  themeIdx = (themeIdx + 1) % THEMES.length;
+  const t = THEMES[themeIdx];
+  if (t.id) gameboyEl.dataset.theme = t.id;
+  else delete gameboyEl.dataset.theme;
+  exprEl.textContent = "\u00bb " + t.name;   // Theme-Name kurz im Display zeigen
+  beep(990, 0.06);
+  clearTimeout(themeTimer);
+  themeTimer = setTimeout(render, 1200);
+});
+
+document.getElementById("soundBtn").addEventListener("click", (e) => {
+  soundOn = !soundOn;
+  e.target.textContent = soundOn ? "SND ON" : "SND OFF";
+  e.target.classList.toggle("off", !soundOn);
+  if (soundOn) beep(1200, 0.08);
+});
+
+// ---------- Eingabe ----------
+document.querySelectorAll(".keys button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const a = btn.dataset.a;
+    actions[a](btn.textContent, btn.dataset.op);
+    beep(a === "equals" ? 1320 : a === "op" ? 660 : 880);
+    if (navigator.vibrate) navigator.vibrate(8);
+    render();
+  });
+});
+
+// Tastatur-Support (falls am Mac/iPad mit Keyboard)
+window.addEventListener("keydown", (e) => {
+  const k = e.key;
+  let btn = null;
+  if (/^[0-9]$/.test(k)) btn = [...document.querySelectorAll('[data-a="digit"]')].find(b => b.textContent === k);
+  else if (k === "," || k === ".") btn = document.querySelector('[data-a="comma"]');
+  else if (["+", "-", "*", "/"].includes(k)) btn = document.querySelector(`[data-op="${k}"]`);
+  else if (k === "Enter" || k === "=") btn = document.querySelector('[data-a="equals"]');
+  else if (k === "Escape") btn = document.querySelector('[data-a="clear"]');
+  else if (k === "%") btn = document.querySelector('[data-a="percent"]');
+  else if (k === "r" || k === "w") btn = document.querySelector('[data-a="sqrt"]');
+  if (btn) {
+    e.preventDefault();
+    btn.classList.add("pressed");
+    setTimeout(() => btn.classList.remove("pressed"), 80);
+    btn.click();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
