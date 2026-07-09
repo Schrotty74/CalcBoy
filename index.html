@@ -146,7 +146,7 @@ body {
   border-radius: 12px 12px 48px 12px;
   box-shadow: inset 0 2px 0 rgba(255,255,255,.5), inset 0 -4px 8px rgba(0,0,0,.15), 0 16px 40px rgba(0,0,0,.6);
   display: flex; flex-direction: column;
-  padding: 14px 18px calc(18px + env(safe-area-inset-bottom));
+  padding: calc(14px + env(safe-area-inset-top)) 18px calc(18px + env(safe-area-inset-bottom));
   gap: 12px;
   transition: background .3s;
 }
@@ -362,7 +362,7 @@ button.extbtn { min-height: 48px; border-radius: 999px; }
 .keys-prg button.extbtn, .keys-plot button.extbtn { border-radius: 999px; }
 
 .sound-toggle, .theme-toggle, .game-toggle {
-  position: absolute; top: 12px;
+  position: absolute; top: calc(12px + env(safe-area-inset-top));
   font-size: .45rem; letter-spacing: 1px;
   color: var(--fn-text);
   background: linear-gradient(180deg, var(--btn-start-light), var(--btn-start));
@@ -383,7 +383,9 @@ button.extbtn { min-height: 48px; border-radius: 999px; }
 @media (orientation: landscape) and (max-height: 560px) {
   .gameboy {
     width: 100vw; height: 100dvh;
-    border-radius: 12px; padding: 10px 14px 12px; gap: 8px;
+    border-radius: 12px;
+    padding: calc(10px + env(safe-area-inset-top)) 14px calc(12px + env(safe-area-inset-bottom));
+    gap: 8px;
   }
   .topline { display: none; }
   .main-wrap { flex-direction: row; gap: 14px; align-items: stretch; }
