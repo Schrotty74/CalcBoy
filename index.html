@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  CALC BOY v3.0 — Taschenrechner-PWA im Nintendo-Stil
+  CALC BOY v3.0.2 — Taschenrechner-PWA im Nintendo-Stil
   Copyright (C) 2026 Schrotty74
 
   This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,8 @@
 
   Gespeichert wird ausschliesslich lokal (localStorage): Theme, Sound,
   Rechenverlauf, freigeschaltete Themes, Highscores, Speicherwert (M),
-  Winkelmodus, Finanz-Parameter, Wechselkurs, Personenzahl.
+  Winkelmodus, Finanz-Parameter, Wechselkurs, Personenzahl,
+  RPN-Modus, RPN-Stack und Formel-Variablen.
   Nichts verlaesst das Geraet.
 -->
 <html lang="de">
@@ -286,7 +287,7 @@ body {
 .brand span { font-size: .45rem; vertical-align: super; }
 
 /* ---------- Tastenfelder / Seiten ---------- */
-.keys, .keys-ext, .keys-conv, .keys-fin, .keys-prg, .keys-plot {
+.keys, .keys-ext, .keys-conv, .keys-fin, .keys-prg, .keys-plot, .keys-form {
   flex: 1;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(6, 1fr);
@@ -296,12 +297,13 @@ body {
 /* Untere Navigationszeile immer in Reihe 6 verankern -> einheitliche Tastengroesse auf allen Seiten */
 button.extbtn, button.eq2, button.eq3 { grid-row: 6; }
 .keys { display: grid; }
-.keys-ext, .keys-conv, .keys-fin, .keys-prg, .keys-plot { display: none; }
+.keys-ext, .keys-conv, .keys-fin, .keys-prg, .keys-plot, .keys-form { display: none; }
 .keypad[data-page="ext"]  .keys-ext  { display: grid; }
 .keypad[data-page="conv"] .keys-conv { display: grid; }
 .keypad[data-page="fin"]  .keys-fin  { display: grid; }
 .keypad[data-page="prg"]  .keys-prg  { display: grid; }
 .keypad[data-page="plot"] .keys-plot { display: grid; }
+.keypad[data-page="form"] .keys-form { display: grid; }
 .keypad[data-page] .keys { display: none; }
 
 .sci-keys {
@@ -354,12 +356,12 @@ button.eq2 { grid-column: 3 / -1; }
 button.extbtn { min-height: 48px; border-radius: 999px; }
 
 .keys-ext button.fn, .keys-conv button.fn, .keys-fin button.fn,
-.keys-prg button.fn, .keys-plot button.fn {
+.keys-prg button.fn, .keys-plot button.fn, .keys-form button.fn {
   min-height: 52px; border-radius: 10px; font-size: .55rem;
 }
 .keys-conv button.fn, .keys-fin button.fn { font-size: .45rem; }
 .keys-ext button.extbtn, .keys-conv button.extbtn, .keys-fin button.extbtn,
-.keys-prg button.extbtn, .keys-plot button.extbtn { border-radius: 999px; }
+.keys-prg button.extbtn, .keys-plot button.extbtn, .keys-form button.extbtn { border-radius: 999px; }
 
 .sound-toggle, .theme-toggle, .game-toggle {
   position: absolute; top: calc(12px + env(safe-area-inset-top));
@@ -395,12 +397,12 @@ button.extbtn { min-height: 48px; border-radius: 999px; }
   .keypad { flex: 1; }
   .sci-keys { display: grid; flex: 0 0 30%; }
   .keypad[data-page] .sci-keys { display: none; }
-  .keys, .keys-ext, .keys-conv, .keys-fin, .keys-prg, .keys-plot { gap: 7px; }
+  .keys, .keys-ext, .keys-conv, .keys-fin, .keys-prg, .keys-plot, .keys-form { gap: 7px; }
   button { min-height: 34px; font-size: .7rem; }
   button.fn { min-height: 30px; font-size: .5rem; }
   button.eq { min-height: 36px; font-size: .9rem; }
   button.sci { min-height: 0; font-size: .5rem; }
-  .keys-ext button.fn, .keys-prg button.fn, .keys-plot button.fn { min-height: 34px; font-size: .45rem; }
+  .keys-ext button.fn, .keys-prg button.fn, .keys-plot button.fn, .keys-form button.fn { min-height: 34px; font-size: .45rem; }
   .keys-conv button.fn, .keys-fin button.fn { min-height: 34px; font-size: .4rem; }
   .brand { display: none; }
   .power { display: none; }
@@ -583,6 +585,7 @@ button.extbtn { min-height: 48px; border-radius: 999px; }
         <button class="fn" data-a="const" data-fn="pi">&#960;</button>
         <button class="fn" data-a="const" data-fn="e">e</button>
 
+        <button class="fn" data-a="rpn">RPN</button>
         <button class="fn extbtn" data-a="page" data-fn="basic">BASIC</button>
         <button class="fn extbtn" data-a="pnext">MEHR</button>
         <button class="eq eq2" data-a="equals">=</button>
@@ -613,6 +616,32 @@ button.extbtn { min-height: 48px; border-radius: 999px; }
         <button class="fn" data-a="plot" data-fn="floor">FLOOR</button>
         <button class="fn" data-a="plot" data-fn="sinc">sinc x</button>
         <button class="fn" data-a="plot" data-fn="xsinx">x&#183;sin x</button>
+
+        <button class="fn extbtn" data-a="page" data-fn="basic">BASIC</button>
+        <button class="fn extbtn" data-a="pnext">MEHR</button>
+        <button class="eq eq2" data-a="equals">=</button>
+      </div>
+
+      <div class="keys-form">
+        <button class="fn" data-a="fset" data-fn="a">SET A</button>
+        <button class="fn" data-a="fset" data-fn="b">SET B</button>
+        <button class="fn" data-a="fset" data-fn="c">SET C</button>
+        <button class="fn" data-a="finfo">INFO</button>
+
+        <button class="fn" data-a="formula" data-fn="percent">% VON</button>
+        <button class="fn" data-a="formula" data-fn="rule3">DREI</button>
+        <button class="fn" data-a="formula" data-fn="circleA">KREIS A</button>
+        <button class="fn" data-a="formula" data-fn="circleU">KREIS U</button>
+
+        <button class="fn" data-a="formula" data-fn="pyth">PYTH</button>
+        <button class="fn" data-a="formula" data-fn="ohm">OHM</button>
+        <button class="fn" data-a="formula" data-fn="bmi">BMI</button>
+        <button class="fn" data-a="formula" data-fn="avg">Ø ABC</button>
+
+        <button class="fn" data-a="fclear">VAR C</button>
+        <button class="fn" data-a="formula" data-fn="speed">KM/H</button>
+        <button class="fn" data-a="formula" data-fn="net19">NET19</button>
+        <button class="fn" data-a="formula" data-fn="gross19">BRU19</button>
 
         <button class="fn extbtn" data-a="page" data-fn="basic">BASIC</button>
         <button class="fn extbtn" data-a="pnext">MEHR</button>
@@ -671,6 +700,9 @@ let operator = null;
 let justEvaluated = false;
 let history = Array.isArray(saved.history) ? saved.history.slice(0, 10) : [];
 let histOpen = false;
+let rpnMode = saved.rpn === true;
+let rpnStack = Array.isArray(saved.rpnStack) ? saved.rpnStack.filter(v => isFinite(parseFloat(v))).slice(-8) : [];
+let formulaVars = Object.assign({ a: 0, b: 0, c: 0 }, (saved.formulaVars && typeof saved.formulaVars === "object") ? saved.formulaVars : {});
 
 const OPS = {
   "+": "+", "-": "\u2212", "*": "\u00d7", "/": "\u00f7", "^": "^",
@@ -723,6 +755,64 @@ function evaluate() {
   current = roundResult(r);
   if (current !== "ERROR") pushHistory(exprText, current);
   previous = null; operator = null; justEvaluated = true;
+}
+
+function binaryResult(a, b, op) {
+  const ia = Math.trunc(a), ib = Math.trunc(b);
+  switch (op) {
+    case "+": return a + b;
+    case "-": return a - b;
+    case "*": return a * b;
+    case "/": return b === 0 ? Infinity : a / b;
+    case "^": return Math.pow(a, b);
+    case "and": return ia & ib;
+    case "or":  return ia | ib;
+    case "xor": return ia ^ ib;
+    case "mod": return ib === 0 ? Infinity : ia % ib;
+    case "shl": return ia << ib;
+    case "shr": return ia >> ib;
+  }
+  return NaN;
+}
+function saveRpnStack() { store.save({ rpnStack }); }
+function rpnPushValue() {
+  if (current === "ERROR") return;
+  rpnStack.push(current);
+  rpnStack = rpnStack.slice(-8);
+  saveRpnStack();
+  justEvaluated = true;
+  flashExpr("RPN STACK: " + rpnStack.length);
+}
+function rpnApply(opVal) {
+  if (current === "ERROR" || !rpnStack.length) { flashExpr("RPN: ERST ZAHL + ="); return; }
+  const b = parseFloat(current);
+  const aStr = rpnStack.pop();
+  const a = parseFloat(aStr);
+  const r = binaryResult(a, b, opVal);
+  const exprText = fmt(aStr) + " " + OPS[opVal] + " " + fmt(current);
+  current = roundResult(r);
+  if (current !== "ERROR") pushHistory("RPN " + exprText, current);
+  saveRpnStack();
+  justEvaluated = true;
+}
+function applyFormula(name) {
+  const A = parseFloat(formulaVars.a), B = parseFloat(formulaVars.b), C = parseFloat(formulaVars.c);
+  let r, label;
+  if (name === "percent") { r = B * A / 100; label = A + "% VON " + B; }
+  else if (name === "rule3") { r = A === 0 ? Infinity : B * C / A; label = "DREISATZ"; }
+  else if (name === "circleA") { r = Math.PI * A * A; label = "KREIS FLAECHE r=A"; }
+  else if (name === "circleU") { r = 2 * Math.PI * A; label = "KREIS UMFANG r=A"; }
+  else if (name === "pyth") { r = Math.sqrt(A * A + B * B); label = "PYTH A/B"; }
+  else if (name === "ohm") { r = A * B; label = "OHM U=R*A I=B"; }
+  else if (name === "bmi") { r = B === 0 ? Infinity : A / (B * B); label = "BMI kg=A m=B"; }
+  else if (name === "avg") { r = (A + B + C) / 3; label = "DURCHSCHNITT ABC"; }
+  else if (name === "speed") { r = B === 0 ? Infinity : A / B; label = "KM/H A=km B=h"; }
+  else if (name === "net19") { r = A / 1.19; label = "NETTO 19% A=BRUTTO"; }
+  else if (name === "gross19") { r = A * 1.19; label = "BRUTTO 19% A=NETTO"; }
+  current = roundResult(r);
+  if (current !== "ERROR") pushHistory(label, current);
+  justEvaluated = true;
+  flashExpr(label, 2200);
 }
 
 // ---------- Funktions-Sammlungen ----------
@@ -786,7 +876,7 @@ function finFuture() {
 }
 
 // ---------- Seiten ----------
-const PAGE_ORDER = ["ext", "conv", "fin", "prg", "plot"];
+const PAGE_ORDER = ["ext", "conv", "fin", "prg", "plot", "form"];
 function setPage(target) {
   if (target === "basic") delete keypadEl.dataset.page;
   else keypadEl.dataset.page = target;
@@ -804,14 +894,22 @@ const actions = {
     if (!current.includes(".")) current += ".";
   },
   op(_, opVal) {
+    if (rpnMode) { rpnApply(opVal); return; }
     if (current === "ERROR") return;
     if (previous !== null && operator !== null && !justEvaluated) evaluate();
     if (current === "ERROR") return;
     previous = current; operator = opVal;
     current = "0"; justEvaluated = false;
   },
-  equals() { if (current !== "ERROR") evaluate(); },
-  clear() { current = "0"; previous = null; operator = null; justEvaluated = false; },
+  equals() {
+    if (current === "ERROR") return;
+    if (rpnMode) { rpnPushValue(); return; }
+    evaluate();
+  },
+  clear() {
+    current = "0"; previous = null; operator = null; justEvaluated = false;
+    if (rpnMode) { rpnStack = []; saveRpnStack(); flashExpr("RPN STACK GELOESCHT"); }
+  },
   sign() {
     if (current === "0" || current === "ERROR") return;
     current = current.startsWith("-") ? current.slice(1) : "-" + current;
@@ -950,6 +1048,28 @@ const actions = {
     else if (fnName === "sgn") current = roundResult(Math.sign(v));
     justEvaluated = true;
   },
+  rpn() {
+    rpnMode = !rpnMode;
+    previous = null; operator = null; justEvaluated = true;
+    store.save({ rpn: rpnMode });
+    flashExpr(rpnMode ? "» RPN MODUS AN" : "» RPN MODUS AUS", 1800);
+  },
+  fset(_, __, key) {
+    if (current === "ERROR") return;
+    formulaVars[key] = parseFloat(current) || 0;
+    store.save({ formulaVars });
+    justEvaluated = true;
+    flashExpr("SET " + key.toUpperCase() + " = " + fmt(roundResult(formulaVars[key])), 1600);
+  },
+  fclear() {
+    formulaVars = { a: 0, b: 0, c: 0 };
+    store.save({ formulaVars });
+    flashExpr("FORMEL VARIABLEN GELOESCHT");
+  },
+  finfo() {
+    flashExpr("A=" + fmt(roundResult(formulaVars.a)) + " B=" + fmt(roundResult(formulaVars.b)) + " C=" + fmt(roundResult(formulaVars.c)), 3200);
+  },
+  formula(_, __, fnName) { applyFormula(fnName); },
   plot(_, __, fnName) { startPlot(fnName); }
 };
 
@@ -965,9 +1085,57 @@ function render() {
   displayEl.textContent = text;
   displayEl.classList.toggle("small", text.length > 9 && text.length <= 13);
   displayEl.classList.toggle("tiny", text.length > 13);
-  exprEl.innerHTML = previous !== null && operator
-    ? fmt(previous) + " " + OPS[operator]
-    : "&nbsp;";
+  if (rpnMode) {
+    const top = rpnStack.length ? fmt(rpnStack[rpnStack.length - 1]) : "LEER";
+    exprEl.textContent = "RPN " + rpnStack.length + " | " + top;
+  } else {
+    exprEl.innerHTML = previous !== null && operator
+      ? fmt(previous) + " " + OPS[operator]
+      : "&nbsp;";
+  }
+}
+
+async function shareHistoryPng() {
+  if (!history.length) return;
+  const cs = getComputedStyle(gameboyEl);
+  const ink = cs.getPropertyValue("--ink").trim() || "#0f380f";
+  const lcd = cs.getPropertyValue("--lcd").trim() || "#9bbc0f";
+  const rows = history.slice(0, 10);
+  const w = 900, pad = 42, lineH = 48;
+  const h = pad * 2 + 66 + rows.length * lineH;
+  const c = document.createElement("canvas");
+  c.width = w; c.height = h;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = lcd; ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = "rgba(0,0,0,.08)";
+  for (let y = 0; y < h; y += 6) ctx.fillRect(0, y, w, 2);
+  ctx.fillStyle = ink;
+  ctx.font = "28px 'Press Start 2P', monospace";
+  ctx.fillText("CALC BOY VERLAUF", pad, pad + 12);
+  ctx.font = "20px 'Press Start 2P', monospace";
+  rows.forEach((row, i) => {
+    const y = pad + 72 + i * lineH;
+    const left = (row.e || "").slice(0, 24);
+    const right = ("= " + fmt(row.r)).slice(0, 22);
+    ctx.fillText(left, pad, y);
+    ctx.textAlign = "right";
+    ctx.fillText(right, w - pad, y);
+    ctx.textAlign = "left";
+  });
+  const blob = await new Promise(resolve => c.toBlob(resolve, "image/png"));
+  if (!blob) return;
+  const file = new File([blob], "calcboy-verlauf.png", { type: "image/png" });
+  try {
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ title: "CALC BOY Verlauf", files: [file] });
+    } else {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = "calcboy-verlauf.png"; a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+    }
+    beep(1100, 0.07);
+  } catch (e) {}
 }
 
 function renderHist() {
@@ -991,6 +1159,14 @@ function renderHist() {
       } catch (e) {}
     });
     histEl.appendChild(share);
+    const png = document.createElement("div");
+    png.className = "h-row";
+    png.textContent = "» PNG TEILEN";
+    png.addEventListener("click", async (ev) => {
+      ev.stopPropagation();
+      await shareHistoryPng();
+    });
+    histEl.appendChild(png);
   }
   if (!history.length) {
     const em = document.createElement("div");
