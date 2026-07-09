@@ -81,9 +81,3 @@ Keine externen Requests, kein Tracking, keine Analytics. Einstellungen, Verlauf 
 ## 📄 Lizenz
 
 [GPL-3.0](LICENSE) – Schrift „Press Start 2P" von CodeMan38 unter SIL Open Font License 1.1.
-
-
-## Neu in dieser Version
-
-- 7 Game-Boy-Themes (inkl. freischaltbarem Virtual Boy)
-- Verbesserte Safe-Area-Unterstützung für iPhone-PWAs
