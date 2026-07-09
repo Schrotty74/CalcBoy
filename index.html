@@ -289,8 +289,6 @@ body {
 }
 /* Untere Navigationszeile immer in Reihe 6 verankern -> einheitliche Tastengroesse auf allen Seiten */
 button.extbtn, button.eq2, button.eq3 { grid-row: 6; }
-/* PLOT hat nur 8 Funktionstasten: je 2 Reihen hoch, damit kein Loch entsteht */
-.keys-plot button.fn:not(.extbtn) { grid-row: span 2; }
 .keys { display: grid; }
 .keys-ext, .keys-conv, .keys-fin, .keys-prg, .keys-plot { display: none; }
 .keypad[data-page="ext"]  .keys-ext  { display: grid; }
@@ -592,6 +590,21 @@ button.extbtn { min-height: 48px; border-radius: 999px; }
         <button class="fn" data-a="plot" data-fn="sqrt">&#8730;x</button>
         <button class="fn" data-a="plot" data-fn="log">log x</button>
         <button class="fn" data-a="plot" data-fn="inv">1/x</button>
+
+        <button class="fn" data-a="plot" data-fn="expx">e^x</button>
+        <button class="fn" data-a="plot" data-fn="lnx">ln x</button>
+        <button class="fn" data-a="plot" data-fn="absx">|x|</button>
+        <button class="fn" data-a="plot" data-fn="twox">2^x</button>
+
+        <button class="fn" data-a="plot" data-fn="sinh">sinh</button>
+        <button class="fn" data-a="plot" data-fn="cosh">cosh</button>
+        <button class="fn" data-a="plot" data-fn="tanh">tanh</button>
+        <button class="fn" data-a="plot" data-fn="x4">x&#8308;</button>
+
+        <button class="fn" data-a="plot" data-fn="gauss">GAUSS</button>
+        <button class="fn" data-a="plot" data-fn="floor">FLOOR</button>
+        <button class="fn" data-a="plot" data-fn="sinc">sinc x</button>
+        <button class="fn" data-a="plot" data-fn="xsinx">x&#183;sin x</button>
 
         <button class="fn extbtn" data-a="page" data-fn="basic">BASIC</button>
         <button class="fn extbtn" data-a="pnext">MEHR</button>
@@ -1151,7 +1164,19 @@ const PLOTS = {
   cube: { f: x => x * x * x,     x0: -3,   x1: 3,   label: "y = x\u00b3" },
   sqrt: { f: x => Math.sqrt(x),  x0: 0,    x1: 16,  label: "y = \u221ax" },
   log:  { f: x => Math.log10(x), x0: 0.05, x1: 20,  label: "y = log x" },
-  inv:  { f: x => 1 / x,         x0: -4,   x1: 4,   label: "y = 1/x", clip: 5 }
+  inv:  { f: x => 1 / x,         x0: -4,   x1: 4,   label: "y = 1/x", clip: 5 },
+  expx: { f: x => Math.exp(x),   x0: -3,   x1: 3,   label: "y = e^x" },
+  lnx:  { f: x => Math.log(x),   x0: 0.05, x1: 12,  label: "y = ln x" },
+  absx: { f: x => Math.abs(x),   x0: -4,   x1: 4,   label: "y = |x|" },
+  twox: { f: x => Math.pow(2,x), x0: -3,   x1: 4,   label: "y = 2^x" },
+  sinh: { f: x => Math.sinh(x),  x0: -3,   x1: 3,   label: "y = sinh x" },
+  cosh: { f: x => Math.cosh(x),  x0: -3,   x1: 3,   label: "y = cosh x" },
+  tanh: { f: x => Math.tanh(x),  x0: -4,   x1: 4,   label: "y = tanh x" },
+  x4:   { f: x => x*x*x*x,       x0: -2.5, x1: 2.5, label: "y = x\u2074" },
+  gauss:{ f: x => Math.exp(-x*x),x0: -3.5, x1: 3.5, label: "y = e^(-x\u00b2)" },
+  floor:{ f: x => Math.floor(x), x0: -4,   x1: 4,   label: "y = \u230ax\u230b" },
+  sinc: { f: x => x === 0 ? 1 : Math.sin(x)/x, x0: -15, x1: 15, label: "y = sin x / x" },
+  xsinx:{ f: x => x * Math.sin(x), x0: -12, x1: 12, label: "y = x\u00b7sin x" }
 };
 function startPlot(name) {
   closePlot();

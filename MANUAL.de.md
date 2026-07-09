@@ -77,7 +77,7 @@ Alle FIN-Parameter werden lokal gespeichert.
 
 ## PLOT-Seite
 
-Funktion antippen (sin, cos, tan, x², x³, √x, log x, 1/x) – sie wird als Pixel-Graph ins LCD gezeichnet, mit Achsen, wo sichtbar. Jede Taste oder ein Tipp aufs Display schließt den Plot.
+Eine von 20 Funktionen antippen (von sin, cos und tan über e^x, sinh/cosh/tanh und |x| bis zur Gauß-Glocke e^(−x²), Floor, sinc und x·sin x) – sie wird als Pixel-Graph ins LCD gezeichnet, mit Achsen, wo sichtbar. Jede Taste oder ein Tipp aufs Display schließt den Plot.
 
 ## Spiele (GAME-Taste)
 

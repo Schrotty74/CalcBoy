@@ -77,7 +77,7 @@ All FIN parameters are saved locally.
 
 ## PLOT page
 
-Tap a function (sin, cos, tan, x², x³, √x, log x, 1/x) – it is drawn as a pixel graph on the LCD, with axes where visible. Any key or a tap on the display closes the plot.
+Tap one of 20 functions (from sin, cos and tan over e^x, sinh/cosh/tanh and |x| up to the Gauss bell e^(−x²), floor, sinc and x·sin x) – it is drawn as a pixel graph on the LCD, with axes where visible. Any key or a tap on the display closes the plot.
 
 ## Games (GAME button)
 
