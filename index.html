@@ -203,8 +203,14 @@ body {
 }
 .lcd .value {
   color: var(--ink); text-align: right; margin-top: 8px;
-  font-size: 1.6rem; line-height: 1.2;
-  white-space: nowrap; overflow: hidden;
+  font-size: 1.6rem;
+  line-height: 1;
+  height: 1.6rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  white-space: nowrap;
+  overflow: hidden;
   text-shadow: 1px 1px 0 var(--ink-glow);
 }
 .lcd .value.small { font-size: 1.15rem; }
