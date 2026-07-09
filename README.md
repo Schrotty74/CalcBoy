@@ -51,12 +51,12 @@ The full manual is in [MANUAL.md](MANUAL.md) (🇩🇪 [deutsch](MANUAL.de.md)).
 
 One tap opens an AI chat that reads the manual first and then answers your questions:
 
-- [**Ask ChatGPT**](https://chatgpt.com/?q=Please%20read%20the%20CALC%20BOY%20manual%20at%20https%3A%2F%2Fschrotty74.github.io%2FCalcBoy%2FMANUAL.md%20and%20then%20answer%20my%20questions%20about%20this%20calculator%20app%20and%20its%20functions.)
-- [**Ask Claude**](https://claude.ai/new?q=Please%20read%20the%20CALC%20BOY%20manual%20at%20https%3A%2F%2Fschrotty74.github.io%2FCalcBoy%2FMANUAL.md%20and%20then%20answer%20my%20questions%20about%20this%20calculator%20app%20and%20its%20functions.)
+- [**Ask ChatGPT**](https://chatgpt.com/?q=Please%20read%20the%20CALC%20BOY%20manual%20at%20https%3A%2F%2Fschrotty74.github.io%2FCalcBoy%2FMANUAL.md%20%28fallback%20if%20that%20fails%3A%20https%3A%2F%2Fraw.githubusercontent.com%2FSchrotty74%2FCalcBoy%2Fmain%2FMANUAL.md%29%20and%20then%20answer%20my%20questions%20about%20this%20calculator%20app%20and%20its%20functions.)
+- [**Ask Claude**](https://claude.ai/new?q=Please%20read%20the%20CALC%20BOY%20manual%20at%20https%3A%2F%2Fschrotty74.github.io%2FCalcBoy%2FMANUAL.md%20%28fallback%20if%20that%20fails%3A%20https%3A%2F%2Fraw.githubusercontent.com%2FSchrotty74%2FCalcBoy%2Fmain%2FMANUAL.md%29%20and%20then%20answer%20my%20questions%20about%20this%20calculator%20app%20and%20its%20functions.)
 - **Ask Gemini**: [open Gemini](https://gemini.google.com/app) and paste this prompt (Gemini doesn't support prefilled links):
 
 ```
-Please read the CALC BOY manual at https://schrotty74.github.io/CalcBoy/MANUAL.md and then answer my questions about this calculator app and its functions.
+Please read the CALC BOY manual at https://schrotty74.github.io/CalcBoy/MANUAL.md (fallback if that fails: https://raw.githubusercontent.com/Schrotty74/CalcBoy/main/MANUAL.md) and then answer my questions about this calculator app and its functions.
 ```
 
 ## ⌨️ Keyboard (Mac/iPad)

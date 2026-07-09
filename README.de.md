@@ -51,12 +51,12 @@ Die vollständige Anleitung steht in [MANUAL.de.md](MANUAL.de.md) (🇬🇧 [Eng
 
 Ein Tipp öffnet einen KI-Chat, der zuerst die Anleitung liest und dann deine Fragen beantwortet:
 
-- [**ChatGPT fragen**](https://chatgpt.com/?q=Bitte%20lies%20die%20CALC-BOY-Anleitung%20unter%20https%3A%2F%2Fschrotty74.github.io%2FCalcBoy%2FMANUAL.de.md%20und%20beantworte%20anschliessend%20meine%20Fragen%20zu%20diesem%20Taschenrechner%20und%20seinen%20Funktionen.)
-- [**Claude fragen**](https://claude.ai/new?q=Bitte%20lies%20die%20CALC-BOY-Anleitung%20unter%20https%3A%2F%2Fschrotty74.github.io%2FCalcBoy%2FMANUAL.de.md%20und%20beantworte%20anschliessend%20meine%20Fragen%20zu%20diesem%20Taschenrechner%20und%20seinen%20Funktionen.)
+- [**ChatGPT fragen**](https://chatgpt.com/?q=Bitte%20lies%20die%20CALC-BOY-Anleitung%20unter%20https%3A%2F%2Fschrotty74.github.io%2FCalcBoy%2FMANUAL.de.md%20%28Fallback%2C%20falls%20das%20fehlschlaegt%3A%20https%3A%2F%2Fraw.githubusercontent.com%2FSchrotty74%2FCalcBoy%2Fmain%2FMANUAL.de.md%29%20und%20beantworte%20anschliessend%20meine%20Fragen%20zu%20diesem%20Taschenrechner%20und%20seinen%20Funktionen.)
+- [**Claude fragen**](https://claude.ai/new?q=Bitte%20lies%20die%20CALC-BOY-Anleitung%20unter%20https%3A%2F%2Fschrotty74.github.io%2FCalcBoy%2FMANUAL.de.md%20%28Fallback%2C%20falls%20das%20fehlschlaegt%3A%20https%3A%2F%2Fraw.githubusercontent.com%2FSchrotty74%2FCalcBoy%2Fmain%2FMANUAL.de.md%29%20und%20beantworte%20anschliessend%20meine%20Fragen%20zu%20diesem%20Taschenrechner%20und%20seinen%20Funktionen.)
 - **Gemini fragen**: [Gemini öffnen](https://gemini.google.com/app) und diesen Prompt einfügen (Gemini unterstützt keine vorausgefüllten Links):
 
 ```
-Bitte lies die CALC-BOY-Anleitung unter https://schrotty74.github.io/CalcBoy/MANUAL.de.md und beantworte anschliessend meine Fragen zu diesem Taschenrechner und seinen Funktionen.
+Bitte lies die CALC-BOY-Anleitung unter https://schrotty74.github.io/CalcBoy/MANUAL.de.md (Fallback, falls das fehlschlaegt: https://raw.githubusercontent.com/Schrotty74/CalcBoy/main/MANUAL.de.md) und beantworte anschliessend meine Fragen zu diesem Taschenrechner und seinen Funktionen.
 ```
 
 ## ⌨️ Tastatur (Mac/iPad)
