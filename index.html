@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  CALC BOY v2.2 — Taschenrechner-PWA im Nintendo-Stil
+  CALC BOY v3.0 — Taschenrechner-PWA im Nintendo-Stil
   Copyright (C) 2026 Schrotty74
 
   This program is free software: you can redistribute it and/or modify
@@ -20,8 +20,9 @@
   SIL Open Font License 1.1 (eingebettet als Base64).
 
   Gespeichert wird ausschliesslich lokal (localStorage): Theme, Sound,
-  Rechenverlauf, freigeschaltete Themes, Highscore, Speicherwert (M),
-  Winkelmodus. Nichts verlaesst das Geraet.
+  Rechenverlauf, freigeschaltete Themes, Highscores, Speicherwert (M),
+  Winkelmodus, Finanz-Parameter, Wechselkurs, Personenzahl.
+  Nichts verlaesst das Geraet.
 -->
 <html lang="de">
 <head>
@@ -37,7 +38,6 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 <style>
-/* Press Start 2P (latin, v16) – eingebettet, kein externer Request (DSGVO-sauber) */
 @font-face {
   font-family: 'Press Start 2P';
   font-style: normal;
@@ -60,7 +60,6 @@
   --btn-start: #9a9689; --btn-start-light: #b3afa4; --btn-start-shadow: #6f6c61;
   --fn-text: #3a382f; --brand: #4a4740;
 }
-/* ---------- Theme: GB COLOR (Atomic Purple) ---------- */
 .gameboy[data-theme="color"] {
   --shell: #6a54a8; --shell-dark: #55428c; --shell-shadow: #40316b;
   --bezel: #2e2450; --bezel-light: #3a2d63; --bezel-text: #cfc6ea;
@@ -72,7 +71,6 @@
   --btn-start: #8f86ad; --btn-start-light: #a79dc4; --btn-start-shadow: #5f5880;
   --fn-text: #2a2440; --brand: #2e2450;
 }
-/* ---------- Theme: NES (Rot auf Schwarz) ---------- */
 .gameboy[data-theme="nes"] {
   --shell: #d6d2cb; --shell-dark: #b4b0a8; --shell-shadow: #97938b;
   --bezel: #1c1c1c; --bezel-light: #2b2b2b; --bezel-text: #cfcfcf;
@@ -84,7 +82,6 @@
   --btn-start: #a9a5a0; --btn-start-light: #c2beb8; --btn-start-shadow: #797570;
   --fn-text: #2e2c29; --brand: #57544f;
 }
-/* ---------- Theme: SUPER NES (PAL-Grau/Lila) ---------- */
 .gameboy[data-theme="snes"] {
   --shell: #c6c6d2; --shell-dark: #a9a9ba; --shell-shadow: #8c8ca0;
   --bezel: #4f4f68; --bezel-light: #5d5d7a; --bezel-text: #d6d6e6;
@@ -96,7 +93,6 @@
   --btn-start: #a5a5b6; --btn-start-light: #bfbfd0; --btn-start-shadow: #74748a;
   --fn-text: #33334a; --brand: #4f4f68;
 }
-/* ---------- Theme: SWITCH (Neon-Rot/Blau) ---------- */
 .gameboy[data-theme="switch"] {
   --shell: #333336; --shell-dark: #232326; --shell-shadow: #151517;
   --bezel: #111111; --bezel-light: #1c1c1e; --bezel-text: #9a9aa2;
@@ -108,7 +104,6 @@
   --btn-start: #0aa3cc; --btn-start-light: #16bfe6; --btn-start-shadow: #06718e;
   --fn-text: #eafcff; --brand: #8a8a92;
 }
-/* ---------- Theme: FAMICOM (Creme/Rot/Gold) ---------- */
 .gameboy[data-theme="famicom"] {
   --shell: #e9e2d3; --shell-dark: #d4ccba; --shell-shadow: #b7ae99;
   --bezel: #8f1a2e; --bezel-light: #a32338; --bezel-text: #f2d9b8;
@@ -120,7 +115,6 @@
   --btn-start: #c9a227; --btn-start-light: #ddb83e; --btn-start-shadow: #8f7318;
   --fn-text: #3d2e08; --brand: #8f1a2e;
 }
-/* ---------- Geheimes Theme: VIRTUAL BOY (per Konami-Code) ---------- */
 .gameboy[data-theme="virtualboy"] {
   --shell: #26221f; --shell-dark: #1a1715; --shell-shadow: #0d0b0a;
   --bezel: #0a0a0a; --bezel-light: #141414; --bezel-text: #d03a3a;
@@ -144,7 +138,6 @@ body {
   touch-action: manipulation;
 }
 
-/* ---------- Gehäuse ---------- */
 .gameboy {
   position: relative;
   width: min(100vw, 420px);
@@ -173,13 +166,13 @@ body {
 .screen-col { display: flex; flex-direction: column; gap: 12px; }
 .keypad { flex: 1; display: flex; gap: 10px; min-height: 0; }
 
-/* ---------- Screen-Bereich ---------- */
 .bezel {
   background: linear-gradient(180deg, var(--bezel-light), var(--bezel));
   border-radius: 10px 10px 32px 10px;
   padding: 16px 22px 14px;
   box-shadow: inset 0 2px 6px rgba(0,0,0,.5);
   transition: background .3s;
+  overflow: hidden;
 }
 .bezel-label {
   color: var(--bezel-text); font-size: .45rem; letter-spacing: 1px;
@@ -216,8 +209,8 @@ body {
 }
 .lcd .value.small { font-size: 1.15rem; }
 .lcd .value.tiny  { font-size: .85rem; }
+.lcd canvas.overlay { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; }
 
-/* Rechenverlauf im LCD */
 .lcd .hist { display: none; margin-top: 6px; max-height: 8.5rem; overflow-y: auto; }
 .lcd.show-hist .hist { display: block; }
 .lcd.show-hist .value, .lcd.show-hist .expr { display: none; }
@@ -228,9 +221,9 @@ body {
   border-bottom: 1px solid var(--lcd-border); padding: 3px 0;
   cursor: pointer;
 }
+.hist .h-stat { cursor: default; opacity: .7; border-bottom: none; }
 .hist .h-empty { color: var(--ink); font-size: .55rem; opacity: .6; }
 
-/* Boot-Animation */
 .boot {
   position: absolute; inset: 0; z-index: 3;
   background: var(--lcd);
@@ -245,12 +238,20 @@ body {
   100% { transform: translateY(0); }
 }
 .boot.fade { opacity: 0; transition: opacity .35s; }
-@media (prefers-reduced-motion: reduce) {
-  .boot span { animation: none; }
-  .gameboy, .bezel, .lcd { transition: none; }
-  .lcd.swap { animation: none; }
-  .power .led.low { animation: none; opacity: .6; }
+
+.lcd.swap { animation: cartswap .55s ease-in-out; }
+@keyframes cartswap {
+  0% { transform: translateY(0); }
+  45% { transform: translateY(115%); }
+  55% { transform: translateY(115%); }
+  100% { transform: translateY(0); }
 }
+
+.mflag {
+  position: absolute; top: 6px; left: 8px; z-index: 1;
+  font-size: .5rem; color: var(--ink); opacity: .7; display: none;
+}
+.lcd.has-mem .mflag { display: block; }
 
 .power {
   display: flex; align-items: center; gap: 6px; margin-top: 10px;
@@ -266,14 +267,11 @@ body {
 .power .led.low { animation: ledblink 1s step-start infinite; }
 @keyframes ledblink { 50% { opacity: .15; } }
 
-/* Cartridge-Wechsel beim Theme-Umschalten */
-.bezel { overflow: hidden; }
-.lcd.swap { animation: cartswap .55s ease-in-out; }
-@keyframes cartswap {
-  0% { transform: translateY(0); }
-  45% { transform: translateY(115%); }
-  55% { transform: translateY(115%); }
-  100% { transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .boot span { animation: none; }
+  .gameboy, .bezel, .lcd { transition: none; }
+  .lcd.swap { animation: none; }
+  .power .led.low { animation: none; opacity: .6; }
 }
 
 .brand {
@@ -281,19 +279,29 @@ body {
 }
 .brand span { font-size: .45rem; vertical-align: super; }
 
-/* ---------- Tasten ---------- */
-.keys {
-  flex: 1; display: grid;
+/* ---------- Tastenfelder / Seiten ---------- */
+.keys, .keys-ext, .keys-conv, .keys-fin, .keys-prg, .keys-plot {
+  flex: 1;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   align-content: stretch;
 }
+.keys { display: grid; }
+.keys-ext, .keys-conv, .keys-fin, .keys-prg, .keys-plot { display: none; }
+.keypad[data-page="ext"]  .keys-ext  { display: grid; }
+.keypad[data-page="conv"] .keys-conv { display: grid; }
+.keypad[data-page="fin"]  .keys-fin  { display: grid; }
+.keypad[data-page="prg"]  .keys-prg  { display: grid; }
+.keypad[data-page="plot"] .keys-plot { display: grid; }
+.keypad[data-page] .keys { display: none; }
+
 .sci-keys {
   display: none;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
   align-content: stretch;
 }
+
 button {
   font-family: inherit; font-size: .85rem; border: none; cursor: pointer;
   border-radius: 10px; color: #fff;
@@ -333,39 +341,17 @@ button.eq {
 button.eq:active, button.eq.pressed { box-shadow: 0 1px 0 var(--btn-ab-dark); }
 button.zero { grid-column: span 2; border-radius: 26px; }
 button.eq3 { grid-column: 2 / -1; }
-button.extbtn { min-height: 48px; }
-
-/* EXT-Ebene: zweites Tastenfeld */
-.keys-ext {
-  flex: 1; display: none;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  align-content: stretch;
-}
-.keys-ext button.fn, .keys-conv button.fn { min-height: 52px; border-radius: 10px; font-size: .55rem; }
-.keys-conv button.fn { font-size: .45rem; }
-.keys-ext button.eq, .keys-conv button.eq { min-height: 48px; border-radius: 999px; }
-.keys-ext button.extbtn, .keys-conv button.extbtn { border-radius: 999px; }
-.keys-conv {
-  flex: 1; display: none;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  align-content: stretch;
-}
 button.eq2 { grid-column: 3 / -1; }
-.keypad[data-page="ext"] .keys { display: none; }
-.keypad[data-page="ext"] .keys-ext { display: grid; }
-.keypad[data-page="conv"] .keys { display: none; }
-.keypad[data-page="conv"] .keys-conv { display: grid; }
+button.extbtn { min-height: 48px; border-radius: 999px; }
 
-/* Speicher-Anzeige im LCD */
-.mflag {
-  position: absolute; top: 6px; left: 8px; z-index: 1;
-  font-size: .5rem; color: var(--ink); opacity: .7; display: none;
+.keys-ext button.fn, .keys-conv button.fn, .keys-fin button.fn,
+.keys-prg button.fn, .keys-plot button.fn {
+  min-height: 52px; border-radius: 10px; font-size: .55rem;
 }
-.lcd.has-mem .mflag { display: block; }
+.keys-conv button.fn, .keys-fin button.fn { font-size: .45rem; }
+.keys-ext button.extbtn, .keys-conv button.extbtn, .keys-fin button.extbtn,
+.keys-prg button.extbtn, .keys-plot button.extbtn { border-radius: 999px; }
 
-/* Pill-Tasten oben */
 .sound-toggle, .theme-toggle, .game-toggle {
   position: absolute; top: 12px;
   font-size: .45rem; letter-spacing: 1px;
@@ -384,7 +370,7 @@ button.eq2 { grid-column: 3 / -1; }
 }
 .sound-toggle.off { opacity: .55; }
 
-/* ---------- Quermodus: wissenschaftliche Tasten ---------- */
+/* ---------- Quermodus ---------- */
 @media (orientation: landscape) and (max-height: 560px) {
   .gameboy {
     width: 100vw; height: 100dvh;
@@ -397,14 +383,14 @@ button.eq2 { grid-column: 3 / -1; }
   .lcd .value { font-size: 1.25rem; }
   .keypad { flex: 1; }
   .sci-keys { display: grid; flex: 0 0 30%; }
-  .keys { gap: 7px; }
+  .keypad[data-page] .sci-keys { display: none; }
+  .keys, .keys-ext, .keys-conv, .keys-fin, .keys-prg, .keys-plot { gap: 7px; }
   button { min-height: 34px; font-size: .7rem; }
   button.fn { min-height: 30px; font-size: .5rem; }
   button.eq { min-height: 36px; font-size: .9rem; }
   button.sci { min-height: 0; font-size: .5rem; }
-  .keys-ext, .keys-conv { gap: 7px; }
-  .keys-ext button.fn { min-height: 34px; font-size: .45rem; }
-  .keys-conv button.fn { min-height: 34px; font-size: .4rem; }
+  .keys-ext button.fn, .keys-prg button.fn, .keys-plot button.fn { min-height: 34px; font-size: .45rem; }
+  .keys-conv button.fn, .keys-fin button.fn { min-height: 34px; font-size: .4rem; }
   .brand { display: none; }
   .power { display: none; }
 }
@@ -504,7 +490,7 @@ button.eq2 { grid-column: 3 / -1; }
         <button class="fn" data-a="const" data-fn="e">e</button>
 
         <button class="fn extbtn" data-a="page" data-fn="basic">BASIC</button>
-        <button class="fn extbtn" data-a="page" data-fn="conv">CONV</button>
+        <button class="fn extbtn" data-a="pnext">MEHR</button>
         <button class="eq eq2" data-a="equals">=</button>
       </div>
 
@@ -535,7 +521,75 @@ button.eq2 { grid-column: 3 / -1; }
         <button class="fn" data-a="conv" data-fn="devat7">MW&#8722;7</button>
 
         <button class="fn extbtn" data-a="page" data-fn="basic">BASIC</button>
-        <button class="fn extbtn" data-a="page" data-fn="ext">EXT</button>
+        <button class="fn extbtn" data-a="pnext">MEHR</button>
+        <button class="eq eq2" data-a="equals">=</button>
+      </div>
+
+      <div class="keys-fin">
+        <button class="fn" data-a="finset" data-fn="k0">SET K0</button>
+        <button class="fn" data-a="finset" data-fn="p">SET P%</button>
+        <button class="fn" data-a="finset" data-fn="j">SET JAHRE</button>
+        <button class="fn" data-a="finset" data-fn="rate">SET RATE/M</button>
+
+        <button class="fn" data-a="fin" data-fn="info">INFO</button>
+        <button class="fn" data-a="fin" data-fn="endwert">ENDWERT</button>
+        <button class="fn" data-a="fin" data-fn="zinsen">ZINSEN</button>
+        <button class="fn" data-a="fin" data-fn="reset">RESET</button>
+
+        <button class="fn" data-a="fin" data-fn="tip10">TIP+10%</button>
+        <button class="fn" data-a="fin" data-fn="tip15">TIP+15%</button>
+        <button class="fn" data-a="fin" data-fn="tip20">TIP+20%</button>
+        <button class="fn" data-a="finset" data-fn="persons">SET PERS</button>
+
+        <button class="fn" data-a="fin" data-fn="split">&#247; PERS</button>
+        <button class="fn" data-a="finset" data-fn="fx">SET KURS</button>
+        <button class="fn" data-a="fin" data-fn="eur_usd">&#8364;&#8594;$</button>
+        <button class="fn" data-a="fin" data-fn="usd_eur">$&#8594;&#8364;</button>
+
+        <button class="fn extbtn" data-a="page" data-fn="basic">BASIC</button>
+        <button class="fn extbtn" data-a="pnext">MEHR</button>
+        <button class="eq eq2" data-a="equals">=</button>
+      </div>
+
+      <div class="keys-prg">
+        <button class="fn" data-a="prg" data-fn="hex">&#8594;HEX</button>
+        <button class="fn" data-a="prg" data-fn="bin">&#8594;BIN</button>
+        <button class="fn" data-a="prg" data-fn="oct">&#8594;OCT</button>
+        <button class="fn" data-a="prg" data-fn="not">NOT</button>
+
+        <button class="fn" data-a="op" data-op="and">AND</button>
+        <button class="fn" data-a="op" data-op="or">OR</button>
+        <button class="fn" data-a="op" data-op="xor">XOR</button>
+        <button class="fn" data-a="op" data-op="mod">MOD</button>
+
+        <button class="fn" data-a="op" data-op="shl">&#171;</button>
+        <button class="fn" data-a="op" data-op="shr">&#187;</button>
+        <button class="fn" data-a="prg" data-fn="abs">ABS</button>
+        <button class="fn" data-a="prg" data-fn="int">INT</button>
+
+        <button class="fn" data-a="prg" data-fn="sgn">SGN</button>
+        <button class="fn" data-a="prg" data-fn="rndm">ZUFALL</button>
+        <button class="fn" data-a="const" data-fn="pi">&#960;</button>
+        <button class="fn" data-a="const" data-fn="e">e</button>
+
+        <button class="fn extbtn" data-a="page" data-fn="basic">BASIC</button>
+        <button class="fn extbtn" data-a="pnext">MEHR</button>
+        <button class="eq eq2" data-a="equals">=</button>
+      </div>
+
+      <div class="keys-plot">
+        <button class="fn" data-a="plot" data-fn="sin">sin x</button>
+        <button class="fn" data-a="plot" data-fn="cos">cos x</button>
+        <button class="fn" data-a="plot" data-fn="tan">tan x</button>
+        <button class="fn" data-a="plot" data-fn="sqr">x&#178;</button>
+
+        <button class="fn" data-a="plot" data-fn="cube">x&#179;</button>
+        <button class="fn" data-a="plot" data-fn="sqrt">&#8730;x</button>
+        <button class="fn" data-a="plot" data-fn="log">log x</button>
+        <button class="fn" data-a="plot" data-fn="inv">1/x</button>
+
+        <button class="fn extbtn" data-a="page" data-fn="basic">BASIC</button>
+        <button class="fn extbtn" data-a="pnext">MEHR</button>
         <button class="eq eq2" data-a="equals">=</button>
       </div>
     </div>
@@ -573,17 +627,17 @@ try {
   document.head.appendChild(mLink);
 } catch (e) {}
 
-// ---------- Service Worker (Offline-Caching, nur ueber https) ----------
 if ("serviceWorker" in navigator && location.protocol === "https:") {
   navigator.serviceWorker.register("sw.js").catch(() => {});
 }
 
-// ---------- Rechner-Logik ----------
+// ---------- Grund-Elemente ----------
 const lcdEl = document.getElementById("lcd");
 const gameboyEl = document.querySelector(".gameboy");
 const displayEl = document.getElementById("display");
 const exprEl = document.getElementById("expr");
 const histEl = document.getElementById("hist");
+const keypadEl = document.querySelector(".keypad");
 
 let current = "0";
 let previous = null;
@@ -592,7 +646,10 @@ let justEvaluated = false;
 let history = Array.isArray(saved.history) ? saved.history.slice(0, 10) : [];
 let histOpen = false;
 
-const OPS = { "+": "+", "-": "\u2212", "*": "\u00d7", "/": "\u00f7", "^": "^" };
+const OPS = {
+  "+": "+", "-": "\u2212", "*": "\u00d7", "/": "\u00f7", "^": "^",
+  "and": "AND", "or": "OR", "xor": "XOR", "mod": "MOD", "shl": "\u00ab", "shr": "\u00bb"
+};
 
 function fmt(numStr) {
   if (numStr === "ERROR") return "ERROR";
@@ -621,6 +678,7 @@ function pushHistory(exprText, res) {
 function evaluate() {
   if (previous === null || operator === null) return;
   const a = parseFloat(previous), b = parseFloat(current);
+  const ia = Math.trunc(a), ib = Math.trunc(b);
   let r;
   switch (operator) {
     case "+": r = a + b; break;
@@ -628,6 +686,12 @@ function evaluate() {
     case "*": r = a * b; break;
     case "/": r = b === 0 ? Infinity : a / b; break;
     case "^": r = Math.pow(a, b); break;
+    case "and": r = ia & ib; break;
+    case "or":  r = ia | ib; break;
+    case "xor": r = ia ^ ib; break;
+    case "mod": r = ib === 0 ? Infinity : ia % ib; break;
+    case "shl": r = ia << ib; break;
+    case "shr": r = ia >> ib; break;
   }
   const exprText = fmt(previous) + " " + OPS[operator] + " " + fmt(current);
   current = roundResult(r);
@@ -635,8 +699,9 @@ function evaluate() {
   previous = null; operator = null; justEvaluated = true;
 }
 
+// ---------- Funktions-Sammlungen ----------
 const DEG = Math.PI / 180;
-let degMode = saved.deg !== false; // true = Grad, false = Bogenmass
+let degMode = saved.deg !== false;
 let memory = typeof saved.memory === "number" && isFinite(saved.memory) ? saved.memory : 0;
 function trigArg(v) { return degMode ? v * DEG : v; }
 function factorial(v) {
@@ -683,6 +748,25 @@ const CONV = {
   devat7: [v => v / 1.07, "BRUTTO \u2192 NETTO 7%"]
 };
 
+// Finanz-Parameter (lokal gespeichert)
+const FIN_DEF = { k0: 1000, p: 3, j: 10, rate: 50, persons: 2, fx: 1.08 };
+let fin = Object.assign({}, FIN_DEF, (saved.fin && typeof saved.fin === "object") ? saved.fin : {});
+const FIN_LABEL = { k0: "STARTKAPITAL", p: "ZINS %/JAHR", j: "JAHRE", rate: "RATE/MONAT", persons: "PERSONEN", fx: "KURS" };
+
+function finFuture() {
+  const i = fin.p / 1200, m = Math.round(fin.j * 12);
+  if (i === 0) return fin.k0 + fin.rate * m;
+  return fin.k0 * Math.pow(1 + i, m) + fin.rate * ((Math.pow(1 + i, m) - 1) / i);
+}
+
+// ---------- Seiten ----------
+const PAGE_ORDER = ["ext", "conv", "fin", "prg", "plot"];
+function setPage(target) {
+  if (target === "basic") delete keypadEl.dataset.page;
+  else keypadEl.dataset.page = target;
+}
+
+// ---------- Actions ----------
 const actions = {
   digit(v) {
     if (justEvaluated || current === "ERROR") { current = "0"; justEvaluated = false; }
@@ -708,7 +792,11 @@ const actions = {
   },
   percent() {
     if (current === "ERROR") return;
-    current = roundResult(parseFloat(current) / 100);
+    // Smarte Prozent-Logik: 100 + 10 % = 110 (Prozent vom ersten Operanden)
+    if (previous !== null && (operator === "+" || operator === "-"))
+      current = roundResult(parseFloat(previous) * parseFloat(current) / 100);
+    else
+      current = roundResult(parseFloat(current) / 100);
   },
   sqrt() {
     if (current === "ERROR") return;
@@ -725,11 +813,12 @@ const actions = {
     current = roundResult(CONSTS[fnName]);
     justEvaluated = true;
   },
-  page(_, __, target) {
-    if (game) return;
-    const kp = document.querySelector(".keypad");
-    if (target === "basic") delete kp.dataset.page;
-    else kp.dataset.page = target;
+  page(_, __, target) { if (!game && !snake) setPage(target); },
+  pnext() {
+    if (game || snake) return;
+    const cur = keypadEl.dataset.page || "ext";
+    const i = PAGE_ORDER.indexOf(cur);
+    setPage(PAGE_ORDER[(i + 1) % PAGE_ORDER.length]);
   },
   conv(_, __, fnName) {
     if (current === "ERROR") return;
@@ -752,7 +841,81 @@ const actions = {
     store.save({ deg: degMode });
     document.getElementById("degBtn").textContent = degMode ? "DEG" : "RAD";
     flashExpr("\u00bb " + (degMode ? "GRAD (DEG)" : "BOGENMASS (RAD)"));
-  }
+  },
+  finset(_, __, key) {
+    if (current === "ERROR") return;
+    let v = parseFloat(current);
+    if (key === "persons") v = Math.max(1, Math.round(v));
+    if (key === "j" || key === "rate" || key === "k0") v = Math.max(0, v);
+    if (key === "fx" && v <= 0) return;
+    fin[key] = v;
+    store.save({ fin });
+    justEvaluated = true;
+    flashExpr("\u00bb " + FIN_LABEL[key] + " = " + fmt(roundResult(v)), 1600);
+  },
+  fin(_, __, fnName) {
+    if (fnName === "info") {
+      flashExpr("K0:" + fmt(roundResult(fin.k0)) + " P:" + fin.p + " J:" + fin.j + " R:" + fin.rate, 2600);
+      return;
+    }
+    if (fnName === "reset") {
+      fin = Object.assign({}, FIN_DEF);
+      store.save({ fin });
+      flashExpr("\u00bb FIN ZURUECKGESETZT");
+      return;
+    }
+    if (current === "ERROR" && fnName !== "endwert" && fnName !== "zinsen") return;
+    if (fnName === "endwert") {
+      current = roundResult(finFuture());
+      if (current !== "ERROR") pushHistory("ZINSESZINS ENDWERT", current);
+      justEvaluated = true;
+      flashExpr("K0 " + fmt(roundResult(fin.k0)) + " + RATE " + fin.rate + " \u00b7 " + fin.j + "J @" + fin.p + "%", 2600);
+    } else if (fnName === "zinsen") {
+      const m = Math.round(fin.j * 12);
+      current = roundResult(finFuture() - fin.k0 - fin.rate * m);
+      justEvaluated = true;
+      flashExpr("\u00bb ZINSERTRAG NACH " + fin.j + " JAHREN", 2000);
+    } else if (fnName === "tip10" || fnName === "tip15" || fnName === "tip20") {
+      const pct = Number(fnName.slice(3));
+      current = roundResult(parseFloat(current) * (1 + pct / 100));
+      justEvaluated = true;
+      flashExpr("\u00bb + " + pct + "% TRINKGELD");
+    } else if (fnName === "split") {
+      current = roundResult(parseFloat(current) / fin.persons);
+      justEvaluated = true;
+      flashExpr("\u00bb GETEILT DURCH " + fin.persons);
+    } else if (fnName === "eur_usd") {
+      current = roundResult(parseFloat(current) * fin.fx);
+      justEvaluated = true;
+      flashExpr("\u00bb EUR \u2192 USD @ " + fin.fx);
+    } else if (fnName === "usd_eur") {
+      current = roundResult(parseFloat(current) / fin.fx);
+      justEvaluated = true;
+      flashExpr("\u00bb USD \u2192 EUR @ " + fin.fx);
+    }
+  },
+  prg(_, __, fnName) {
+    if (fnName === "rndm") {
+      current = String(1 + Math.floor(Math.random() * 100));
+      justEvaluated = true;
+      flashExpr("\u00bb ZUFALL 1-100");
+      return;
+    }
+    if (current === "ERROR") return;
+    const v = parseFloat(current), iv = Math.trunc(v);
+    if (fnName === "hex" || fnName === "bin" || fnName === "oct") {
+      const base = fnName === "hex" ? 16 : fnName === "bin" ? 2 : 8;
+      const s = (iv < 0 ? "-" : "") + Math.abs(iv).toString(base).toUpperCase();
+      flashExpr(fnName.toUpperCase() + ": " + s, 3200);
+      return;
+    }
+    if (fnName === "not") current = roundResult(~iv);
+    else if (fnName === "abs") current = roundResult(Math.abs(v));
+    else if (fnName === "int") current = roundResult(iv);
+    else if (fnName === "sgn") current = roundResult(Math.sign(v));
+    justEvaluated = true;
+  },
+  plot(_, __, fnName) { startPlot(fnName); }
 };
 
 function updateMemFlag() {
@@ -761,6 +924,7 @@ function updateMemFlag() {
 
 // ---------- Anzeige ----------
 function render() {
+  if (snake) return;
   if (game) { renderGame(); return; }
   const text = fmt(current);
   displayEl.textContent = text;
@@ -813,6 +977,19 @@ function renderHist() {
     });
     histEl.appendChild(row);
   });
+  // Statistik: Summe und Mittelwert der Ergebnisse
+  const vals = history.map(h => parseFloat(h.r)).filter(isFinite);
+  if (vals.length) {
+    const sum = vals.reduce((a, b) => a + b, 0);
+    const s1 = document.createElement("div");
+    s1.className = "h-row h-stat";
+    s1.innerHTML = "<span>\u03a3</span><span>" + fmt(roundResult(sum)) + "</span>";
+    const s2 = document.createElement("div");
+    s2.className = "h-row h-stat";
+    s2.innerHTML = "<span>\u00d8</span><span>" + fmt(roundResult(sum / vals.length)) + "</span>";
+    histEl.appendChild(s1);
+    histEl.appendChild(s2);
+  }
 }
 
 function toggleHist(on) {
@@ -820,29 +997,8 @@ function toggleHist(on) {
   if (histOpen) renderHist();
   lcdEl.classList.toggle("show-hist", histOpen);
 }
-let pressTimer = null, longPressed = false;
-lcdEl.addEventListener("pointerdown", () => {
-  longPressed = false;
-  pressTimer = setTimeout(async () => {
-    longPressed = true;
-    try {
-      await navigator.clipboard.writeText(fmt(current));
-      flashExpr("\u00bb KOPIERT");
-      beep(1100, 0.07);
-    } catch (e) {
-      flashExpr("\u00bb KOPIEREN NICHT MOEGLICH");
-    }
-  }, 550);
-});
-["pointerup", "pointerleave", "pointercancel"].forEach(ev =>
-  lcdEl.addEventListener(ev, () => clearTimeout(pressTimer))
-);
-lcdEl.addEventListener("click", () => {
-  if (longPressed) { longPressed = false; return; }
-  if (!game && !pendingLevel) toggleHist();
-});
 
-// ---------- 8-Bit-Sound ----------
+// ---------- 8-Bit-Sound (theme-abhaengig) ----------
 let soundOn = saved.sound !== false;
 let audioCtx = null;
 const THEME_SOUND = {
@@ -930,6 +1086,7 @@ function flashExpr(text, ms) {
 }
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 document.getElementById("themeBtn").addEventListener("click", () => {
+  if (snake) return;
   themeIdx = (themeIdx + 1) % THEMES.length;
   toggleHist(false);
   const doSwitch = () => {
@@ -944,7 +1101,7 @@ document.getElementById("themeBtn").addEventListener("click", () => {
   setTimeout(() => lcdEl.classList.remove("swap"), 600);
 });
 
-// ---------- Konami-Code: 8 8 2 2 4 6 4 6 - +  (oder Pfeile + B A) ----------
+// ---------- Konami-Code: 8 8 2 2 4 6 4 6 - + ----------
 const KONAMI = ["8","8","2","2","4","6","4","6","-","+"];
 let seq = [];
 function konamiPush(token) {
@@ -962,7 +1119,170 @@ function konamiPush(token) {
   }
 }
 
-// ---------- MATH ATTACK (Spielmodus mit Leveln) ----------
+// ---------- LCD-Overlay-Canvas (fuer SNAKE und PLOT) ----------
+function makeLcdCanvas() {
+  const c = document.createElement("canvas");
+  c.className = "overlay";
+  const dpr = window.devicePixelRatio || 1;
+  c.width = lcdEl.clientWidth * dpr;
+  c.height = lcdEl.clientHeight * dpr;
+  lcdEl.appendChild(c);
+  const ctx = c.getContext("2d");
+  ctx.scale(dpr, dpr);
+  return { c, ctx, w: lcdEl.clientWidth, h: lcdEl.clientHeight };
+}
+function lcdColors() {
+  const cs = getComputedStyle(gameboyEl);
+  return { ink: cs.getPropertyValue("--ink").trim(), lcd: cs.getPropertyValue("--lcd").trim() };
+}
+
+// ---------- PLOT-Modus ----------
+let plotActive = null;
+const PLOTS = {
+  sin:  { f: x => Math.sin(x),   x0: -6.5, x1: 6.5, label: "y = sin x" },
+  cos:  { f: x => Math.cos(x),   x0: -6.5, x1: 6.5, label: "y = cos x" },
+  tan:  { f: x => Math.tan(x),   x0: -6.5, x1: 6.5, label: "y = tan x", clip: 4 },
+  sqr:  { f: x => x * x,         x0: -4,   x1: 4,   label: "y = x\u00b2" },
+  cube: { f: x => x * x * x,     x0: -3,   x1: 3,   label: "y = x\u00b3" },
+  sqrt: { f: x => Math.sqrt(x),  x0: 0,    x1: 16,  label: "y = \u221ax" },
+  log:  { f: x => Math.log10(x), x0: 0.05, x1: 20,  label: "y = log x" },
+  inv:  { f: x => 1 / x,         x0: -4,   x1: 4,   label: "y = 1/x", clip: 5 }
+};
+function startPlot(name) {
+  closePlot();
+  const p = PLOTS[name];
+  const { c, ctx, w, h } = makeLcdCanvas();
+  const col = lcdColors();
+  ctx.fillStyle = col.lcd; ctx.fillRect(0, 0, w, h);
+  const N = 240, pts = [];
+  let ymin = Infinity, ymax = -Infinity;
+  for (let i = 0; i <= N; i++) {
+    const x = p.x0 + (p.x1 - p.x0) * i / N;
+    let y = p.f(x);
+    if (!isFinite(y)) y = null;
+    else if (p.clip && Math.abs(y) > p.clip) y = null;
+    pts.push([x, y]);
+    if (y !== null) { ymin = Math.min(ymin, y); ymax = Math.max(ymax, y); }
+  }
+  if (ymin === ymax) { ymin -= 1; ymax += 1; }
+  const pad = 6;
+  const px = x => pad + (x - p.x0) / (p.x1 - p.x0) * (w - 2 * pad);
+  const py = y => h - pad - (y - ymin) / (ymax - ymin) * (h - 2 * pad - 14);
+  ctx.strokeStyle = col.ink; ctx.globalAlpha = 0.35; ctx.lineWidth = 1;
+  if (ymin < 0 && ymax > 0) { ctx.beginPath(); ctx.moveTo(pad, py(0)); ctx.lineTo(w - pad, py(0)); ctx.stroke(); }
+  if (p.x0 < 0 && p.x1 > 0) { ctx.beginPath(); ctx.moveTo(px(0), pad); ctx.lineTo(px(0), h - pad); ctx.stroke(); }
+  ctx.globalAlpha = 1; ctx.lineWidth = 2;
+  ctx.beginPath();
+  let pen = false;
+  for (const [x, y] of pts) {
+    if (y === null) { pen = false; continue; }
+    if (!pen) { ctx.moveTo(px(x), py(y)); pen = true; }
+    else ctx.lineTo(px(x), py(y));
+  }
+  ctx.stroke();
+  ctx.fillStyle = col.ink;
+  ctx.font = "8px 'Press Start 2P', monospace";
+  ctx.fillText(p.label + "  (TASTE = ZURUECK)", pad, h - 4);
+  plotActive = c;
+  beep(990, 0.06);
+}
+function closePlot() {
+  if (plotActive) { plotActive.remove(); plotActive = null; }
+}
+
+// ---------- SNAKE ----------
+let snake = null;
+function startSnake() {
+  pendingLevel = false;
+  toggleHist(false);
+  setPage("basic");
+  const cv = makeLcdCanvas();
+  snake = {
+    cv, cols: 20, rows: 12,
+    body: [[5, 6], [4, 6], [3, 6]],
+    dir: [1, 0], nextDir: [1, 0],
+    food: null, score: 0, over: false,
+    speed: 160, timer: null
+  };
+  placeFood();
+  snake.timer = setInterval(snakeTick, snake.speed);
+  jingle([[660,.08,0],[880,.12,.1]]);
+  drawSnake();
+}
+function placeFood() {
+  let f;
+  do {
+    f = [Math.floor(Math.random() * snake.cols), Math.floor(Math.random() * snake.rows)];
+  } while (snake.body.some(s => s[0] === f[0] && s[1] === f[1]));
+  snake.food = f;
+}
+function snakeTick() {
+  const s = snake;
+  s.dir = s.nextDir;
+  const head = [s.body[0][0] + s.dir[0], s.body[0][1] + s.dir[1]];
+  const hitWall = head[0] < 0 || head[0] >= s.cols || head[1] < 0 || head[1] >= s.rows;
+  const hitSelf = s.body.some(b => b[0] === head[0] && b[1] === head[1]);
+  if (hitWall || hitSelf) { endSnake(); return; }
+  s.body.unshift(head);
+  if (head[0] === s.food[0] && head[1] === s.food[1]) {
+    s.score++;
+    beep(1320, 0.07);
+    placeFood();
+    clearInterval(s.timer);
+    s.speed = Math.max(70, s.speed - 3);
+    s.timer = setInterval(snakeTick, s.speed);
+  } else {
+    s.body.pop();
+  }
+  drawSnake();
+}
+function drawSnake() {
+  const s = snake;
+  const { ctx, w, h } = s.cv;
+  const col = lcdColors();
+  ctx.fillStyle = col.lcd; ctx.fillRect(0, 0, w, h);
+  const cw = w / s.cols, ch = (h - 12) / s.rows;
+  ctx.fillStyle = col.ink;
+  for (const [x, y] of s.body) ctx.fillRect(x * cw + 1, y * ch + 13, cw - 2, ch - 2);
+  const [fx, fy] = s.food;
+  ctx.fillRect(fx * cw + cw * 0.3, fy * ch + 13 + ch * 0.3, cw * 0.4, ch * 0.4);
+  ctx.font = "8px 'Press Start 2P', monospace";
+  ctx.fillText("SNAKE  S:" + s.score + "  2/4/6/8 = STEUERN", 4, 9);
+  if (s.over) {
+    ctx.fillText("GAME OVER  S:" + s.score + " HI:" + (hiscores.snake || 0), 4, h / 2);
+    ctx.fillText("TASTE = ZURUECK", 4, h / 2 + 12);
+  }
+}
+function snakeDir(dx, dy) {
+  const s = snake;
+  if (s.dir[0] === -dx && s.dir[1] === -dy) return; // keine 180-Grad-Wende
+  s.nextDir = [dx, dy];
+}
+function endSnake() {
+  clearInterval(snake.timer);
+  snake.over = true;
+  if (snake.score > (hiscores.snake || 0)) { hiscores.snake = snake.score; store.save({ hiscores }); }
+  jingle([[440,.12,0],[330,.12,.14],[220,.25,.28]]);
+  drawSnake();
+}
+function quitSnake() {
+  if (snake && snake.timer) clearInterval(snake.timer);
+  if (snake) snake.cv.c.remove();
+  snake = null;
+  render();
+}
+function handleSnakeKey(a, txt) {
+  if (snake.over) { quitSnake(); return; }
+  if (a === "clear") { quitSnake(); return; }
+  if (a === "digit") {
+    if (txt === "8") snakeDir(0, -1);
+    else if (txt === "2") snakeDir(0, 1);
+    else if (txt === "4") snakeDir(-1, 0);
+    else if (txt === "6") snakeDir(1, 0);
+  }
+}
+
+// ---------- MATH ATTACK ----------
 let game = null;
 let pendingLevel = false;
 const LEVELS = { 1: "EASY", 2: "NORMAL", 3: "HARD" };
@@ -996,8 +1316,8 @@ function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + mi
 function showLevelSelect() {
   pendingLevel = true;
   toggleHist(false);
-  exprEl.textContent = "LEVEL WAEHLEN \u2013 AC = ZURUECK";
-  displayEl.textContent = "1 2 3";
+  exprEl.textContent = "1-3 MATH / 5 SNAKE / AC ZURUECK";
+  displayEl.textContent = "1 2 3  5";
   displayEl.classList.remove("small", "tiny");
 }
 function startGame(level) {
@@ -1044,7 +1364,7 @@ function renderGame() {
 function handleGameKey(a) {
   if (game.over) { quitGame(); return; }
   if (a === "clear") { quitGame(); return; }
-  if (a === "digit" || a === "comma" || a === "sign") return true; // normal editieren
+  if (a === "digit" || a === "comma" || a === "sign") return true;
   if (a === "equals") {
     if (parseFloat(current) === game.q.ans) {
       game.score++;
@@ -1060,24 +1380,60 @@ function handleGameKey(a) {
   return false;
 }
 gameBtn.addEventListener("click", () => {
+  if (snake) { quitSnake(); return; }
   if (game) { quitGame(); return; }
   if (pendingLevel) { pendingLevel = false; render(); return; }
+  closePlot();
   showLevelSelect();
+});
+
+// ---------- Verlauf / Kopieren (LCD-Gesten) ----------
+let pressTimer = null, longPressed = false;
+lcdEl.addEventListener("pointerdown", () => {
+  if (snake || plotActive) return;
+  longPressed = false;
+  pressTimer = setTimeout(async () => {
+    longPressed = true;
+    try {
+      await navigator.clipboard.writeText(fmt(current));
+      flashExpr("\u00bb KOPIERT");
+      beep(1100, 0.07);
+    } catch (e) {
+      flashExpr("\u00bb KOPIEREN NICHT MOEGLICH");
+    }
+  }, 550);
+});
+["pointerup", "pointerleave", "pointercancel"].forEach(ev =>
+  lcdEl.addEventListener(ev, () => clearTimeout(pressTimer))
+);
+lcdEl.addEventListener("click", () => {
+  if (plotActive) { closePlot(); render(); return; }
+  if (longPressed) { longPressed = false; return; }
+  if (!game && !snake && !pendingLevel) toggleHist();
 });
 
 // ---------- Eingabe ----------
 document.querySelectorAll(".keypad button").forEach(btn => {
   btn.addEventListener("click", () => {
     const a = btn.dataset.a;
+    if (plotActive && a !== "plot") { closePlot(); render(); return; }
+    if (plotActive && a === "plot") { /* neuer Plot ersetzt alten */ }
     toggleHist(false);
     konamiPush(btn.dataset.op || btn.textContent);
     if (pendingLevel) {
       if (a === "digit" && ["1", "2", "3"].includes(btn.textContent)) {
         beep(1100, 0.07);
         startGame(Number(btn.textContent));
+      } else if (a === "digit" && btn.textContent === "5") {
+        beep(1100, 0.07);
+        startSnake();
       } else if (a === "clear") {
         pendingLevel = false; beep(660); render();
       }
+      return;
+    }
+    if (snake) {
+      handleSnakeKey(a, btn.textContent);
       return;
     }
     if (game) {
@@ -1099,12 +1455,18 @@ document.querySelectorAll(".keypad button").forEach(btn => {
 const KEYMAP_KONAMI = { ArrowUp: "8", ArrowDown: "2", ArrowLeft: "4", ArrowRight: "6", b: "-", a: "+" };
 window.addEventListener("keydown", (e) => {
   const k = e.key;
+  if (snake) {
+    if (k === "ArrowUp") { snakeDir(0, -1); e.preventDefault(); return; }
+    if (k === "ArrowDown") { snakeDir(0, 1); e.preventDefault(); return; }
+    if (k === "ArrowLeft") { snakeDir(-1, 0); e.preventDefault(); return; }
+    if (k === "ArrowRight") { snakeDir(1, 0); e.preventDefault(); return; }
+  }
   if (KEYMAP_KONAMI[k] !== undefined && !/^[0-9]$/.test(k)) konamiPush(KEYMAP_KONAMI[k]);
   let btn = null;
-  if (/^[0-9]$/.test(k)) btn = [...document.querySelectorAll('[data-a="digit"]')].find(b => b.textContent === k);
+  if (/^[0-9]$/.test(k)) btn = [...document.querySelectorAll('.keys [data-a="digit"]')].find(b => b.textContent === k);
   else if (k === "," || k === ".") btn = document.querySelector('[data-a="comma"]');
-  else if (["+", "-", "*", "/"].includes(k)) btn = document.querySelector(`[data-op="${k}"]`);
-  else if (k === "Enter" || k === "=") btn = document.querySelector('[data-a="equals"]');
+  else if (["+", "-", "*", "/"].includes(k)) btn = document.querySelector(`.keys [data-op="${k}"]`);
+  else if (k === "Enter" || k === "=") btn = document.querySelector('.keys [data-a="equals"]');
   else if (k === "Escape") btn = document.querySelector('[data-a="clear"]');
   else if (k === "%") btn = document.querySelector('[data-a="percent"]');
   else if (k === "r" || k === "w") btn = document.querySelector('[data-a="sqrt"]');
@@ -1119,16 +1481,12 @@ window.addEventListener("keydown", (e) => {
 // ---------- Boot ----------
 const bootEl = document.getElementById("boot");
 setTimeout(() => {
-  jingle([[1046.5,.07,0],[2093,.22,.08]]); // "Ba-Ding" (startet nur, wenn Audio erlaubt)
+  jingle([[1046.5,.07,0],[2093,.22,.08]]);
   bootEl.classList.add("fade");
   setTimeout(() => bootEl.remove(), 400);
 }, 1400);
 
-document.getElementById("degBtn").textContent = degMode ? "DEG" : "RAD";
-updateMemFlag();
-
-// ---------- Batterie-LED (nur wo die Battery-API existiert, z.B. Chrome/Android;
-// iOS Safari unterstuetzt sie nicht -> LED bleibt original-rot) ----------
+// ---------- Batterie-LED (Chrome/Android; iOS bleibt original-rot) ----------
 if (navigator.getBattery) {
   navigator.getBattery().then((bat) => {
     const led = document.getElementById("led");
@@ -1147,6 +1505,8 @@ if (navigator.getBattery) {
   }).catch(() => {});
 }
 
+document.getElementById("degBtn").textContent = degMode ? "DEG" : "RAD";
+updateMemFlag();
 render();
 </script>
 </body>

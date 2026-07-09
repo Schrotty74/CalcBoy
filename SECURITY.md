@@ -2,7 +2,7 @@
 
 🇩🇪 [Deutsche Version](SECURITY.de.md)
 
-CALC BOY has been audited for private data, external connections and tracking. As of: July 2026, version 2.2.
+CALC BOY has been audited for private data, external connections and tracking. As of: July 2026, version 3.0.
 
 ## Audit result
 
@@ -15,7 +15,7 @@ CALC BOY has been audited for private data, external connections and tracking. A
 | API keys, tokens, passwords | ❌ none included |
 | External connections / requests | ❌ none – the font is embedded as Base64 |
 | Tracking, analytics, cookies | ❌ not present |
-| Data storage | ⚙️ local only (localStorage): theme, sound, calculation history, high score – never leaves the device, removable via the browser's website data |
+| Data storage | ⚙️ local only (localStorage): theme, sound, calculation history, high scores, memory value, angle mode, finance parameters, exchange rate – never leaves the device, removable via the browser's website data |
 
 ## What this means in practice
 

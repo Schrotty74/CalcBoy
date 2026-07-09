@@ -2,7 +2,7 @@
 
 🇬🇧 [English version](SECURITY.md)
 
-CALC BOY wurde auf private Daten, externe Verbindungen und Tracking geprüft. Stand: Juli 2026, Version 2.2.
+CALC BOY wurde auf private Daten, externe Verbindungen und Tracking geprüft. Stand: Juli 2026, Version 3.0.
 
 ## Ergebnis der Prüfung
 
@@ -15,7 +15,7 @@ CALC BOY wurde auf private Daten, externe Verbindungen und Tracking geprüft. St
 | API-Keys, Tokens, Passwörter | ❌ keine enthalten |
 | Externe Verbindungen / Requests | ❌ keine – Schrift ist als Base64 eingebettet |
 | Tracking, Analytics, Cookies | ❌ nicht vorhanden |
-| Datenspeicherung | ⚙️ nur lokal (localStorage): Theme, Sound, Rechenverlauf, Highscore – verlässt nie das Gerät, löschbar über die Website-Daten des Browsers |
+| Datenspeicherung | ⚙️ nur lokal (localStorage): Theme, Sound, Rechenverlauf, Highscores, Speicherwert, Winkelmodus, Finanz-Parameter, Wechselkurs – verlässt nie das Gerät, löschbar über die Website-Daten des Browsers |
 
 ## Was das konkret bedeutet
 
