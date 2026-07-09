@@ -283,9 +283,14 @@ body {
 .keys, .keys-ext, .keys-conv, .keys-fin, .keys-prg, .keys-plot {
   flex: 1;
   grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(6, 1fr);
   gap: 10px;
   align-content: stretch;
 }
+/* Untere Navigationszeile immer in Reihe 6 verankern -> einheitliche Tastengroesse auf allen Seiten */
+button.extbtn, button.eq2, button.eq3 { grid-row: 6; }
+/* PLOT hat nur 8 Funktionstasten: je 2 Reihen hoch, damit kein Loch entsteht */
+.keys-plot button.fn:not(.extbtn) { grid-row: span 2; }
 .keys { display: grid; }
 .keys-ext, .keys-conv, .keys-fin, .keys-prg, .keys-plot { display: none; }
 .keypad[data-page="ext"]  .keys-ext  { display: grid; }
