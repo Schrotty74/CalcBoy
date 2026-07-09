@@ -2,7 +2,7 @@
 
 🇬🇧 [English version](SECURITY.md)
 
-CALC BOY wurde auf private Daten, externe Verbindungen und Tracking geprüft. Stand: Juli 2026, Version 3.0.
+CALC BOY wurde auf private Daten, externe Verbindungen und Tracking geprüft. Stand: Juli 2026, aktueller hochgeladener Stand v3.0.2 / 1.7.
 
 ## Ergebnis der Prüfung
 
@@ -15,13 +15,13 @@ CALC BOY wurde auf private Daten, externe Verbindungen und Tracking geprüft. St
 | API-Keys, Tokens, Passwörter | ❌ keine enthalten |
 | Externe Verbindungen / Requests | ❌ keine – Schrift ist als Base64 eingebettet |
 | Tracking, Analytics, Cookies | ❌ nicht vorhanden |
-| Datenspeicherung | ⚙️ nur lokal (localStorage): Theme, Sound, Rechenverlauf, Highscores, Speicherwert, Winkelmodus, Finanz-Parameter, Wechselkurs – verlässt nie das Gerät, löschbar über die Website-Daten des Browsers |
+| Datenspeicherung | ⚙️ nur lokal (localStorage): Theme, Sound, Rechenverlauf, Highscores, Speicherwert, Winkelmodus, Finanz-Parameter, Wechselkurs, RPN-Stack, Formelvariablen – verlässt nie das Gerät, löschbar über die Website-Daten des Browsers |
 
 ## Was das konkret bedeutet
 
 - Die App besteht aus einer HTML-Datei plus Service Worker (sw.js) fürs Offline-Caching – gecacht werden **nur eigene Dateien derselben Domain**. Nach dem ersten Laden funktioniert sie vollständig offline.
 - Es verlässt **keine einzige Information** das Gerät – keine IP-Übertragung an Font-CDNs, keine Telemetrie, nichts.
-- Gespeichert werden ausschließlich Einstellungen und der Rechenverlauf – **lokal im Browser**, ohne Übertragung an irgendwen. Löschen: Website-Daten der Domain im Browser entfernen.
+- Gespeichert werden ausschließlich Einstellungen, Rechenverlauf, Spieldaten und Rechner-Hilfswerte – **lokal im Browser**, ohne Übertragung an irgendwen. Löschen: Website-Daten der Domain im Browser entfernen.
 - Damit ist die App **DSGVO-unkritisch**: Es findet keine Verarbeitung personenbezogener Daten durch Dritte statt, nichts verlässt das Gerät.
 
 ## Berechtigungen

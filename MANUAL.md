@@ -1,116 +1,292 @@
-# 📖 CALC BOY Manual (v3.0)
+# 📖 CALC BOY Manual
 
 🇩🇪 [Deutsche Anleitung](MANUAL.de.md)
 
-CALC BOY is a calculator PWA in classic Nintendo style. This manual explains every button, page and hidden feature.
+CALC BOY is a Nintendo-style calculator PWA. This manual documents the current app behavior.
 
 ## Getting started
 
-Open https://schrotty74.github.io/CalcBoy/ in your browser. On iPhone: open it in Safari, tap Share → "Add to Home Screen" to install it as a full-screen app. After the first load it works completely offline.
+Open https://schrotty74.github.io/CalcBoy/ in your browser.
 
-On startup you see a short boot animation ("CALC BOY" drops into the screen). Numbers use the German format: comma as decimal separator, dots as thousands separators.
+On iPhone, open the page in Safari and add it to the Home Screen. CALC BOY then launches as a fullscreen PWA. The layout respects the iOS Safe Area, so `THEME`, `GAME` and `SND` stay below the status bar.
 
-## The three top buttons
+After the first load the app works offline through the service worker.
 
-- **THEME** (top left): cycles through the console looks – Game Boy, GB Color, NES, Super NES, Switch, Famicom. Each theme also changes the key sound. Your choice is saved. Switching plays a short cartridge-swap animation.
-- **GAME** (top center): opens the game menu (see Games below). Pressing it during a game quits the game.
-- **SND** (top right): toggles the 8-bit key sounds on/off. Saved.
+Numbers are displayed in German number format:
+- comma as decimal separator
+- dot as thousands separator
 
-## Display (LCD) gestures
+## Top buttons
 
-- **Tap** the display: opens the **history** – your last 10 calculations. Tap an entry to reuse its result. Below the entries you see **Σ** (sum) and **Ø** (average) of the results. The top row **» TEILEN / EXPORT** shares the history as text (share sheet or clipboard).
-- **Long-press** the display (~0.5 s): copies the current result to the clipboard.
-- A small **M** in the top left corner means a value is stored in memory.
+- **THEME**: cycles through the console themes.
+- **GAME**: opens the game menu. During a game, it exits the game.
+- **SND**: toggles 8-bit key sounds.
 
-## BASIC page (standard keypad)
+Available themes:
+1. Game Boy
+2. GB Color
+3. NES
+4. Super NES
+5. Switch
+6. Famicom
+7. Virtual Boy, unlocked by the secret code
 
-Digits 0–9, comma, and the four operators ÷ × − +. Further keys:
+The selected theme is saved locally.
 
-- **AC**: clears everything (also exits games and menus)
-- **±**: toggles the sign
-- **%**: smart percent. `100 + 10 %` = 110 (10 % *of 100*), `50 × 10 %` = 5. Standing alone, `10 %` = 0.1
-- **√**: square root (negative input shows ERROR)
-- **=**: evaluates
-- **EXT**: switches to the extended pages
+## Display gestures
 
-Results longer than 12 digits shrink automatically; impossible operations (e.g. ÷ 0) show **ERROR** – any digit starts fresh.
+- **Tap the LCD**: opens the history.
+- **Long-press the LCD**: copies the current result to the clipboard.
+- **M indicator**: memory contains a stored value.
+
+The history contains the last 10 calculations. Tap an entry to reuse its result. The history also shows:
+- **Σ**: sum of stored results
+- **Ø**: average of stored results
+
+History export:
+- `TEILEN / EXPORT` exports the history as text through the share sheet or clipboard.
+- `PNG EXPORT` exports the history as a PNG image in CALC BOY display style.
 
 ## Page navigation
 
-**EXT** on the BASIC page leads to the first extra page. On every extra page:
-**BASIC** returns to the standard keypad, **MEHR** cycles to the next page (EXT → CONV → FIN → PRG → PLOT → EXT), **=** always evaluates.
+The page order is:
 
-## EXT page (scientific)
+`BASIC → EXT → CONV → FIN → PRG → PLOT → FORM → BASIC`
 
-- **MC / MR / M+ / M−**: memory clear, recall, add, subtract. Memory survives restarts.
-- **sin / cos / tan** with the **DEG/RAD** toggle (the button shows the active mode; saved)
-- **log** (base 10), **ln** (natural), **10^x**, **e^x**
-- **x²**, **x³**, **xʸ** (binary operator: enter base, press xʸ, enter exponent, press =), **∛x**
-- **1/x**, **n!** (integers 0–170 only), **π**, **e**
+- **EXT** opens the extended pages.
+- **MEHR** cycles to the next extended page.
+- **BASIC** returns to the standard keypad.
 
-## CONV page (unit converter)
+## BASIC page
 
-Enter a value, tap a conversion – the result replaces the display and the conversion is named above it. Available: km↔mi, m↔ft, °C↔°F, kg↔lb, cm↔in, l↔gal (US), km/h↔mph, h↔min. The **MW** row handles German VAT: **MW+19** = net→gross (×1.19), **MW−19** = gross→net (÷1.19), same for 7 %.
+Standard calculator page.
 
-## FIN page (finance)
+Buttons:
+- Digits `0–9`
+- comma
+- `+`, `−`, `×`, `÷`
+- **AC**: clears input, operator state and menus
+- **±**: toggles sign
+- **%**: smart percent
+- **√**: square root
+- **=**: evaluates
+- **EXT**: opens extended pages
 
-**Compound interest with monthly savings:** type a number, then press a SET key to store it as parameter:
-- **SET K0** – starting capital
-- **SET P%** – interest rate per year
-- **SET JAHRE** – duration in years
-- **SET RATE/M** – monthly savings amount
+Smart percent examples:
+- `100 + 10 % = 110`
+- `50 × 10 % = 5`
+- `10 % = 0.1`
 
-**INFO** shows the current parameters, **ENDWERT** computes the final value (monthly compounding), **ZINSEN** shows only the earned interest, **RESET** restores the defaults. Example: K0 1000, P 3, JAHRE 10, RATE 50 → ENDWERT ≈ 8,336.42.
+Invalid operations show `ERROR`. Entering a digit starts fresh.
 
-**Tip & split:** first set the number of people (type it, press **SET PERS**), then enter the bill, add **TIP+10/15/20%**, then **÷ PERS** for the amount per person.
+## EXT page
 
-**Currency:** set your exchange rate once (type it, **SET KURS**), then convert with **€→$** and **$→€**. Deliberately no live rates – nothing leaves your device. The rate works for any currency pair, the labels are just examples.
+Scientific and memory functions.
 
-All FIN parameters are saved locally.
+Memory:
+- **MC**: clear memory
+- **MR**: recall memory
+- **M+**: add current value to memory
+- **M−**: subtract current value from memory
 
-## PRG page (programmer)
+Scientific functions:
+- `sin`, `cos`, `tan`
+- `DEG` / `RAD`
+- `log`, `ln`
+- `10^x`, `e^x`
+- `x²`, `x³`, `xʸ`
+- cube root
+- `1/x`
+- `n!`
+- `π`, `e`
 
-- **→HEX / →BIN / →OCT**: shows the integer part of the display in that base (display value stays decimal)
-- **AND / OR / XOR / MOD / « / »**: binary operators – enter first number, operator, second number, **=**. Values are truncated to integers; shifts are « (left) and » (right)
-- **NOT**: bitwise complement (~x), **ABS**, **INT** (truncate), **SGN** (sign: −1/0/1)
-- **ZUFALL**: random integer 1–100
+## CONV page
+
+Unit conversion page.
+
+Conversions:
+- km ↔ mi
+- m ↔ ft
+- °C ↔ °F
+- kg ↔ lb
+- cm ↔ in
+- liter ↔ gallon (US)
+- km/h ↔ mph
+- hours ↔ minutes
+- VAT 19% net ↔ gross
+- VAT 7% net ↔ gross
+
+## FIN page
+
+Finance page.
+
+Stored parameters:
+- **SET K0**: initial capital
+- **SET P%**: annual interest rate
+- **SET JAHRE**: years
+- **SET RATE/M**: monthly savings rate
+- **SET PERS**: number of people
+- **SET KURS**: manual exchange rate
+
+Results:
+- **ENDWERT**: final value with monthly compounding
+- **ZINSEN**: interest earned only
+- **INFO**: compact summary with end value, total paid in and interest earned
+- **RESET**: resets finance parameters
+
+Other helpers:
+- **TIP+10%**, **TIP+15%**, **TIP+20%**
+- **÷ PERS**: split current amount by stored number of people
+- **€→$**, **$→€**: manual exchange rate conversion
+
+No live exchange-rate API is used.
+
+## PRG page
+
+Programmer page.
+
+Functions:
+- `→HEX`
+- `→BIN`
+- `→OCT`
+- `NOT`
+- `AND`
+- `OR`
+- `XOR`
+- `MOD`
+- bit shifts `«` and `»`
+- `ABS`
+- `INT`
+- `SGN`
+- `ZUFALL`
+- constants `π` and `e`
+- **RPN** mode toggle
+
+## RPN mode
+
+RPN mode is available on the PRG page.
+
+- Press **RPN** to toggle RPN mode.
+- Enter a number and press **=** to push it onto the stack.
+- Enter the next number and press an operator to calculate with the previous stack value.
+- Supported operators include arithmetic and programmer operators.
+- **AC** clears the current input and the RPN stack while RPN mode is active.
+- The mode and stack are stored locally.
+
+Example:
+1. Enter `2`
+2. Press `=`
+3. Enter `3`
+4. Press `+`
+5. Result: `5`
 
 ## PLOT page
 
-Tap one of 20 functions (from sin, cos and tan over e^x, sinh/cosh/tanh and |x| up to the Gauss bell e^(−x²), floor, sinc and x·sin x) – it is drawn as a pixel graph on the LCD, with axes where visible. Any key or a tap on the display closes the plot.
+The plot page draws functions as pixel-style LCD graphs.
 
-## Games (GAME button)
+Available functions:
+- sin x
+- cos x
+- tan x
+- x²
+- x³
+- √x
+- log x
+- 1/x
+- e^x
+- ln x
+- |x|
+- 2^x
+- sinh
+- cosh
+- tanh
+- x⁴
+- Gaussian curve
+- floor
+- sinc x
+- x·sin x
 
-The GAME menu shows: **1 2 3** start MATH ATTACK at that level, **5** starts SNAKE, **AC** cancels.
+Press any key to return from a plot.
 
-**MATH ATTACK:** 30 seconds of mental arithmetic. A task appears in the top display line, type the answer, press **=**. Correct = 1 point, wrong = counted as mistake, either way the next task appears. Levels: 1 EASY (small ±), 2 NORMAL (± up to 99, × ÷ up to 12), 3 HARD (± up to 999, × ÷ up to 19). Each level keeps its own high score. Finish a round without a single mistake and you get a **PERFECT!** with its own jingle. **AC** quits early.
+## FORM page
 
-**SNAKE:** steer with **2** (down), **4** (left), **6** (right), **8** (up) – or the arrow keys on a physical keyboard. Eat the food to grow; the game speeds up with every bite. Walls and your own tail end the game. High score is saved. **AC** or **GAME** quits.
+Formula Assistant page.
 
-## Keyboard shortcuts (Mac/iPad with keyboard)
+Variables:
+- **SET A**: store current value as A
+- **SET B**: store current value as B
+- **SET C**: store current value as C
+- **INFO**: show current formula variables
+- **VAR C**: clear formula variables
 
-Digits, `+ - * /`, `Enter` = result, `Esc` = AC, `%` percent, `R` or `W` = square root. Arrow keys steer SNAKE.
+Formulas:
+- **% VON**: A percent of B
+- **DREI**: rule of three, `B × C / A`
+- **KREIS A**: circle area from radius A
+- **KREIS U**: circle circumference from radius A
+- **PYTH**: hypotenuse from A and B
+- **OHM**: voltage from resistance A and current B
+- **BMI**: BMI from weight A and height B
+- **Ø ABC**: average of A, B and C
+- **KM/H**: speed from distance A and time B
+- **NET19**: net value from gross value A at 19% VAT
+- **BRU19**: gross value from net value A at 19% VAT
 
-## Secrets 🥚
+Formula variables are stored locally.
 
-There is a seventh console. Old players remember the code… on the calculator keys it is: **8 8 2 2 4 6 4 6 − +** (on a keyboard: ↑ ↑ ↓ ↓ ← → ← → B A). Once entered, the **VIRTUAL BOY** theme (red on black) is permanently unlocked and joins the THEME rotation.
+## Games
 
-## Storage & privacy
+Press **GAME** to open the game menu.
 
-Everything is stored locally in your browser only: theme, sound, history, high scores, memory value, angle mode, finance parameters, exchange rate. Nothing is transmitted anywhere. To wipe everything, delete the website data for this domain in your browser. Details: [SECURITY.md](SECURITY.md).
+### Math Attack
 
-## Troubleshooting
+Mental arithmetic game:
+- 30-second rounds
+- Easy, Normal and Hard levels
+- per-level high score
+- PERFECT jingle for flawless rounds
 
-- **No sound on the very first start:** browsers block audio before the first touch – press any key once.
-- **Old version after an update:** the service worker caches the app; close the app/tab completely and reopen it, twice if needed.
-- **Battery LED always red:** the Battery API only exists in Chrome/Android. On iPhone the LED stays classic red – like the original Game Boy.
+### Snake
 
+Snake game:
+- control with `2`, `4`, `6`, `8` or arrow keys
+- speed increases over time
+- high score is saved
+- **AC** quits
 
-## New in this version
+## Secret theme unlock
 
-- 7 Game Boy themes (including unlockable Virtual Boy)
-- Improved Safe Area support for iPhone PWAs
+Enter:
 
-- Formula Assistant
+`8 8 2 2 4 6 4 6 − +`
+
+This unlocks the Virtual Boy theme.
+
+## Local storage
+
+CALC BOY stores only local data in `localStorage`:
+- theme
+- sound setting
+- history
+- unlocked themes
+- high scores
+- memory value
+- angle mode
+- finance parameters
+- exchange rate
+- people count
 - RPN mode
-- History PNG export
+- RPN stack
+- formula variables
+
+Nothing is sent anywhere.
+
+## Offline behavior
+
+The service worker caches only same-origin app files:
+- `./`
+- `./index.html`
+- `./apple-touch-icon.png`
+- `./icon-512.png`
+
+The app uses a cache-first strategy with background refresh.

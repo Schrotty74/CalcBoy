@@ -2,7 +2,7 @@
 
 🇩🇪 [Deutsche Version](SECURITY.de.md)
 
-CALC BOY has been audited for private data, external connections and tracking. As of: July 2026, version 3.0.
+CALC BOY has been audited for private data, external connections and tracking. As of: July 2026, current uploaded build v3.0.2 / 1.7.
 
 ## Audit result
 
@@ -15,13 +15,13 @@ CALC BOY has been audited for private data, external connections and tracking. A
 | API keys, tokens, passwords | ❌ none included |
 | External connections / requests | ❌ none – the font is embedded as Base64 |
 | Tracking, analytics, cookies | ❌ not present |
-| Data storage | ⚙️ local only (localStorage): theme, sound, calculation history, high scores, memory value, angle mode, finance parameters, exchange rate – never leaves the device, removable via the browser's website data |
+| Data storage | ⚙️ local only (localStorage): theme, sound, calculation history, high scores, memory value, angle mode, finance parameters, exchange rate, RPN stack, formula variables – never leaves the device, removable via the browser's website data |
 
 ## What this means in practice
 
 - The app consists of one HTML file plus a service worker (sw.js) for offline caching – **only same-origin files** are cached. After the first load it works fully offline.
 - **Not a single piece of information** leaves the device – no IP transmission to font CDNs, no telemetry, nothing.
-- Only settings and the calculation history are stored – **locally in the browser**, without transmission to anyone. To delete: remove the domain's website data in your browser.
+- Only settings, calculation history, game data and calculator helper values are stored – **locally in the browser**, without transmission to anyone. To delete: remove the domain's website data in your browser.
 - This makes the app **uncritical under GDPR**: no personal data is processed by third parties, nothing leaves the device.
 
 ## Permissions

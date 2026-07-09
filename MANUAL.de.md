@@ -1,116 +1,292 @@
-# 📖 CALC BOY Anleitung (v3.0)
+# 📖 CALC BOY Anleitung
 
 🇬🇧 [English manual](MANUAL.md)
 
-CALC BOY ist eine Taschenrechner-PWA im klassischen Nintendo-Stil. Diese Anleitung erklärt jede Taste, jede Seite und jedes versteckte Feature.
+CALC BOY ist eine Taschenrechner-PWA im Nintendo-Stil. Diese Anleitung beschreibt das aktuelle Verhalten der App.
 
 ## Erste Schritte
 
-Öffne https://schrotty74.github.io/CalcBoy/ im Browser. Auf dem iPhone: in Safari öffnen, Teilen → „Zum Home-Bildschirm" – dann startet CALC BOY als Vollbild-App. Nach dem ersten Laden funktioniert alles komplett offline.
+Öffne https://schrotty74.github.io/CalcBoy/ im Browser.
 
-Beim Start läuft eine kurze Boot-Animation („CALC BOY" fällt ins Display). Zahlen werden im deutschen Format angezeigt: Komma als Dezimaltrenner, Punkte als Tausendertrenner.
+Auf dem iPhone: Seite in Safari öffnen und zum Home-Bildschirm hinzufügen. CALC BOY startet dann als Vollbild-PWA. Das Layout berücksichtigt die iOS-Safe-Area, damit `THEME`, `GAME` und `SND` unterhalb der Statusleiste erreichbar bleiben.
 
-## Die drei Tasten oben
+Nach dem ersten Laden funktioniert die App offline über den Service Worker.
 
-- **THEME** (oben links): schaltet durch die Konsolen-Looks – Game Boy, GB Color, NES, Super NES, Switch, Famicom. Jedes Theme ändert auch den Tastenklang. Die Auswahl wird gespeichert. Beim Wechsel läuft eine kurze Cartridge-Wechsel-Animation.
-- **GAME** (oben Mitte): öffnet das Spielemenü (siehe unten). Während eines Spiels beendet die Taste das Spiel.
-- **SND** (oben rechts): schaltet die 8-Bit-Tastentöne ein/aus. Wird gespeichert.
+Zahlen werden im deutschen Format angezeigt:
+- Komma als Dezimaltrenner
+- Punkt als Tausendertrenner
 
-## Display-Gesten (LCD)
+## Obere Tasten
 
-- **Tippen** aufs Display: öffnet den **Verlauf** – die letzten 10 Rechnungen. Ein Eintrag übernimmt per Tipp sein Ergebnis. Unter den Einträgen stehen **Σ** (Summe) und **Ø** (Mittelwert) der Ergebnisse. Die oberste Zeile **» TEILEN / EXPORT** exportiert den Verlauf als Text (Share-Sheet oder Zwischenablage).
-- **Langes Drücken** (~0,5 s): kopiert das aktuelle Ergebnis in die Zwischenablage.
-- Ein kleines **M** oben links bedeutet: Im Speicher liegt ein Wert.
+- **THEME**: wechselt durch die Konsolen-Themes.
+- **GAME**: öffnet das Spielemenü. Während eines Spiels beendet die Taste das Spiel.
+- **SND**: schaltet die 8-Bit-Tastentöne ein oder aus.
 
-## BASIC-Seite (Standard-Tastenfeld)
+Verfügbare Themes:
+1. Game Boy
+2. GB Color
+3. NES
+4. Super NES
+5. Switch
+6. Famicom
+7. Virtual Boy, per Geheimcode freischaltbar
 
-Ziffern 0–9, Komma und die vier Operatoren ÷ × − +. Weitere Tasten:
+Das gewählte Theme wird lokal gespeichert.
 
-- **AC**: löscht alles (beendet auch Spiele und Menüs)
+## Display-Gesten
+
+- **LCD antippen**: öffnet den Verlauf.
+- **LCD lange drücken**: kopiert das aktuelle Ergebnis in die Zwischenablage.
+- **M-Anzeige**: Im Speicher liegt ein Wert.
+
+Der Verlauf enthält die letzten 10 Rechnungen. Ein Eintrag kann angetippt werden, um das Ergebnis wiederzuverwenden. Zusätzlich zeigt der Verlauf:
+- **Σ**: Summe der Ergebnisse
+- **Ø**: Durchschnitt der Ergebnisse
+
+Verlauf exportieren:
+- `TEILEN / EXPORT` exportiert den Verlauf als Text über Share-Sheet oder Zwischenablage.
+- `PNG EXPORT` exportiert den Verlauf als PNG-Bild im CALC-BOY-Display-Stil.
+
+## Seitennavigation
+
+Die Seitenreihenfolge lautet:
+
+`BASIC → EXT → CONV → FIN → PRG → PLOT → FORM → BASIC`
+
+- **EXT** öffnet die erweiterten Seiten.
+- **MEHR** wechselt zur nächsten Zusatzseite.
+- **BASIC** kehrt zum Standard-Tastenfeld zurück.
+
+## BASIC-Seite
+
+Standard-Rechnerseite.
+
+Tasten:
+- Ziffern `0–9`
+- Komma
+- `+`, `−`, `×`, `÷`
+- **AC**: löscht Eingabe, Operatorstatus und Menüs
 - **±**: wechselt das Vorzeichen
-- **%**: smarte Prozent-Taste. `100 + 10 %` = 110 (10 % *von 100*), `50 × 10 %` = 5. Alleinstehend ist `10 %` = 0,1
-- **√**: Quadratwurzel (negative Eingabe zeigt ERROR)
+- **%**: smarte Prozentlogik
+- **√**: Quadratwurzel
 - **=**: rechnet aus
-- **EXT**: wechselt zu den erweiterten Seiten
+- **EXT**: öffnet die erweiterten Seiten
 
-Ergebnisse mit mehr als 12 Stellen werden automatisch kleiner dargestellt; unmögliche Operationen (z. B. ÷ 0) zeigen **ERROR** – jede Ziffer startet neu.
+Beispiele für smarte Prozentlogik:
+- `100 + 10 % = 110`
+- `50 × 10 % = 5`
+- `10 % = 0,1`
 
-## Seiten-Navigation
+Ungültige Operationen zeigen `ERROR`. Eine Ziffer startet danach neu.
 
-**EXT** auf der BASIC-Seite führt zur ersten Zusatzseite. Auf jeder Zusatzseite:
-**BASIC** führt zurück zum Standard-Tastenfeld, **MEHR** schaltet zur nächsten Seite (EXT → CONV → FIN → PRG → PLOT → EXT), **=** rechnet immer aus.
+## EXT-Seite
 
-## EXT-Seite (wissenschaftlich)
+Wissenschaftliche Funktionen und Speicher.
 
-- **MC / MR / M+ / M−**: Speicher löschen, abrufen, addieren, subtrahieren. Der Speicher überlebt Neustarts.
-- **sin / cos / tan** mit **DEG/RAD**-Umschalter (die Taste zeigt den aktiven Modus; wird gespeichert)
-- **log** (Basis 10), **ln** (natürlich), **10^x**, **e^x**
-- **x²**, **x³**, **xʸ** (binärer Operator: Basis eingeben, xʸ drücken, Exponent eingeben, =), **∛x**
-- **1/x**, **n!** (nur ganze Zahlen 0–170), **π**, **e**
+Speicher:
+- **MC**: Speicher löschen
+- **MR**: Speicher abrufen
+- **M+**: aktuellen Wert zum Speicher addieren
+- **M−**: aktuellen Wert vom Speicher abziehen
 
-## CONV-Seite (Einheiten-Umrechner)
+Wissenschaftliche Funktionen:
+- `sin`, `cos`, `tan`
+- `DEG` / `RAD`
+- `log`, `ln`
+- `10^x`, `e^x`
+- `x²`, `x³`, `xʸ`
+- Kubikwurzel
+- `1/x`
+- `n!`
+- `π`, `e`
 
-Wert eingeben, Umrechnung antippen – das Ergebnis ersetzt die Anzeige, die Umrechnung wird darüber benannt. Verfügbar: km↔mi, m↔ft, °C↔°F, kg↔lb, cm↔in, l↔gal (US), km/h↔mph, h↔min. Die **MW**-Reihe rechnet deutsche Mehrwertsteuer: **MW+19** = Netto→Brutto (×1,19), **MW−19** = Brutto→Netto (÷1,19), gleiches für 7 %.
+## CONV-Seite
 
-## FIN-Seite (Finanzen)
+Einheitenumrechnung.
 
-**Zinseszins mit monatlicher Sparrate:** Zahl eintippen, dann mit einer SET-Taste als Parameter speichern:
-- **SET K0** – Startkapital
-- **SET P%** – Zinssatz pro Jahr
-- **SET JAHRE** – Laufzeit in Jahren
-- **SET RATE/M** – monatliche Sparrate
+Umrechnungen:
+- km ↔ mi
+- m ↔ ft
+- °C ↔ °F
+- kg ↔ lb
+- cm ↔ in
+- Liter ↔ Gallone (US)
+- km/h ↔ mph
+- Stunden ↔ Minuten
+- MwSt. 19% Netto ↔ Brutto
+- MwSt. 7% Netto ↔ Brutto
 
-**INFO** zeigt die aktuellen Parameter, **ENDWERT** berechnet den Endwert (monatliche Verzinsung), **ZINSEN** zeigt nur den Zinsertrag, **RESET** stellt die Standardwerte wieder her. Beispiel: K0 1000, P 3, JAHRE 10, RATE 50 → ENDWERT ≈ 8.336,42.
+## FIN-Seite
 
-**Trinkgeld & Splitten:** zuerst Personenzahl setzen (eintippen, **SET PERS**), dann den Rechnungsbetrag eingeben, **TIP+10/15/20%** aufschlagen und mit **÷ PERS** durch die Personen teilen.
+Finanzseite.
 
-**Währung:** Wechselkurs einmal setzen (eintippen, **SET KURS**), dann mit **€→$** und **$→€** umrechnen. Bewusst ohne Live-Kurse – nichts verlässt das Gerät. Der Kurs funktioniert für jedes Währungspaar, die Beschriftung ist nur ein Beispiel.
+Gespeicherte Parameter:
+- **SET K0**: Startkapital
+- **SET P%**: jährlicher Zinssatz
+- **SET JAHRE**: Laufzeit in Jahren
+- **SET RATE/M**: monatliche Sparrate
+- **SET PERS**: Personenanzahl
+- **SET KURS**: manueller Wechselkurs
 
-Alle FIN-Parameter werden lokal gespeichert.
+Ergebnisse:
+- **ENDWERT**: Endwert mit monatlicher Verzinsung
+- **ZINSEN**: nur der Zinsertrag
+- **INFO**: kompakte Übersicht mit Endwert, Einzahlungen und Zinsertrag
+- **RESET**: setzt Finanzparameter zurück
 
-## PRG-Seite (Programmierer)
+Weitere Helfer:
+- **TIP+10%**, **TIP+15%**, **TIP+20%**
+- **÷ PERS**: aktuellen Betrag durch gespeicherte Personenanzahl teilen
+- **€→$**, **$→€**: Umrechnung mit manuellem Kurs
 
-- **→HEX / →BIN / →OCT**: zeigt den Ganzzahl-Anteil der Anzeige in der jeweiligen Basis (der Anzeigewert bleibt dezimal)
-- **AND / OR / XOR / MOD / « / »**: binäre Operatoren – erste Zahl, Operator, zweite Zahl, **=**. Werte werden auf Ganzzahlen gekürzt; « und » sind Bit-Shifts nach links/rechts
-- **NOT**: Bit-Komplement (~x), **ABS**, **INT** (abschneiden), **SGN** (Vorzeichen: −1/0/1)
-- **ZUFALL**: Zufallszahl 1–100
+Es wird keine Live-Kurs-API verwendet.
+
+## PRG-Seite
+
+Programmierer-Seite.
+
+Funktionen:
+- `→HEX`
+- `→BIN`
+- `→OCT`
+- `NOT`
+- `AND`
+- `OR`
+- `XOR`
+- `MOD`
+- Bit-Shifts `«` und `»`
+- `ABS`
+- `INT`
+- `SGN`
+- `ZUFALL`
+- Konstanten `π` und `e`
+- **RPN**-Modus-Schalter
+
+## RPN-Modus
+
+Der RPN-Modus ist auf der PRG-Seite verfügbar.
+
+- **RPN** schaltet den RPN-Modus ein oder aus.
+- Zahl eingeben und **=** drücken, um sie auf den Stack zu legen.
+- Nächste Zahl eingeben und einen Operator drücken, um mit dem vorherigen Stack-Wert zu rechnen.
+- Unterstützt werden Rechenoperatoren und Programmierer-Operatoren.
+- **AC** löscht im aktiven RPN-Modus die aktuelle Eingabe und den RPN-Stack.
+- Modus und Stack werden lokal gespeichert.
+
+Beispiel:
+1. `2` eingeben
+2. `=` drücken
+3. `3` eingeben
+4. `+` drücken
+5. Ergebnis: `5`
 
 ## PLOT-Seite
 
-Eine von 20 Funktionen antippen (von sin, cos und tan über e^x, sinh/cosh/tanh und |x| bis zur Gauß-Glocke e^(−x²), Floor, sinc und x·sin x) – sie wird als Pixel-Graph ins LCD gezeichnet, mit Achsen, wo sichtbar. Jede Taste oder ein Tipp aufs Display schließt den Plot.
+Die Plot-Seite zeichnet Funktionen als Pixelgraph im LCD-Stil.
 
-## Spiele (GAME-Taste)
+Verfügbare Funktionen:
+- sin x
+- cos x
+- tan x
+- x²
+- x³
+- √x
+- log x
+- 1/x
+- e^x
+- ln x
+- |x|
+- 2^x
+- sinh
+- cosh
+- tanh
+- x⁴
+- Gauß-Kurve
+- floor
+- sinc x
+- x·sin x
 
-Das GAME-Menü zeigt: **1 2 3** starten MATH ATTACK im jeweiligen Level, **5** startet SNAKE, **AC** bricht ab.
+Eine beliebige Taste beendet den Plot.
 
-**MATH ATTACK:** 30 Sekunden Kopfrechnen. Die Aufgabe erscheint in der oberen Displayzeile, Antwort eintippen, **=** drücken. Richtig = 1 Punkt, falsch = zählt als Fehler, in beiden Fällen kommt die nächste Aufgabe. Level: 1 EASY (kleines ±), 2 NORMAL (± bis 99, × ÷ bis 12), 3 HARD (± bis 999, × ÷ bis 19). Jedes Level hat einen eigenen Highscore. Eine Runde ohne einen einzigen Fehler endet mit **PERFECT!** samt eigenem Jingle. **AC** bricht vorzeitig ab.
+## FORM-Seite
 
-**SNAKE:** Steuerung mit **2** (runter), **4** (links), **6** (rechts), **8** (hoch) – oder mit den Pfeiltasten einer echten Tastatur. Futter fressen lässt die Schlange wachsen; mit jedem Bissen wird das Spiel schneller. Wand und eigener Schwanz beenden das Spiel. Highscore wird gespeichert. **AC** oder **GAME** beendet.
+Formel-Assistent.
 
-## Tastatur-Kürzel (Mac/iPad mit Tastatur)
+Variablen:
+- **SET A**: aktuellen Wert als A speichern
+- **SET B**: aktuellen Wert als B speichern
+- **SET C**: aktuellen Wert als C speichern
+- **INFO**: aktuelle Formelvariablen anzeigen
+- **VAR C**: Formelvariablen löschen
 
-Ziffern, `+ - * /`, `Enter` = Ergebnis, `Esc` = AC, `%` Prozent, `R` oder `W` = Wurzel. Pfeiltasten steuern SNAKE.
+Formeln:
+- **% VON**: A Prozent von B
+- **DREI**: Dreisatz, `B × C / A`
+- **KREIS A**: Kreisfläche mit Radius A
+- **KREIS U**: Kreisumfang mit Radius A
+- **PYTH**: Hypotenuse aus A und B
+- **OHM**: Spannung aus Widerstand A und Strom B
+- **BMI**: BMI aus Gewicht A und Größe B
+- **Ø ABC**: Durchschnitt aus A, B und C
+- **KM/H**: Geschwindigkeit aus Strecke A und Zeit B
+- **NET19**: Netto aus Brutto A bei 19% MwSt.
+- **BRU19**: Brutto aus Netto A bei 19% MwSt.
 
-## Geheimnisse 🥚
+Formelvariablen werden lokal gespeichert.
 
-Es gibt eine siebte Konsole. Alte Spieler kennen den Code… auf den Rechnertasten lautet er: **8 8 2 2 4 6 4 6 − +** (an der Tastatur: ↑ ↑ ↓ ↓ ← → ← → B A). Einmal eingegeben, ist das **VIRTUAL BOY**-Theme (rot auf schwarz) dauerhaft freigeschaltet und reiht sich in die THEME-Rotation ein.
+## Spiele
 
-## Speicherung & Datenschutz
+**GAME** öffnet das Spielemenü.
 
-Alles wird ausschließlich lokal im Browser gespeichert: Theme, Sound, Verlauf, Highscores, Speicherwert, Winkelmodus, Finanz-Parameter, Wechselkurs. Nichts wird irgendwohin übertragen. Zum vollständigen Löschen die Website-Daten der Domain im Browser entfernen. Details: [SECURITY.de.md](SECURITY.de.md).
+### Math Attack
 
-## Problemlösung
+Kopfrechenspiel:
+- 30-Sekunden-Runden
+- Easy, Normal und Hard
+- Highscore pro Schwierigkeitsgrad
+- PERFECT-Jingle bei fehlerfreier Runde
 
-- **Kein Ton beim allerersten Start:** Browser blockieren Audio vor der ersten Berührung – einmal eine beliebige Taste drücken.
-- **Alte Version nach einem Update:** Der Service Worker cached die App; App/Tab komplett schließen und neu öffnen, notfalls zweimal.
-- **Batterie-LED immer rot:** Die Battery-API gibt es nur in Chrome/Android. Auf dem iPhone bleibt die LED klassisch rot – wie beim originalen Game Boy.
+### Snake
 
+Snake-Spiel:
+- Steuerung mit `2`, `4`, `6`, `8` oder Pfeiltasten
+- Geschwindigkeit steigt mit der Zeit
+- Highscore wird gespeichert
+- **AC** beendet das Spiel
 
-## Neu in dieser Version
+## Geheim-Theme freischalten
 
-- 7 Game-Boy-Themes (inkl. freischaltbarem Virtual Boy)
-- Verbesserte Safe-Area-Unterstützung für iPhone-PWAs
+Eingabe:
 
-- Formel-Assistent
+`8 8 2 2 4 6 4 6 − +`
+
+Dadurch wird das Virtual-Boy-Theme freigeschaltet.
+
+## Lokale Speicherung
+
+CALC BOY speichert nur lokale Daten in `localStorage`:
+- Theme
+- Sound-Einstellung
+- Verlauf
+- freigeschaltete Themes
+- Highscores
+- Speicherwert
+- Winkelmodus
+- Finanzparameter
+- Wechselkurs
+- Personenanzahl
 - RPN-Modus
-- PNG-Export des Verlaufs
+- RPN-Stack
+- Formelvariablen
+
+Nichts wird übertragen.
+
+## Offline-Verhalten
+
+Der Service Worker cached nur eigene App-Dateien derselben Domain:
+- `./`
+- `./index.html`
+- `./apple-touch-icon.png`
+- `./icon-512.png`
+
+Die App verwendet Cache-first mit Aktualisierung im Hintergrund.
