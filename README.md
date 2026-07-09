@@ -82,8 +82,3 @@ No external requests, no tracking, no analytics. Settings, history and high scor
 
 [GPL-3.0](LICENSE) – Font "Press Start 2P" by CodeMan38, licensed under the SIL Open Font License 1.1.
 
-
-## New in this version
-
-- 7 Game Boy themes (including unlockable Virtual Boy)
-- Improved Safe Area support for iPhone PWAs
