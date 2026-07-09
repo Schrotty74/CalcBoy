@@ -4,6 +4,8 @@
 
 <h1 align="center">CALC BOY</h1>
 
+> 📋 **Latest changes:** See [CHANGELOG.md](CHANGELOG.md).
+
 <p align="center">
   🇩🇪 <a href="README.de.md">Deutsche Version</a>
 </p>
