@@ -105,20 +105,8 @@ Everything is stored locally in your browser only: theme, sound, history, high s
 - **Old version after an update:** the service worker caches the app; close the app/tab completely and reopen it, twice if needed.
 - **Battery LED always red:** the Battery API only exists in Chrome/Android. On iPhone the LED stays classic red – like the original Game Boy.
 
----
 
-## Recent changes
+## New in this version
 
-### Finance
-- **INFO** now displays a compact summary:
-  - End value
-  - Total paid in
-  - Interest earned
-
-### iPhone PWA
-- Improved Safe Area support so the top buttons remain accessible below the status bar.
-
-> If available in your build:
-> - Formula Assistant
-> - RPN mode
-> - History PNG export
+- 7 Game Boy themes (including unlockable Virtual Boy)
+- Improved Safe Area support for iPhone PWAs

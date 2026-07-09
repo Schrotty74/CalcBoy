@@ -83,13 +83,7 @@ Keine externen Requests, kein Tracking, keine Analytics. Einstellungen, Verlauf 
 [GPL-3.0](LICENSE) – Schrift „Press Start 2P" von CodeMan38 unter SIL Open Font License 1.1.
 
 
-## Recent updates
+## Neu in dieser Version
 
-- 7 Game Boy themes (including unlockable Virtual Boy theme)
-- Improved Finance **INFO** summary (End value, total paid in, interest earned)
-- Improved iPhone PWA Safe Area support so the top controls remain accessible beneath the status bar
-
-> If enabled in your build:
-> - Formula Assistant
-> - RPN mode
-> - History PNG export
+- 7 Game-Boy-Themes (inkl. freischaltbarem Virtual Boy)
+- Verbesserte Safe-Area-Unterstützung für iPhone-PWAs
