@@ -87,3 +87,7 @@ Keine externen Requests, kein Tracking, keine Analytics. Einstellungen, Verlauf 
 
 - 7 Game-Boy-Themes (inkl. freischaltbarem Virtual Boy)
 - Verbesserte Safe-Area-Unterstützung für iPhone-PWAs
+
+- Formel-Assistent
+- RPN-Modus
+- PNG-Export des Verlaufs

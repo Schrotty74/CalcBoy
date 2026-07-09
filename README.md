@@ -22,7 +22,7 @@ A calculator in classic Nintendo style – built as a Progressive Web App in a s
 
 ## ✨ Features (v3.0)
 
-- 6 console themes: Game Boy, GB Color, NES, Super NES, Switch, Famicom (THEME button) – your choice is remembered
+- 7 console themes: Game Boy, GB Color, NES, Super NES, Switch, Famicom (THEME button) – your choice is remembered
 - 🕹️ **MATH ATTACK**: mental math against the clock (GAME menu) with 3 difficulty levels, per-level high scores and a PERFECT jingle for flawless runs
 - 🔄 **Unit converter** (CONV page): km↔mi, °C↔°F, kg↔lb, cm↔in, l↔gal, km/h↔mph, h↔min, German VAT (19%/7% net↔gross)
 - 📋 **Copy & share**: long-press the display to copy the result; export the history via the share sheet
@@ -87,3 +87,7 @@ No external requests, no tracking, no analytics. Settings, history and high scor
 
 - 7 Game Boy themes (including unlockable Virtual Boy)
 - Improved Safe Area support for iPhone PWAs
+
+- Formula Assistant
+- RPN mode
+- History PNG export

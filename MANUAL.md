@@ -110,3 +110,7 @@ Everything is stored locally in your browser only: theme, sound, history, high s
 
 - 7 Game Boy themes (including unlockable Virtual Boy)
 - Improved Safe Area support for iPhone PWAs
+
+- Formula Assistant
+- RPN mode
+- History PNG export

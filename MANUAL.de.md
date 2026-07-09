@@ -110,3 +110,7 @@ Alles wird ausschließlich lokal im Browser gespeichert: Theme, Sound, Verlauf, 
 
 - 7 Game-Boy-Themes (inkl. freischaltbarem Virtual Boy)
 - Verbesserte Safe-Area-Unterstützung für iPhone-PWAs
+
+- Formel-Assistent
+- RPN-Modus
+- PNG-Export des Verlaufs
