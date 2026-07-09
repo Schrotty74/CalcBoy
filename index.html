@@ -881,7 +881,16 @@ const actions = {
   },
   fin(_, __, fnName) {
     if (fnName === "info") {
-      flashExpr("K0:" + fmt(roundResult(fin.k0)) + " P:" + fin.p + " J:" + fin.j + " R:" + fin.rate, 2600);
+      const months = Math.round(fin.j * 12);
+      const end = finFuture();
+      const paid = fin.k0 + fin.rate * months;
+      const interest = end - paid;
+      flashExpr(
+        "END " + fmt(roundResult(end)) +
+        " | EIN " + fmt(roundResult(paid)) +
+        " | ZINS " + fmt(roundResult(interest)),
+        4200
+      );
       return;
     }
     if (fnName === "reset") {
