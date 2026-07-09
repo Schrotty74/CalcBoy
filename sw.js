@@ -2,7 +2,7 @@
   CALC BOY Service Worker — Offline-Caching (GPL-3.0, siehe LICENSE)
   Cached nur eigene Dateien derselben Domain. Keine externen Requests.
 */
-const CACHE = "calcboy-v2.0";
+const CACHE = "calcboy-v2.1";
 const ASSETS = ["./", "./index.html", "./apple-touch-icon.png", "./icon-512.png"];
 
 self.addEventListener("install", (e) => {

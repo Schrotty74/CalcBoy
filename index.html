@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  CALC BOY v2.0 — Taschenrechner-PWA im Nintendo-Stil
+  CALC BOY v2.1 — Taschenrechner-PWA im Nintendo-Stil
   Copyright (C) 2026 Schrotty74
 
   This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,8 @@
   SIL Open Font License 1.1 (eingebettet als Base64).
 
   Gespeichert wird ausschliesslich lokal (localStorage): Theme, Sound,
-  Rechenverlauf, freigeschaltete Themes, Highscore. Nichts verlaesst das Geraet.
+  Rechenverlauf, freigeschaltete Themes, Highscore, Speicherwert (M),
+  Winkelmodus. Nichts verlaesst das Geraet.
 -->
 <html lang="de">
 <head>
@@ -315,6 +316,28 @@ button.eq {
 }
 button.eq:active, button.eq.pressed { box-shadow: 0 1px 0 var(--btn-ab-dark); }
 button.zero { grid-column: span 2; border-radius: 26px; }
+button.eq3 { grid-column: 2 / -1; }
+button.extbtn { min-height: 48px; }
+
+/* EXT-Ebene: zweites Tastenfeld */
+.keys-ext {
+  flex: 1; display: none;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  align-content: stretch;
+}
+.keys-ext button.fn { min-height: 52px; border-radius: 10px; font-size: .55rem; }
+.keys-ext button.eq { min-height: 48px; border-radius: 999px; }
+.keys-ext button.extbtn { border-radius: 999px; }
+.keypad.ext .keys { display: none; }
+.keypad.ext .keys-ext { display: grid; }
+
+/* Speicher-Anzeige im LCD */
+.mflag {
+  position: absolute; top: 6px; left: 8px; z-index: 1;
+  font-size: .5rem; color: var(--ink); opacity: .7; display: none;
+}
+.lcd.has-mem .mflag { display: block; }
 
 /* Pill-Tasten oben */
 .sound-toggle, .theme-toggle, .game-toggle {
@@ -353,6 +376,8 @@ button.zero { grid-column: span 2; border-radius: 26px; }
   button.fn { min-height: 30px; font-size: .5rem; }
   button.eq { min-height: 36px; font-size: .9rem; }
   button.sci { min-height: 0; font-size: .5rem; }
+  .keys-ext { gap: 7px; }
+  .keys-ext button.fn { min-height: 34px; font-size: .45rem; }
   .brand { display: none; }
   .power { display: none; }
 }
@@ -372,6 +397,7 @@ button.zero { grid-column: span 2; border-radius: 26px; }
         <div class="bezel-label">DOT MATRIX WITH CALC POWER</div>
         <div class="lcd" id="lcd">
           <div class="boot" id="boot"><span>CALC BOY</span></div>
+          <div class="mflag">M</div>
           <div class="expr" id="expr">&nbsp;</div>
           <div class="value" id="display">0</div>
           <div class="hist" id="hist"></div>
@@ -420,7 +446,38 @@ button.zero { grid-column: span 2; border-radius: 26px; }
         <button data-a="comma">,</button>
         <button class="op" data-a="op" data-op="+">+</button>
 
-        <button class="eq" data-a="equals">=</button>
+        <button class="fn extbtn" data-a="ext">EXT</button>
+        <button class="eq eq3" data-a="equals">=</button>
+      </div>
+
+      <div class="keys-ext">
+        <button class="fn" data-a="mem" data-fn="mc">MC</button>
+        <button class="fn" data-a="mem" data-fn="mr">MR</button>
+        <button class="fn" data-a="mem" data-fn="mplus">M+</button>
+        <button class="fn" data-a="mem" data-fn="mminus">M&#8722;</button>
+
+        <button class="fn" data-a="sci" data-fn="sin">sin</button>
+        <button class="fn" data-a="sci" data-fn="cos">cos</button>
+        <button class="fn" data-a="sci" data-fn="tan">tan</button>
+        <button class="fn" data-a="degrad" id="degBtn">DEG</button>
+
+        <button class="fn" data-a="sci" data-fn="log">log</button>
+        <button class="fn" data-a="sci" data-fn="ln">ln</button>
+        <button class="fn" data-a="sci" data-fn="tenx">10^x</button>
+        <button class="fn" data-a="sci" data-fn="ex">e^x</button>
+
+        <button class="fn" data-a="sci" data-fn="sqr">x&#178;</button>
+        <button class="fn" data-a="sci" data-fn="cube">x&#179;</button>
+        <button class="fn" data-a="op" data-op="^">x&#694;</button>
+        <button class="fn" data-a="sci" data-fn="cbrt">&#8731;x</button>
+
+        <button class="fn" data-a="sci" data-fn="inv">1/x</button>
+        <button class="fn" data-a="sci" data-fn="fact">n!</button>
+        <button class="fn" data-a="const" data-fn="pi">&#960;</button>
+        <button class="fn" data-a="const" data-fn="e">e</button>
+
+        <button class="fn extbtn" data-a="ext">BASIC</button>
+        <button class="eq eq3" data-a="equals">=</button>
       </div>
     </div>
   </div>
@@ -519,14 +576,28 @@ function evaluate() {
 }
 
 const DEG = Math.PI / 180;
+let degMode = saved.deg !== false; // true = Grad, false = Bogenmass
+let memory = typeof saved.memory === "number" && isFinite(saved.memory) ? saved.memory : 0;
+function trigArg(v) { return degMode ? v * DEG : v; }
+function factorial(v) {
+  if (v < 0 || v !== Math.floor(v) || v > 170) return NaN;
+  let r = 1;
+  for (let i = 2; i <= v; i++) r *= i;
+  return r;
+}
 const SCI = {
-  sin: v => Math.sin(v * DEG),
-  cos: v => Math.cos(v * DEG),
-  tan: v => Math.tan(v * DEG),
+  sin: v => Math.sin(trigArg(v)),
+  cos: v => Math.cos(trigArg(v)),
+  tan: v => Math.tan(trigArg(v)),
   log: v => Math.log10(v),
   ln:  v => Math.log(v),
   sqr: v => v * v,
-  inv: v => 1 / v
+  cube: v => v * v * v,
+  cbrt: v => Math.cbrt(v),
+  tenx: v => Math.pow(10, v),
+  ex:  v => Math.exp(v),
+  inv: v => 1 / v,
+  fact: factorial
 };
 const CONSTS = { pi: Math.PI, e: Math.E };
 
@@ -571,8 +642,31 @@ const actions = {
   const(_, __, fnName) {
     current = roundResult(CONSTS[fnName]);
     justEvaluated = true;
+  },
+  ext() {
+    if (game) return;
+    document.querySelector(".keypad").classList.toggle("ext");
+  },
+  mem(_, __, fnName) {
+    if (current === "ERROR" && fnName !== "mc" && fnName !== "mr") return;
+    if (fnName === "mc") memory = 0;
+    else if (fnName === "mr") { current = roundResult(memory); justEvaluated = true; }
+    else if (fnName === "mplus") memory += parseFloat(current) || 0;
+    else if (fnName === "mminus") memory -= parseFloat(current) || 0;
+    store.save({ memory });
+    updateMemFlag();
+  },
+  degrad() {
+    degMode = !degMode;
+    store.save({ deg: degMode });
+    document.getElementById("degBtn").textContent = degMode ? "DEG" : "RAD";
+    flashExpr("\u00bb " + (degMode ? "GRAD (DEG)" : "BOGENMASS (RAD)"));
   }
 };
+
+function updateMemFlag() {
+  lcdEl.classList.toggle("has-mem", memory !== 0);
+}
 
 // ---------- Anzeige ----------
 function render() {
@@ -799,7 +893,7 @@ gameBtn.addEventListener("click", () => {
 });
 
 // ---------- Eingabe ----------
-document.querySelectorAll(".keys button, .sci-keys button").forEach(btn => {
+document.querySelectorAll(".keypad button").forEach(btn => {
   btn.addEventListener("click", () => {
     const a = btn.dataset.a;
     toggleHist(false);
@@ -848,6 +942,8 @@ setTimeout(() => {
   setTimeout(() => bootEl.remove(), 400);
 }, 1400);
 
+document.getElementById("degBtn").textContent = degMode ? "DEG" : "RAD";
+updateMemFlag();
 render();
 </script>
 </body>

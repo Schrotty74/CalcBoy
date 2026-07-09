@@ -20,11 +20,12 @@ A calculator in classic Nintendo style – built as a Progressive Web App in a s
 2. Tap the **Share icon** → **"Add to Home Screen"**
 3. CALC BOY now launches as a full-screen app
 
-## ✨ Features (v2.0)
+## ✨ Features (v2.1)
 
 - 6 console themes: Game Boy, GB Color, NES, Super NES, Switch, Famicom (THEME button) – your choice is remembered
 - 🕹️ **MATH ATTACK**: mental math against the clock (GAME button), 30 seconds, with high score
-- 🔬 **Scientific mode**: rotate to landscape for sin/cos/tan (DEG), log, ln, x², 1/x, xʸ, π, e
+- ➕ **Extended mode** (EXT button): memory (MC/MR/M+/M−), sin/cos/tan with DEG/RAD switch, log, ln, 10^x, e^x, x², x³, xʸ, ∛, 1/x, factorial, π, e
+- 🔬 **Scientific mode**: rotate to landscape for a quick-access function column
 - 📜 **History**: tap the display to see your last 10 calculations, tap an entry to reuse its result
 - Basic arithmetic, percent, sign toggle, square root
 - Boot animation and 8-bit sounds, mutable (SND button)
