@@ -1,3 +1,5 @@
+> 📋 **Neueste Änderungen:** Siehe [CHANGELOG.de.md](CHANGELOG.de.md).
+
 <p align="center">
   <img src="icon-512.png" width="128" height="128" alt="CALC BOY Icon">
 </p>

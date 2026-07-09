@@ -1,8 +1,10 @@
+> 📋 **Latest changes:** See [CHANGELOG.md](CHANGELOG.md).
+
 <p align="center">
   <img src="icon-512.png" width="128" height="128" alt="CALC BOY icon">
 </p>
 
-<h1 align="center">CALC BOY</
+<h1 align="center">CALC BOY</h1>
 
 <p align="center">
   🇩🇪 <a href="README.de.md">Deutsche Version</a>
