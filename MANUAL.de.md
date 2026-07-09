@@ -104,3 +104,21 @@ Alles wird ausschließlich lokal im Browser gespeichert: Theme, Sound, Verlauf, 
 - **Kein Ton beim allerersten Start:** Browser blockieren Audio vor der ersten Berührung – einmal eine beliebige Taste drücken.
 - **Alte Version nach einem Update:** Der Service Worker cached die App; App/Tab komplett schließen und neu öffnen, notfalls zweimal.
 - **Batterie-LED immer rot:** Die Battery-API gibt es nur in Chrome/Android. Auf dem iPhone bleibt die LED klassisch rot – wie beim originalen Game Boy.
+
+---
+
+## Neueste Änderungen
+
+### Finanzbereich
+- **INFO** zeigt jetzt eine kompakte Übersicht:
+  - Endwert
+  - Eingezahlter Gesamtbetrag
+  - Zinsertrag
+
+### iPhone-PWA
+- Verbesserte Safe-Area-Unterstützung, sodass die oberen Schaltflächen unter der Statusleiste erreichbar bleiben.
+
+> Falls in deiner Version enthalten:
+> - Formel-Assistent
+> - RPN-Modus
+> - Verlauf als PNG exportieren
