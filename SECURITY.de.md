@@ -2,7 +2,7 @@
 
 🇬🇧 [English version](SECURITY.md)
 
-CALC BOY wurde auf private Daten, externe Verbindungen und Tracking geprüft. Stand: Juli 2026, Version 2.0.
+CALC BOY wurde auf private Daten, externe Verbindungen und Tracking geprüft. Stand: Juli 2026, Version 2.2.
 
 ## Ergebnis der Prüfung
 
@@ -30,6 +30,8 @@ Die App fordert keine Berechtigungen an. Optional genutzt werden nur:
 
 - **Web Audio API** für die 8-Bit-Tastentöne (lokal erzeugt, abschaltbar)
 - **Vibration API** für haptisches Feedback, sofern das Gerät sie unterstützt
+- **Battery Status API** (wo der Browser sie anbietet) zum Einfärben der BATTERY-LED – wird nur lokal gelesen, nie übertragen
+- **Clipboard-/Web-Share-API** nur bei ausdrücklicher Nutzeraktion (Langdruck zum Kopieren, Teilen-Button im Verlauf)
 
 ## Sicherheitslücken melden
 

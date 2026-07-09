@@ -2,7 +2,7 @@
 
 🇩🇪 [Deutsche Version](SECURITY.de.md)
 
-CALC BOY has been audited for private data, external connections and tracking. As of: July 2026, version 2.0.
+CALC BOY has been audited for private data, external connections and tracking. As of: July 2026, version 2.2.
 
 ## Audit result
 
@@ -30,6 +30,8 @@ The app requests no permissions. Only these are used optionally:
 
 - **Web Audio API** for the 8-bit key sounds (generated locally, mutable)
 - **Vibration API** for haptic feedback, where the device supports it
+- **Battery Status API** (where the browser offers it) to color the BATTERY LED – read locally only, never transmitted
+- **Clipboard / Web Share API** only on explicit user action (long-press to copy, share button in the history)
 
 ## Reporting vulnerabilities
 

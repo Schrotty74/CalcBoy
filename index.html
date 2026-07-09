@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  CALC BOY v2.1 — Taschenrechner-PWA im Nintendo-Stil
+  CALC BOY v2.2 — Taschenrechner-PWA im Nintendo-Stil
   Copyright (C) 2026 Schrotty74
 
   This program is free software: you can redistribute it and/or modify
@@ -248,6 +248,8 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .boot span { animation: none; }
   .gameboy, .bezel, .lcd { transition: none; }
+  .lcd.swap { animation: none; }
+  .power .led.low { animation: none; opacity: .6; }
 }
 
 .power {
@@ -258,6 +260,20 @@ body {
   width: 8px; height: 8px; border-radius: 50%;
   background: radial-gradient(circle at 35% 35%, #ff8080, #c00);
   box-shadow: 0 0 6px #f00;
+}
+.power .led.ok  { background: radial-gradient(circle at 35% 35%, #9dff9d, #0a0); box-shadow: 0 0 6px #0c0; }
+.power .led.mid { background: radial-gradient(circle at 35% 35%, #ffe08a, #c90); box-shadow: 0 0 6px #fc0; }
+.power .led.low { animation: ledblink 1s step-start infinite; }
+@keyframes ledblink { 50% { opacity: .15; } }
+
+/* Cartridge-Wechsel beim Theme-Umschalten */
+.bezel { overflow: hidden; }
+.lcd.swap { animation: cartswap .55s ease-in-out; }
+@keyframes cartswap {
+  0% { transform: translateY(0); }
+  45% { transform: translateY(115%); }
+  55% { transform: translateY(115%); }
+  100% { transform: translateY(0); }
 }
 
 .brand {
@@ -326,11 +342,21 @@ button.extbtn { min-height: 48px; }
   gap: 10px;
   align-content: stretch;
 }
-.keys-ext button.fn { min-height: 52px; border-radius: 10px; font-size: .55rem; }
-.keys-ext button.eq { min-height: 48px; border-radius: 999px; }
-.keys-ext button.extbtn { border-radius: 999px; }
-.keypad.ext .keys { display: none; }
-.keypad.ext .keys-ext { display: grid; }
+.keys-ext button.fn, .keys-conv button.fn { min-height: 52px; border-radius: 10px; font-size: .55rem; }
+.keys-conv button.fn { font-size: .45rem; }
+.keys-ext button.eq, .keys-conv button.eq { min-height: 48px; border-radius: 999px; }
+.keys-ext button.extbtn, .keys-conv button.extbtn { border-radius: 999px; }
+.keys-conv {
+  flex: 1; display: none;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  align-content: stretch;
+}
+button.eq2 { grid-column: 3 / -1; }
+.keypad[data-page="ext"] .keys { display: none; }
+.keypad[data-page="ext"] .keys-ext { display: grid; }
+.keypad[data-page="conv"] .keys { display: none; }
+.keypad[data-page="conv"] .keys-conv { display: grid; }
 
 /* Speicher-Anzeige im LCD */
 .mflag {
@@ -376,8 +402,9 @@ button.extbtn { min-height: 48px; }
   button.fn { min-height: 30px; font-size: .5rem; }
   button.eq { min-height: 36px; font-size: .9rem; }
   button.sci { min-height: 0; font-size: .5rem; }
-  .keys-ext { gap: 7px; }
+  .keys-ext, .keys-conv { gap: 7px; }
   .keys-ext button.fn { min-height: 34px; font-size: .45rem; }
+  .keys-conv button.fn { min-height: 34px; font-size: .4rem; }
   .brand { display: none; }
   .power { display: none; }
 }
@@ -402,7 +429,7 @@ button.extbtn { min-height: 48px; }
           <div class="value" id="display">0</div>
           <div class="hist" id="hist"></div>
         </div>
-        <div class="power"><span class="led"></span> BATTERY</div>
+        <div class="power"><span class="led" id="led"></span> <span id="batTxt">BATTERY</span></div>
       </div>
       <div class="brand">CALC BOY<span>&#8482;</span></div>
     </div>
@@ -446,7 +473,7 @@ button.extbtn { min-height: 48px; }
         <button data-a="comma">,</button>
         <button class="op" data-a="op" data-op="+">+</button>
 
-        <button class="fn extbtn" data-a="ext">EXT</button>
+        <button class="fn extbtn" data-a="page" data-fn="ext">EXT</button>
         <button class="eq eq3" data-a="equals">=</button>
       </div>
 
@@ -476,8 +503,40 @@ button.extbtn { min-height: 48px; }
         <button class="fn" data-a="const" data-fn="pi">&#960;</button>
         <button class="fn" data-a="const" data-fn="e">e</button>
 
-        <button class="fn extbtn" data-a="ext">BASIC</button>
-        <button class="eq eq3" data-a="equals">=</button>
+        <button class="fn extbtn" data-a="page" data-fn="basic">BASIC</button>
+        <button class="fn extbtn" data-a="page" data-fn="conv">CONV</button>
+        <button class="eq eq2" data-a="equals">=</button>
+      </div>
+
+      <div class="keys-conv">
+        <button class="fn" data-a="conv" data-fn="km_mi">km&#8594;mi</button>
+        <button class="fn" data-a="conv" data-fn="mi_km">mi&#8594;km</button>
+        <button class="fn" data-a="conv" data-fn="m_ft">m&#8594;ft</button>
+        <button class="fn" data-a="conv" data-fn="ft_m">ft&#8594;m</button>
+
+        <button class="fn" data-a="conv" data-fn="c_f">&#176;C&#8594;&#176;F</button>
+        <button class="fn" data-a="conv" data-fn="f_c">&#176;F&#8594;&#176;C</button>
+        <button class="fn" data-a="conv" data-fn="kg_lb">kg&#8594;lb</button>
+        <button class="fn" data-a="conv" data-fn="lb_kg">lb&#8594;kg</button>
+
+        <button class="fn" data-a="conv" data-fn="cm_in">cm&#8594;in</button>
+        <button class="fn" data-a="conv" data-fn="in_cm">in&#8594;cm</button>
+        <button class="fn" data-a="conv" data-fn="l_gal">l&#8594;gal</button>
+        <button class="fn" data-a="conv" data-fn="gal_l">gal&#8594;l</button>
+
+        <button class="fn" data-a="conv" data-fn="kmh_mph">km/h&#8594;mph</button>
+        <button class="fn" data-a="conv" data-fn="mph_kmh">mph&#8594;km/h</button>
+        <button class="fn" data-a="conv" data-fn="h_min">h&#8594;min</button>
+        <button class="fn" data-a="conv" data-fn="min_h">min&#8594;h</button>
+
+        <button class="fn" data-a="conv" data-fn="vat19">MW+19</button>
+        <button class="fn" data-a="conv" data-fn="devat19">MW&#8722;19</button>
+        <button class="fn" data-a="conv" data-fn="vat7">MW+7</button>
+        <button class="fn" data-a="conv" data-fn="devat7">MW&#8722;7</button>
+
+        <button class="fn extbtn" data-a="page" data-fn="basic">BASIC</button>
+        <button class="fn extbtn" data-a="page" data-fn="ext">EXT</button>
+        <button class="eq eq2" data-a="equals">=</button>
       </div>
     </div>
   </div>
@@ -521,6 +580,7 @@ if ("serviceWorker" in navigator && location.protocol === "https:") {
 
 // ---------- Rechner-Logik ----------
 const lcdEl = document.getElementById("lcd");
+const gameboyEl = document.querySelector(".gameboy");
 const displayEl = document.getElementById("display");
 const exprEl = document.getElementById("expr");
 const histEl = document.getElementById("hist");
@@ -600,6 +660,28 @@ const SCI = {
   fact: factorial
 };
 const CONSTS = { pi: Math.PI, e: Math.E };
+const CONV = {
+  km_mi:  [v => v * 0.62137119224, "km \u2192 mi"],
+  mi_km:  [v => v * 1.609344, "mi \u2192 km"],
+  m_ft:   [v => v * 3.280839895, "m \u2192 ft"],
+  ft_m:   [v => v * 0.3048, "ft \u2192 m"],
+  c_f:    [v => v * 9 / 5 + 32, "\u00b0C \u2192 \u00b0F"],
+  f_c:    [v => (v - 32) * 5 / 9, "\u00b0F \u2192 \u00b0C"],
+  kg_lb:  [v => v * 2.2046226218, "kg \u2192 lb"],
+  lb_kg:  [v => v * 0.45359237, "lb \u2192 kg"],
+  cm_in:  [v => v / 2.54, "cm \u2192 in"],
+  in_cm:  [v => v * 2.54, "in \u2192 cm"],
+  l_gal:  [v => v * 0.2641720524, "l \u2192 gal (US)"],
+  gal_l:  [v => v * 3.785411784, "gal (US) \u2192 l"],
+  kmh_mph:[v => v * 0.62137119224, "km/h \u2192 mph"],
+  mph_kmh:[v => v * 1.609344, "mph \u2192 km/h"],
+  h_min:  [v => v * 60, "h \u2192 min"],
+  min_h:  [v => v / 60, "min \u2192 h"],
+  vat19:  [v => v * 1.19, "NETTO \u2192 BRUTTO 19%"],
+  devat19:[v => v / 1.19, "BRUTTO \u2192 NETTO 19%"],
+  vat7:   [v => v * 1.07, "NETTO \u2192 BRUTTO 7%"],
+  devat7: [v => v / 1.07, "BRUTTO \u2192 NETTO 7%"]
+};
 
 const actions = {
   digit(v) {
@@ -643,9 +725,18 @@ const actions = {
     current = roundResult(CONSTS[fnName]);
     justEvaluated = true;
   },
-  ext() {
+  page(_, __, target) {
     if (game) return;
-    document.querySelector(".keypad").classList.toggle("ext");
+    const kp = document.querySelector(".keypad");
+    if (target === "basic") delete kp.dataset.page;
+    else kp.dataset.page = target;
+  },
+  conv(_, __, fnName) {
+    if (current === "ERROR") return;
+    const c = CONV[fnName];
+    current = roundResult(c[0](parseFloat(current)));
+    justEvaluated = true;
+    flashExpr("\u00bb " + c[1]);
   },
   mem(_, __, fnName) {
     if (current === "ERROR" && fnName !== "mc" && fnName !== "mr") return;
@@ -686,6 +777,22 @@ function renderHist() {
   title.className = "h-title";
   title.textContent = "VERLAUF \u2013 TIPPEN = UEBERNEHMEN";
   histEl.appendChild(title);
+  if (history.length) {
+    const share = document.createElement("div");
+    share.className = "h-row";
+    share.textContent = "\u00bb TEILEN / EXPORT";
+    share.addEventListener("click", async (ev) => {
+      ev.stopPropagation();
+      const text = "CALC BOY \u2013 Verlauf\n" +
+        history.map(h => h.e + " = " + fmt(h.r)).join("\n");
+      try {
+        if (navigator.share) await navigator.share({ title: "CALC BOY", text });
+        else { await navigator.clipboard.writeText(text); flashExpr("\u00bb KOPIERT"); }
+        beep(1100, 0.07);
+      } catch (e) {}
+    });
+    histEl.appendChild(share);
+  }
   if (!history.length) {
     const em = document.createElement("div");
     em.className = "h-empty";
@@ -713,14 +820,47 @@ function toggleHist(on) {
   if (histOpen) renderHist();
   lcdEl.classList.toggle("show-hist", histOpen);
 }
-lcdEl.addEventListener("click", () => { if (!game) toggleHist(); });
+let pressTimer = null, longPressed = false;
+lcdEl.addEventListener("pointerdown", () => {
+  longPressed = false;
+  pressTimer = setTimeout(async () => {
+    longPressed = true;
+    try {
+      await navigator.clipboard.writeText(fmt(current));
+      flashExpr("\u00bb KOPIERT");
+      beep(1100, 0.07);
+    } catch (e) {
+      flashExpr("\u00bb KOPIEREN NICHT MOEGLICH");
+    }
+  }, 550);
+});
+["pointerup", "pointerleave", "pointercancel"].forEach(ev =>
+  lcdEl.addEventListener(ev, () => clearTimeout(pressTimer))
+);
+lcdEl.addEventListener("click", () => {
+  if (longPressed) { longPressed = false; return; }
+  if (!game && !pendingLevel) toggleHist();
+});
 
 // ---------- 8-Bit-Sound ----------
 let soundOn = saved.sound !== false;
 let audioCtx = null;
+const THEME_SOUND = {
+  "":           { wave: "square",   mult: 1 },
+  "color":      { wave: "square",   mult: 1.19 },
+  "nes":        { wave: "triangle", mult: 0.84 },
+  "snes":       { wave: "sawtooth", mult: 0.94 },
+  "switch":     { wave: "sine",     mult: 1.33 },
+  "famicom":    { wave: "square",   mult: 0.89 },
+  "virtualboy": { wave: "sawtooth", mult: 0.67 }
+};
+function curSound() {
+  return THEME_SOUND[gameboyEl.dataset.theme || ""] || THEME_SOUND[""];
+}
 function tone(freq, dur, when) {
   const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-  o.type = "square"; o.frequency.value = freq;
+  const s = curSound();
+  o.type = s.wave; o.frequency.value = freq * s.mult;
   const t = audioCtx.currentTime + (when || 0);
   g.gain.setValueAtTime(0.06, t);
   g.gain.exponentialRampToValueAtTime(0.001, t + dur);
@@ -769,7 +909,6 @@ const THEMES = [
 let vbUnlocked = saved.vbUnlocked === true;
 if (vbUnlocked) THEMES.push({ id: "virtualboy", name: "VIRTUAL BOY" });
 
-const gameboyEl = document.querySelector(".gameboy");
 function applyTheme(idx) {
   const t = THEMES[idx % THEMES.length];
   if (t.id) gameboyEl.dataset.theme = t.id;
@@ -789,13 +928,20 @@ function flashExpr(text, ms) {
   clearTimeout(themeTimer);
   themeTimer = setTimeout(render, ms || 1200);
 }
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 document.getElementById("themeBtn").addEventListener("click", () => {
   themeIdx = (themeIdx + 1) % THEMES.length;
-  const t = applyTheme(themeIdx);
-  store.save({ theme: t.id });
   toggleHist(false);
-  flashExpr("\u00bb " + t.name);
+  const doSwitch = () => {
+    const t = applyTheme(themeIdx);
+    store.save({ theme: t.id });
+    flashExpr("\u00bb " + t.name);
+  };
   beep(990, 0.06);
+  if (reduceMotion) { doSwitch(); return; }
+  lcdEl.classList.add("swap");
+  setTimeout(doSwitch, 270);
+  setTimeout(() => lcdEl.classList.remove("swap"), 600);
 });
 
 // ---------- Konami-Code: 8 8 2 2 4 6 4 6 - +  (oder Pfeile + B A) ----------
@@ -816,26 +962,47 @@ function konamiPush(token) {
   }
 }
 
-// ---------- MATH ATTACK (Spielmodus) ----------
+// ---------- MATH ATTACK (Spielmodus mit Leveln) ----------
 let game = null;
-let hiscore = Number.isFinite(saved.hiscore) ? saved.hiscore : 0;
+let pendingLevel = false;
+const LEVELS = { 1: "EASY", 2: "NORMAL", 3: "HARD" };
+let hiscores = (saved.hiscores && typeof saved.hiscores === "object") ? saved.hiscores : {};
+if (Number.isFinite(saved.hiscore)) { hiscores[2] = Math.max(hiscores[2] || 0, saved.hiscore); }
 const gameBtn = document.getElementById("gameBtn");
 
-function genQuestion() {
-  const ops = ["+", "-", "*", "/"];
-  const op = ops[Math.floor(Math.random() * 4)];
+function genQuestion(level) {
+  let ops = ["+", "-", "*", "/"];
+  if (level === 1) ops = ["+", "-"];
+  const op = ops[Math.floor(Math.random() * ops.length)];
   let a, b, ans;
-  if (op === "+") { a = rnd(2, 99); b = rnd(2, 99); ans = a + b; }
-  else if (op === "-") { a = rnd(10, 99); b = rnd(2, a); ans = a - b; }
-  else if (op === "*") { a = rnd(2, 12); b = rnd(2, 12); ans = a * b; }
-  else { b = rnd(2, 12); ans = rnd(2, 12); a = b * ans; }
+  if (level === 1) {
+    if (op === "+") { a = rnd(2, 20); b = rnd(2, 20); ans = a + b; }
+    else { a = rnd(5, 20); b = rnd(2, a); ans = a - b; }
+  } else if (level === 3) {
+    if (op === "+") { a = rnd(50, 999); b = rnd(50, 999); ans = a + b; }
+    else if (op === "-") { a = rnd(100, 999); b = rnd(50, a); ans = a - b; }
+    else if (op === "*") { a = rnd(6, 19); b = rnd(6, 19); ans = a * b; }
+    else { b = rnd(6, 19); ans = rnd(6, 19); a = b * ans; }
+  } else {
+    if (op === "+") { a = rnd(2, 99); b = rnd(2, 99); ans = a + b; }
+    else if (op === "-") { a = rnd(10, 99); b = rnd(2, a); ans = a - b; }
+    else if (op === "*") { a = rnd(2, 12); b = rnd(2, 12); ans = a * b; }
+    else { b = rnd(2, 12); ans = rnd(2, 12); a = b * ans; }
+  }
   return { text: a + " " + OPS[op] + " " + b, ans };
 }
 function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
-function startGame() {
+function showLevelSelect() {
+  pendingLevel = true;
   toggleHist(false);
-  game = { score: 0, time: 30, over: false, q: genQuestion() };
+  exprEl.textContent = "LEVEL WAEHLEN \u2013 AC = ZURUECK";
+  displayEl.textContent = "1 2 3";
+  displayEl.classList.remove("small", "tiny");
+}
+function startGame(level) {
+  pendingLevel = false;
+  game = { level, score: 0, time: 30, over: false, mistakes: 0, q: genQuestion(level) };
   current = "0";
   game.timer = setInterval(() => {
     game.time--;
@@ -848,8 +1015,11 @@ function startGame() {
 function endGame() {
   clearInterval(game.timer);
   game.over = true;
-  if (game.score > hiscore) { hiscore = game.score; store.save({ hiscore }); }
-  jingle([[440,.12,0],[330,.12,.14],[220,.25,.28]]);
+  game.perfect = game.mistakes === 0 && game.score > 0;
+  const l = game.level;
+  if (game.score > (hiscores[l] || 0)) { hiscores[l] = game.score; store.save({ hiscores }); }
+  if (game.perfect) jingle([[880,.08,0],[1100,.08,.09],[1320,.08,.18],[1760,.25,.27]]);
+  else jingle([[440,.12,0],[330,.12,.14],[220,.25,.28]]);
   renderGame();
 }
 function quitGame() {
@@ -860,8 +1030,8 @@ function quitGame() {
 }
 function renderGame() {
   if (game.over) {
-    exprEl.textContent = "GAME OVER \u2013 TASTE = ZURUECK";
-    displayEl.textContent = "S:" + game.score + " HI:" + hiscore;
+    exprEl.textContent = (game.perfect ? "PERFECT! " : "GAME OVER ") + LEVELS[game.level] + " \u2013 TASTE = ZURUECK";
+    displayEl.textContent = "S:" + game.score + " HI:" + (hiscores[game.level] || 0);
     displayEl.classList.add("small"); displayEl.classList.remove("tiny");
     return;
   }
@@ -880,16 +1050,19 @@ function handleGameKey(a) {
       game.score++;
       beep(1320, 0.09);
     } else {
+      game.mistakes++;
       beep(150, 0.2);
     }
-    game.q = genQuestion();
+    game.q = genQuestion(game.level);
     current = "0";
     renderGame();
   }
   return false;
 }
 gameBtn.addEventListener("click", () => {
-  if (game) quitGame(); else startGame();
+  if (game) { quitGame(); return; }
+  if (pendingLevel) { pendingLevel = false; render(); return; }
+  showLevelSelect();
 });
 
 // ---------- Eingabe ----------
@@ -898,6 +1071,15 @@ document.querySelectorAll(".keypad button").forEach(btn => {
     const a = btn.dataset.a;
     toggleHist(false);
     konamiPush(btn.dataset.op || btn.textContent);
+    if (pendingLevel) {
+      if (a === "digit" && ["1", "2", "3"].includes(btn.textContent)) {
+        beep(1100, 0.07);
+        startGame(Number(btn.textContent));
+      } else if (a === "clear") {
+        pendingLevel = false; beep(660); render();
+      }
+      return;
+    }
     if (game) {
       const passthrough = handleGameKey(a);
       if (!passthrough) return;
@@ -944,6 +1126,27 @@ setTimeout(() => {
 
 document.getElementById("degBtn").textContent = degMode ? "DEG" : "RAD";
 updateMemFlag();
+
+// ---------- Batterie-LED (nur wo die Battery-API existiert, z.B. Chrome/Android;
+// iOS Safari unterstuetzt sie nicht -> LED bleibt original-rot) ----------
+if (navigator.getBattery) {
+  navigator.getBattery().then((bat) => {
+    const led = document.getElementById("led");
+    const txt = document.getElementById("batTxt");
+    const upd = () => {
+      const p = Math.round(bat.level * 100);
+      txt.textContent = "BATTERY " + p + "%" + (bat.charging ? " \u26a1" : "");
+      led.classList.remove("ok", "mid", "low");
+      if (p > 50) led.classList.add("ok");
+      else if (p > 20) led.classList.add("mid");
+      else led.classList.add("low");
+    };
+    bat.addEventListener("levelchange", upd);
+    bat.addEventListener("chargingchange", upd);
+    upd();
+  }).catch(() => {});
+}
+
 render();
 </script>
 </body>
