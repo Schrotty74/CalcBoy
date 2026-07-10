@@ -14,6 +14,7 @@ All notable changes to **CALC BOY** are documented here. This file is the single
 - Improved iPhone PWA Safe Area handling: THEME, GAME and SND stay below the iOS status bar in installed (standalone) mode.
 - Page order is now BASIC → EXT → CONV → FIN → PRG → PLOT → FORM.
 - Documentation restructured: this changelog is the only version history; README links to it.
+- Manual completely rewritten: structured page by page like the app, with every single key explained individually (roles, formula, example); Gemini removed from the README AI links, prompts now point to the raw manual URL.
 
 ### Fixed
 - Variable-clear button on the FORM page was mislabeled VAR C (looked like a recall key); now labeled **CLR ABC**. DREI renamed to **DREISATZ**, and FORM keys use the smaller label font for readability.

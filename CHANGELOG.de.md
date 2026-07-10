@@ -14,6 +14,7 @@ Alle wichtigen Änderungen an **CALC BOY** werden hier dokumentiert. Diese Datei
 - Verbesserte iPhone-PWA-Safe-Area: THEME, GAME und SND bleiben im installierten (Standalone-)Modus unterhalb der iOS-Statusleiste.
 - Seitenreihenfolge ist jetzt BASIC → EXT → CONV → FIN → PRG → PLOT → FORM.
 - Dokumentation umstrukturiert: Dieses Änderungsprotokoll ist die einzige Versionshistorie; die README verlinkt darauf.
+- Handbuch komplett neu geschrieben: Seite für Seite wie die App gegliedert, jede einzelne Taste separat erklärt (Belegung, Formel, Beispiel); Gemini aus den README-KI-Links entfernt, Prompts zeigen jetzt auf die Raw-Manual-URL.
 
 ### Behoben
 - Die Variablen-Lösch-Taste der FORM-Seite war irreführend mit VAR C beschriftet (wirkte wie eine Abruf-Taste); jetzt **CLR ABC**. DREI in **DREISATZ** umbenannt, und FORM-Tasten nutzen die kleinere Beschriftungsschrift für bessere Lesbarkeit.
