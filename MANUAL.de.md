@@ -256,11 +256,11 @@ Snake-Spiel:
 
 ## Geheim-Theme freischalten
 
-Eingabe:
+Gib ein:
 
 `8 8 2 2 4 6 4 6 − +`
 
-Dadurch wird das Virtual-Boy-Theme freigeschaltet.
+Dadurch wird das Virtual-Boy-Theme freigeschaltet, dauerhaft lokal gespeichert und kann anschließend über die **THEME**-Taste ausgewählt werden.
 
 ## Lokale Speicherung
 

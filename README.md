@@ -30,7 +30,7 @@ The app supports the iPhone PWA Safe Area, so the top buttons stay reachable bel
 
 ## ✨ Features
 
-- 🎮 **7 console themes**: Game Boy, GB Color, NES, Super NES, Switch, Famicom, plus unlockable Virtual Boy.
+- 🎮 **6 console themes + 1 unlockable Virtual Boy theme**: Game Boy, GB Color, NES, Super NES, Switch and Famicom are available immediately. The Virtual Boy theme can be unlocked with the secret code.
 - 🧮 **Basic calculator**: arithmetic, smart percent logic, sign toggle and square root.
 - ➕ **Extended scientific page**: memory keys, trigonometry, DEG/RAD, logarithms, powers, roots, factorial, π and e.
 - 🔄 **Unit conversion page**: distance, temperature, weight, length, volume, speed, time and German VAT 19% / 7%.

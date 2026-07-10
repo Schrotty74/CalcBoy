@@ -260,7 +260,7 @@ Enter:
 
 `8 8 2 2 4 6 4 6 − +`
 
-This unlocks the Virtual Boy theme.
+This unlocks the Virtual Boy theme, stores it permanently in local storage and makes it available through the **THEME** button.
 
 ## Local storage
 

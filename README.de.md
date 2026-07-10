@@ -30,7 +30,7 @@ Die App unterstützt die iPhone-PWA-Safe-Area, damit die oberen Schaltflächen u
 
 ## ✨ Funktionen
 
-- 🎮 **7 Konsolen-Themes**: Game Boy, GB Color, NES, Super NES, Switch, Famicom plus freischaltbares Virtual Boy.
+- 🎮 **6 Konsolen-Themes + 1 freischaltbares Virtual-Boy-Theme**: Game Boy, GB Color, NES, Super NES, Switch und Famicom sind sofort verfügbar. Das Virtual-Boy-Theme kann über den Geheimcode freigeschaltet werden.
 - 🧮 **Basisrechner**: Grundrechenarten, smarte Prozentlogik, Vorzeichenwechsel und Quadratwurzel.
 - ➕ **Erweiterte wissenschaftliche Seite**: Speicherfunktionen, Trigonometrie, DEG/RAD, Logarithmen, Potenzen, Wurzeln, Fakultät, π und e.
 - 🔄 **Einheitenumrechnung**: Strecke, Temperatur, Gewicht, Länge, Volumen, Geschwindigkeit, Zeit und deutsche MwSt. 19% / 7%.
