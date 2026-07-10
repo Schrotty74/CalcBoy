@@ -217,11 +217,11 @@ Variables:
 - **SET B**: store current value as B
 - **SET C**: store current value as C
 - **INFO**: show current formula variables
-- **VAR C**: clear formula variables
+- **CLR ABC**: clear formula variables
 
 Formulas:
 - **% VON**: A percent of B
-- **DREI**: rule of three, `B × C / A`
+- **DREISATZ**: rule of three, `B × C / A`
 - **KREIS A**: circle area from radius A
 - **KREIS U**: circle circumference from radius A
 - **PYTH**: hypotenuse from A and B

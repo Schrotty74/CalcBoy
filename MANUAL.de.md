@@ -217,11 +217,11 @@ Variablen:
 - **SET B**: aktuellen Wert als B speichern
 - **SET C**: aktuellen Wert als C speichern
 - **INFO**: aktuelle Formelvariablen anzeigen
-- **VAR C**: Formelvariablen löschen
+- **CLR ABC**: alle Formelvariablen löschen
 
 Formeln:
 - **% VON**: A Prozent von B
-- **DREI**: Dreisatz, `B × C / A`
+- **DREISATZ**: Dreisatz, `B × C / A`
 - **KREIS A**: Kreisfläche mit Radius A
 - **KREIS U**: Kreisumfang mit Radius A
 - **PYTH**: Hypotenuse aus A und B
