@@ -243,6 +243,7 @@ def callout_md(kind: str, lang: str, text: str) -> str:
         "tip": ("💡 Tip", "💡 Tipp"),
         "important": ("⚠ Important", "⚠ Wichtig"),
         "privacy": ("🔒 Privacy", "🔒 Datenschutz"),
+        "good": ("✓ Good to know", "✓ Gut zu wissen"),
     }
     return f"> **{labels[kind][0 if lang == 'en' else 1]}:** {text}"
 
@@ -252,6 +253,7 @@ def callout_pdf(kind: str, lang: str, text: str, st):
         "tip": ("Tip", "Tipp"),
         "important": ("Important", "Wichtig"),
         "privacy": ("Privacy", "Datenschutz"),
+        "good": ("Good to know", "Gut zu wissen"),
     }
     return Paragraph(p(f"{labels[kind][0 if lang == 'en' else 1]}: {text}"), st["Boxx"])
 
@@ -390,11 +392,15 @@ class NumberedDoc(BaseDocTemplate):
 def styles():
     base = getSampleStyleSheet()
     base.add(ParagraphStyle(name="CoverTitle", parent=base["Title"], fontSize=30, leading=34, alignment=TA_CENTER, textColor=colors.HexColor("#222222"), spaceAfter=12))
-    base.add(ParagraphStyle(name="H1x", parent=base["Heading1"], fontSize=18, leading=22, textColor=colors.HexColor(COLORS["red"]), spaceBefore=11, spaceAfter=9))
-    base.add(ParagraphStyle(name="H2x", parent=base["Heading2"], fontSize=13, leading=16, textColor=colors.HexColor(COLORS["blue"]), spaceBefore=9, spaceAfter=5))
-    base.add(ParagraphStyle(name="Bodyx", parent=base["BodyText"], fontSize=9.2, leading=12.4, spaceAfter=5.5))
+    base.add(ParagraphStyle(name="H1x", parent=base["Heading1"], fontSize=19, leading=22.5, textColor=colors.HexColor(COLORS["red"]), spaceBefore=10, spaceAfter=7))
+    base.add(ParagraphStyle(name="H2x", parent=base["Heading2"], fontSize=11.8, leading=14, textColor=colors.HexColor(COLORS["blue"]), spaceBefore=8, spaceAfter=3.5))
+    base.add(ParagraphStyle(name="Bodyx", parent=base["BodyText"], fontSize=9.0, leading=12.0, spaceAfter=5))
+    base.add(ParagraphStyle(name="Introx", parent=base["BodyText"], fontSize=9.6, leading=12.4, textColor=colors.HexColor("#2b2b2e"), spaceAfter=5))
     base.add(ParagraphStyle(name="Smallx", parent=base["BodyText"], fontSize=8, leading=10.2))
-    base.add(ParagraphStyle(name="Boxx", parent=base["BodyText"], fontSize=8.5, leading=11.2, backColor=colors.HexColor("#f3efe4"), borderColor=colors.HexColor("#d2c8ae"), borderWidth=0.5, borderPadding=7, spaceBefore=5, spaceAfter=7))
+    base.add(ParagraphStyle(name="Tinyx", parent=base["BodyText"], fontSize=7.1, leading=8.4, textColor=colors.HexColor("#55514b")))
+    base.add(ParagraphStyle(name="Labelx", parent=base["BodyText"], fontSize=7.2, leading=8.2, textColor=colors.HexColor(COLORS["blue"]), spaceBefore=1, spaceAfter=1))
+    base.add(ParagraphStyle(name="ExampleTitlex", parent=base["BodyText"], fontSize=8.8, leading=10.2, textColor=colors.HexColor("#222222"), spaceAfter=1))
+    base.add(ParagraphStyle(name="Boxx", parent=base["BodyText"], fontSize=8.2, leading=10.4, backColor=colors.HexColor("#f3efe4"), borderColor=colors.HexColor("#d2c8ae"), borderWidth=0.5, borderPadding=5, spaceBefore=4, spaceAfter=5))
     return base
 
 
@@ -414,6 +420,19 @@ def img(path: Path, width=CONTENT_W * 0.45, max_height=86 * mm):
         height = max_height
         width = height / ratio
     return RLImage(str(path), width=width, height=height)
+
+
+def centered(flowable, width=CONTENT_W):
+    t = Table([[flowable]], colWidths=[width])
+    t.setStyle(TableStyle([
+        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 0),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+        ("TOPPADDING", (0, 0), (-1, -1), 1),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+    ]))
+    return t
 
 
 def table(rows, st, widths=None):
@@ -466,7 +485,19 @@ def button_table(buttons, lang, st, page_id=None):
         left = items[i]
         right = items[i + half] if i + half < len(items) else ["", ""]
         rows.append(left + right)
-    return compact_table(rows, st, [18 * mm, 60 * mm, 18 * mm, CONTENT_W - 96 * mm])
+    t = Table([[Paragraph(p(str(c)), st["Tinyx"]) for c in row] for row in rows], colWidths=[17 * mm, 60 * mm, 17 * mm, CONTENT_W - 94 * mm])
+    t.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#ebe5da")),
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.HexColor("#222222")),
+        ("LINEBELOW", (0, 0), (-1, 0), 0.35, colors.HexColor(COLORS["line"])),
+        ("LINEBELOW", (0, 1), (-1, -1), 0.25, colors.HexColor("#eee8dc")),
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 3.4),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 3.4),
+        ("TOPPADDING", (0, 0), (-1, -1), 1.3),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 1.3),
+    ]))
+    return t
 
 
 def examples_table(page_id: str, lang: str, st):
@@ -475,6 +506,89 @@ def examples_table(page_id: str, lang: str, st):
     return [
         Paragraph(label("example", lang) + "e" if lang == "de" else "Examples", st["H2x"]),
         compact_table(rows, st, [34 * mm, CONTENT_W - 34 * mm])
+    ]
+
+
+def example_parts(steps: str, lang: str) -> tuple[str, str, str]:
+    arrow = "->"
+    if arrow in steps:
+        before, after = steps.rsplit(arrow, 1)
+        action = before.strip(" ;")
+        result = after.strip(" ;")
+    elif "=" in steps:
+        before, after = steps.rsplit("=", 1)
+        action = before.strip(" ;")
+        result = after.strip(" ;")
+    else:
+        action = steps
+        result = "See display" if lang == "en" else "Anzeige ablesen"
+    input_label = "Input / action" if lang == "en" else "Eingabe / Aktion"
+    result_label = "Result" if lang == "en" else "Ergebnis"
+    body = f"<b>{input_label}</b><br/>{p(action)}<br/><b>{result_label}</b><br/>{p(result)}"
+    return action, result, body
+
+
+def examples_cards(page_id: str, lang: str, st):
+    cards = []
+    for name, steps in example_rows(page_id, lang):
+        _, _, body = example_parts(steps, lang)
+        cards.append([
+            Paragraph(p(name), st["ExampleTitlex"]),
+            Paragraph(body, st["Tinyx"]),
+        ])
+    rows = []
+    for i in range(0, len(cards), 2):
+        left = cards[i]
+        right = cards[i + 1] if i + 1 < len(cards) else ["", ""]
+        rows.append([
+            [left[0], Spacer(1, 1.5 * mm), left[1]],
+            [right[0], Spacer(1, 1.5 * mm), right[1]] if right[0] else "",
+        ])
+    card_table = Table(rows, colWidths=[(CONTENT_W - 6 * mm) / 2, (CONTENT_W - 6 * mm) / 2], hAlign="LEFT")
+    style = [
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#fbfaf6")),
+        ("BOX", (0, 0), (-1, -1), 0.35, colors.HexColor(COLORS["line"])),
+        ("INNERGRID", (0, 0), (-1, -1), 6, colors.white),
+        ("LEFTPADDING", (0, 0), (-1, -1), 7),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 7),
+        ("TOPPADDING", (0, 0), (-1, -1), 4),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+    ]
+    if len(cards) % 2:
+        style.append(("BACKGROUND", (1, -1), (1, -1), colors.white))
+        style.append(("BOX", (1, -1), (1, -1), 0, colors.white))
+    card_table.setStyle(TableStyle(style))
+    return [Paragraph(label("example", lang) + "e" if lang == "de" else "Examples", st["H2x"]), card_table]
+
+
+def workflow_block(page_id: str, lang: str, st):
+    details = page_detail(page_id, lang)
+    title = "Workflow" if lang == "en" else "Arbeitsablauf"
+    rows = []
+    for i, step in enumerate(details["how"], 1):
+        rows.append([
+            Paragraph(f"{'Step' if lang == 'en' else 'Schritt'} {i}", st["Labelx"]),
+            Paragraph(p(step), st["Smallx"]),
+        ])
+    t = Table(rows, colWidths=[23 * mm, CONTENT_W - 23 * mm], hAlign="LEFT")
+    t.setStyle(TableStyle([
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("LINEBEFORE", (1, 0), (1, -1), 0.5, colors.HexColor("#d2c8ae")),
+        ("LEFTPADDING", (0, 0), (-1, -1), 0),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+        ("TOPPADDING", (0, 0), (-1, -1), 2),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+    ]))
+    return [Paragraph(title, st["H2x"]), t]
+
+
+def page_intro_flow(page_id: str, lang: str, st):
+    details = page_detail(page_id, lang)
+    return [
+        Paragraph(p(details["overview"]), st["Introx"]),
+        *workflow_block(page_id, lang, st),
+        callout_pdf("good", lang, details["notes"][0], st),
     ]
 
 
@@ -653,7 +767,7 @@ def build_pdf(lang: str, kind: str, shots: dict[str, Path]):
         Paragraph("CALC BOY", st["CoverTitle"]),
         Paragraph(p(title), st["CoverTitle"]),
         Spacer(1, 4 * mm),
-        img(shots["basic"], CONTENT_W * 0.28, 60 * mm),
+        centered(img(shots["basic"], CONTENT_W * 0.30, 62 * mm)),
         Spacer(1, 5 * mm),
         Paragraph(p(f"Version {DATA['app']['version']} - {s['created']}"), st["Bodyx"]),
         Paragraph(p(s["toc"]), st["H1x"]),
@@ -662,33 +776,33 @@ def build_pdf(lang: str, kind: str, shots: dict[str, Path]):
     ]
     story += [Paragraph("Introduction" if lang == "en" else "Einleitung", st["H1x"]), Paragraph(p(s["intro"]), st["Bodyx"]), callout_pdf("tip", lang, "The display is interactive. Tap it for history; long-press it to copy the current result." if lang == "en" else "Das Display ist interaktiv. Tippen öffnet den Verlauf; langes Drücken kopiert das aktuelle Ergebnis.", st)]
     story += [Paragraph(p(s["install"]), st["H1x"]), bullet_list(s["install_steps"], st), Paragraph(p(s["offline"]), st["H2x"]), Paragraph(p(s["offline_text"]), st["Bodyx"]), callout_pdf("tip", lang, "After the first load, CALC BOY can open even without an internet connection." if lang == "en" else "Nach dem ersten Laden kannst du CALC BOY auch ohne Internetverbindung öffnen.", st)]
-    story += [Paragraph("First calculation" if lang == "en" else "Erste Rechnung", st["H1x"]), KeepTogether([img(shots["basic"], CONTENT_W * 0.38, 83 * mm), Paragraph(p("Example: 12 + 30 = shows 42 and adds the expression to history." if lang == "en" else "Beispiel: 12 + 30 = zeigt 42 und legt die Rechnung im Verlauf ab."), st["Bodyx"])])]
-    story += [Paragraph("History, copy and share" if lang == "en" else "Verlauf, Kopieren und Teilen", st["H1x"]), KeepTogether([img(shots["history"], CONTENT_W * 0.38, 83 * mm), Paragraph(p("The last ten successful calculations are saved. The history view also shows sum and average. Text and PNG export are available when the browser supports sharing or clipboard APIs." if lang == "en" else "Die letzten zehn erfolgreichen Rechnungen werden gespeichert. Der Verlauf zeigt auch Summe und Durchschnitt. Text- und PNG-Export nutzen Teilen- oder Zwischenablagefunktionen des Browsers."), st["Bodyx"])])]
+    story += [KeepTogether([Paragraph("First calculation" if lang == "en" else "Erste Rechnung", st["H1x"]), centered(img(shots["basic"], CONTENT_W * 0.42, 88 * mm)), Paragraph(p("Example: 12 + 30 = shows 42 and adds the expression to history." if lang == "en" else "Beispiel: 12 + 30 = zeigt 42 und legt die Rechnung im Verlauf ab."), st["Introx"])])]
+    story += [KeepTogether([Paragraph("History, copy and share" if lang == "en" else "Verlauf, Kopieren und Teilen", st["H1x"]), centered(img(shots["history"], CONTENT_W * 0.42, 88 * mm)), Paragraph(p("The last ten successful calculations are saved. The history view also shows sum and average. Text and PNG export are available when the browser supports sharing or clipboard APIs." if lang == "en" else "Die letzten zehn erfolgreichen Rechnungen werden gespeichert. Der Verlauf zeigt auch Summe und Durchschnitt. Text- und PNG-Export nutzen Teilen- oder Zwischenablagefunktionen des Browsers."), st["Introx"])])]
     if kind == "quick":
         rows = [[("Page" if lang == "en" else "Seite"), label("overview", lang)]] + [[x["title"], page_detail(x["id"], lang)["overview"]] for x in DATA["pages"]]
         story += [Paragraph("Calculator pages" if lang == "en" else "Rechnerseiten", st["H1x"]), table(rows, st, [28 * mm, CONTENT_W - 28 * mm])]
-        story += [Paragraph(p(s["themes"]), st["H1x"]), Paragraph(p(", ".join(DATA["themes"])), st["Bodyx"]), Paragraph(p(s["games"]), st["H1x"]), KeepTogether([img(shots["snake"], CONTENT_W * 0.38, 83 * mm), Paragraph(p("GAME opens the menu. Press 1, 2 or 3 for Math Attack levels, or 5 for Snake." if lang == "en" else "GAME öffnet das Menü. 1, 2 oder 3 startet Math Attack, 5 startet Snake."), st["Bodyx"])])]
+        story += [KeepTogether([
+            Paragraph(p(s["themes"]), st["H1x"]),
+            Paragraph(p(", ".join(DATA["themes"])), st["Bodyx"]),
+            Paragraph(p(s["games"]), st["H1x"]),
+            centered(img(shots["snake"], CONTENT_W * 0.42, 88 * mm)),
+            Paragraph(p("GAME opens the menu. Press 1, 2 or 3 for Math Attack levels, or 5 for Snake." if lang == "en" else "GAME öffnet das Menü. 1, 2 oder 3 startet Math Attack, 5 startet Snake."), st["Introx"]),
+        ])]
     else:
         for page in DATA["pages"]:
-            intro = Table(
-                [[img(shots[page["id"]], CONTENT_W * 0.22, 54 * mm), detail_box(page["id"], lang, st)]],
-                colWidths=[CONTENT_W * 0.30, CONTENT_W * 0.70]
-            )
-            intro.setStyle(TableStyle([
-                ("VALIGN", (0, 0), (-1, -1), "TOP"),
-                ("LEFTPADDING", (0, 0), (-1, -1), 0),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-                ("TOPPADDING", (0, 0), (-1, -1), 0),
-                ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
-            ]))
-            story += [PageBreak(), Paragraph(page["title"], st["H1x"]), intro]
-            story += examples_table(page["id"], lang, st)
+            story += [
+                PageBreak(),
+                Paragraph(page["title"], st["H1x"]),
+                centered(img(shots[page["id"]], CONTENT_W * 0.25, 54 * mm)),
+            ]
+            story += page_intro_flow(page["id"], lang, st)
+            story += examples_cards(page["id"], lang, st)
             if page["id"] in ("fin", "prg"):
                 story += [section_callout_pdf(page["id"], lang, st)]
             story += [Paragraph(p(label("buttons", lang)), st["H2x"]), button_table(page["buttons"], lang, st, page["id"])]
-        story += [PageBreak(), Paragraph("Plotting" if lang == "en" else "Graphen", st["H1x"]), KeepTogether([img(shots["plot_sin"], CONTENT_W * 0.38, 83 * mm), Paragraph(p("A plot replaces the LCD with a pixel graph. Press any non-plot key or tap the display to close it." if lang == "en" else "Ein Plot ersetzt das LCD durch einen Pixelgraphen. Jede andere Taste oder ein Tipp auf das Display schließt ihn."), st["Bodyx"])])]
-        story += [PageBreak(), Paragraph(p(s["games"]), st["H1x"]), KeepTogether([img(shots["snake"], CONTENT_W * 0.38, 83 * mm), Paragraph(p("Math Attack asks arithmetic questions for 30 seconds. Snake uses the number pad 2/4/6/8 or arrow keys and stores its own high score." if lang == "en" else "Math Attack stellt 30 Sekunden lang Kopfrechenaufgaben. Snake nutzt 2/4/6/8 oder Pfeiltasten und speichert einen eigenen Highscore."), st["Bodyx"])])]
-        story += [Paragraph("Landscape mode" if lang == "en" else "Querformat", st["H1x"]), KeepTogether([img(shots["landscape"], CONTENT_W * 0.50, 70 * mm), Paragraph(p("In landscape, the scientific shortcut column is visible beside BASIC, giving quick access to sin, cos, tan, log, ln, powers, pi and e." if lang == "en" else "Im Querformat erscheint neben BASIC eine Wissenschafts-Spalte mit sin, cos, tan, log, ln, Potenzen, pi und e."), st["Bodyx"])])]
+        story += [PageBreak(), Paragraph("Plotting" if lang == "en" else "Graphen", st["H1x"]), KeepTogether([centered(img(shots["plot_sin"], CONTENT_W * 0.44, 90 * mm)), Paragraph(p("A plot replaces the LCD with a pixel graph. Press any non-plot key or tap the display to close it." if lang == "en" else "Ein Plot ersetzt das LCD durch einen Pixelgraphen. Jede andere Taste oder ein Tipp auf das Display schließt ihn."), st["Introx"])])]
+        story += [PageBreak(), Paragraph(p(s["games"]), st["H1x"]), KeepTogether([centered(img(shots["snake"], CONTENT_W * 0.42, 88 * mm)), Paragraph(p("Math Attack asks arithmetic questions for 30 seconds. Snake uses the number pad 2/4/6/8 or arrow keys and stores its own high score." if lang == "en" else "Math Attack stellt 30 Sekunden lang Kopfrechenaufgaben. Snake nutzt 2/4/6/8 oder Pfeiltasten und speichert einen eigenen Highscore."), st["Introx"])])]
+        story += [Paragraph("Landscape mode" if lang == "en" else "Querformat", st["H1x"]), KeepTogether([centered(img(shots["landscape"], CONTENT_W * 0.54, 74 * mm)), Paragraph(p("In landscape, the scientific shortcut column is visible beside BASIC, giving quick access to sin, cos, tan, log, ln, powers, pi and e." if lang == "en" else "Im Querformat erscheint neben BASIC eine Wissenschafts-Spalte mit sin, cos, tan, log, ln, Potenzen, pi und e."), st["Introx"])])]
     story += [PageBreak(), Paragraph(p(s["keyboard"]), st["H1x"]), table([[label("key", lang), ("Action" if lang == "en" else "Aktion")]] + keyboard_rows(lang), st, [35 * mm, CONTENT_W - 35 * mm])]
     story += [
         Paragraph(p(s["storage"]), st["H1x"]),
