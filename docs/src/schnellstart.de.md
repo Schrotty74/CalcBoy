@@ -12,29 +12,31 @@ CALC BOY ist ein Taschenrechner im Stil klassischer Handheld-Konsolen. Dieses Ha
 
 ## Offline-Betrieb
 
-Nach dem ersten Online-Start speichert der Browser die App fuer spaeter. Danach kann CALC BOY auch ohne Verbindung starten, solange die Website-Daten nicht geloescht werden.
+Nach dem ersten Online-Start speichert der Browser die App für später. Danach kann CALC BOY auch ohne Verbindung starten, solange die Website-Daten nicht gelöscht werden.
+
+> **💡 Tipp:** Nach dem ersten Laden kannst du CALC BOY auch ohne Internetverbindung öffnen.
 
 ![BASIC](../assets/screenshots/basic.png)
 
-## Bedienueberblick
+## Bedienüberblick
 
-Mit EXT verlaesst du BASIC, mit MEHR wechselst du durch die Zusatzseiten, mit BASIC kehrst du zurueck.
+Mit EXT verlässt du BASIC, mit MEHR wechselst du durch die Zusatzseiten, mit BASIC kehrst du zurück.
 
 ### BASIC
 
 ![BASIC](../assets/screenshots/basic.png)
 
-Standardrechner fuer Grundrechenarten, Vorzeichen, Quadratwurzel und smarte Prozentrechnung.
+Standardrechner für Grundrechenarten, Vorzeichen, Quadratwurzel und smarte Prozentrechnung.
 
 **So verwendest du es**
 
-- Erste Zahl eingeben, Rechenzeichen waehlen, zweite Zahl eingeben und = druecken.
-- AC loescht Eingabe und laufende Rechnung. Nach ERROR beginnt die naechste Ziffer eine neue Eingabe.
-- LCD antippen oeffnet den Verlauf; langes Druecken kopiert das angezeigte Ergebnis.
+- Erste Zahl eingeben, Rechenzeichen wählen, zweite Zahl eingeben und = drücken.
+- AC löscht Eingabe und laufende Rechnung. Nach ERROR beginnt die nächste Ziffer eine neue Eingabe.
+- LCD antippen öffnet den Verlauf; langes Drücken kopiert das angezeigte Ergebnis.
 
 **Wichtige Details**
 
-- Die Prozent-Taste ist kontextabhaengig: Bei + oder - berechnet sie einen Prozentanteil des ersten Operanden.
+- Die Prozent-Taste ist kontextabhängig: Bei + oder - berechnet sie einen Prozentanteil des ersten Operanden.
 
 **Beispiele**
 
@@ -45,34 +47,34 @@ Standardrechner fuer Grundrechenarten, Vorzeichen, Quadratwurzel und smarte Proz
 
 ![EXT](../assets/screenshots/ext.png)
 
-Wissenschafts- und Speicherseite mit Trigonometrie, Logarithmen, Potenzen, Wurzeln, Fakultaet, pi und e.
+Wissenschafts- und Speicherseite mit Trigonometrie, Logarithmen, Potenzen, Wurzeln, Fakultät, pi und e.
 
 **So verwendest du es**
 
-- Bei direkten Funktionen wie sin, log, x^2 oder 1/x zuerst den Wert eingeben, dann die Funktion druecken.
-- Fuer x^y zuerst die Basis eingeben, x^y druecken, den Exponenten eingeben und = druecken.
-- Vor Trigonometrie DEG/RAD passend setzen. DEG wird gespeichert und ist die Voreinstellung, solange du sie nicht aenderst.
+- Bei direkten Funktionen wie sin, log, x^2 oder 1/x zuerst den Wert eingeben, dann die Funktion drücken.
+- Für x^y zuerst die Basis eingeben, x^y drücken, den Exponenten eingeben und = drücken.
+- Vor Trigonometrie DEG/RAD passend setzen. DEG wird gespeichert und ist die Voreinstellung, solange du sie nicht änderst.
 
 **Wichtige Details**
 
-- n! funktioniert nur fuer ganze Zahlen von 0 bis 170.
+- n! funktioniert nur für ganze Zahlen von 0 bis 170.
 
 **Beispiele**
 
 - **DEG/RAD:** DEG: 30 sin -> 0,5; RAD: pi sin -> etwa 0
-- **Speicher:** 42 M+, AC, MR -> 42; 10 M- laesst 32 im Speicher
+- **Speicher:** 42 M+, AC, MR -> 42; 10 M- lässt 32 im Speicher
 - **Potenzen:** 2 x^y 8 = -> 256
 
 ### CONV
 
 ![CONV](../assets/screenshots/conv.png)
 
-Direktumrechner fuer Strecke, Temperatur, Gewicht, Volumen, Geschwindigkeit, Zeit und deutsche Mehrwertsteuer.
+Direktumrechner für Strecke, Temperatur, Gewicht, Volumen, Geschwindigkeit, Zeit und deutsche Mehrwertsteuer.
 
 **So verwendest du es**
 
-- Ausgangswert eingeben und die passende Umrechnungstaste druecken.
-- Zum Zurueckrechnen die jeweilige Gegenrichtung verwenden.
+- Ausgangswert eingeben und die passende Umrechnungstaste drücken.
+- Zum Zurückrechnen die jeweilige Gegenrichtung verwenden.
 - MW+ behandelt den Wert als netto, MW- behandelt ihn als brutto.
 
 **Wichtige Details**
@@ -89,11 +91,11 @@ Direktumrechner fuer Strecke, Temperatur, Gewicht, Volumen, Geschwindigkeit, Zei
 
 ![FIN](../assets/screenshots/fin.png)
 
-Finanzhilfen fuer Zinseszins mit Monatsrate, Zinsertrag, Trinkgeld, Rechnung teilen und manuelle Waehrungsumrechnung.
+Finanzhilfen für Zinseszins mit Monatsrate, Zinsertrag, Trinkgeld, Rechnung teilen und manuelle Währungsumrechnung.
 
 **So verwendest du es**
 
-- K0, P%, Jahre und Monatsrate mit SET-Tasten speichern. ENDWERT berechnet den spaeteren Wert.
+- K0, P%, Jahre und Monatsrate mit SET-Tasten speichern. ENDWERT berechnet den späteren Wert.
 - ZINSEN zeigt nur den Ertrag: Endwert minus Startkapital und Einzahlungen.
 - Vor / PERS die Personenzahl setzen. Vor EUR->$ oder $->EUR den Kurs setzen.
 
@@ -106,7 +108,10 @@ Finanzhilfen fuer Zinseszins mit Monatsrate, Zinsertrag, Trinkgeld, Rechnung tei
 - **Zinseszins:** SET K0=1000, SET P%=3, SET JAHRE=10, SET RATE/M=50, ENDWERT -> 8336,42449101
 - **Nur Zinsen:** Mit denselben Werten: ZINSEN -> 1336,42449101
 - **Rechnung teilen:** SET PERS=4, 80 eingeben, / PERS -> 20
-- **Waehrung:** SET KURS=1,08, 100 EUR->$ -> 108; 108 $->EUR -> 100
+- **Währung:** SET KURS=1,08, 100 EUR->$ -> 108; 108 $->EUR -> 100
+
+> **⚠ Wichtig:** Finanzwerte bleiben gespeichert, bis du RESET drückst oder die Website-Daten löschst.
+
 
 ### PRG
 
@@ -118,17 +123,20 @@ Programmierfunktionen, Ganzzahl-Anzeige in anderen Zahlensystemen, Bitoperatoren
 
 - HEX, BIN und OCT zeigen den ganzzahligen Anteil des Displays in der Statuszeile.
 - AND, OR, XOR, MOD, << und >> sind Zweier-Operatoren: erster Wert, Operator, zweiter Wert, =.
-- RPN macht = zur Stapel-Taste: Wert eingeben, = druecken, zweiten Wert eingeben, dann Operator druecken.
+- RPN macht = zur Stapel-Taste: Wert eingeben, = drücken, zweiten Wert eingeben, dann Operator drücken.
 
 **Wichtige Details**
 
-- Fuer Bitoperationen und Zahlensystem-Anzeige wird nur der ganzzahlige Anteil verwendet.
+- Für Bitoperationen und Zahlensystem-Anzeige wird nur der ganzzahlige Anteil verwendet.
 
 **Beispiele**
 
 - **Zahlensysteme:** 255 ->HEX zeigt FF; ->BIN zeigt 11111111
 - **Bitoperationen:** 5 AND 3 = 1; 5 OR 2 = 7; 9 MOD 4 = 1
 - **RPN:** RPN an: 12 =, 3 + -> 15; AC leert den Stack
+
+> **⚠ Wichtig:** RPN ändert das Verhalten von =: Die Taste legt einen Wert auf den Stack, statt eine normale Rechnung abzuschließen.
+
 
 ### PLOT
 
@@ -138,9 +146,9 @@ Zeichnet 20 eingebaute Funktionsgraphen als Pixelgrafik im LCD.
 
 **So verwendest du es**
 
-- PLOT oeffnen und eine Funktion wie sin x, x^2 oder GAUSS druecken.
+- PLOT öffnen und eine Funktion wie sin x, x^2 oder GAUSS drücken.
 - Der Graph ersetzt kurz das LCD und skaliert sich automatisch.
-- Eine andere Taste druecken oder das Display antippen, um den Graphen zu schliessen.
+- Eine andere Taste drücken oder das Display antippen, um den Graphen zu schließen.
 
 **Wichtige Details**
 
@@ -148,7 +156,7 @@ Zeichnet 20 eingebaute Funktionsgraphen als Pixelgrafik im LCD.
 
 **Beispiele**
 
-- **Graph:** sin x zeichnet y = sin x; jede Nicht-Plot-Taste schliesst ihn
+- **Graph:** sin x zeichnet y = sin x; jede Nicht-Plot-Taste schließt ihn
 - **Vergleich:** x^2 und x^3 nutzen jeweils automatische Skalierung
 
 ### FORM
@@ -161,7 +169,7 @@ Formel-Assistent mit drei gespeicherten Variablen A, B und C.
 
 - Zahl eingeben und mit SET A, SET B oder SET C speichern.
 - INFO zeigt die gespeicherten Werte. CLR ABC setzt alle Variablen auf 0.
-- Formeltaste druecken; das Ergebnis erscheint im Display und wird in den Verlauf geschrieben.
+- Formeltaste drücken; das Ergebnis erscheint im Display und wird in den Verlauf geschrieben.
 
 **Wichtige Details**
 
@@ -176,7 +184,7 @@ Formel-Assistent mit drei gespeicherten Variablen A, B und C.
 
 ## Spiele
 
-GAME oeffnet das Menue. 1, 2 oder 3 startet Math Attack, 5 startet Snake.
+GAME öffnet das Menü. 1, 2 oder 3 startet Math Attack, 5 startet Snake.
 
 ## Tastatur
 
@@ -184,20 +192,22 @@ GAME oeffnet das Menue. 1, 2 oder 3 startet Math Attack, 5 startet Snake.
 - `, oder .` - Dezimalkomma
 - `+ - * /` - Grundrechenarten
 - `Enter oder =` - Berechnen
-- `Escape` - AC / loeschen
+- `Escape` - AC / löschen
 - `%` - Prozent
 - `r oder w` - Quadratwurzel
 - `Pfeiltasten` - Snake-Steuerung und Geheimcode-Eingabe
 
 ## Speicher und Datenschutz
 
-Alle Einstellungen bleiben lokal auf deinem Geraet. Es gibt keine Analysefunktionen, keine extern geladenen Schriften und keine automatische Wechselkursabfrage.
+> **🔒 Datenschutz:** Es werden keine Nutzungsdaten an externe Analyse- oder Schrift-Dienste gesendet.
+
+Alle Einstellungen bleiben lokal auf deinem Gerät. Es gibt keine Analysefunktionen, keine extern geladenen Schriften und keine automatische Wechselkursabfrage.
 
 Theme, Sound, Winkelmodus, Verlauf, Speicherwert, Finanzparameter, Wechselkurs, Personenzahl, RPN-Modus, RPN-Stack, Formelvariablen, Highscores, Virtual-Boy-Freischaltung
 
 ## Grenzen
 
-Die Offline-Funktion arbeitet nur nach einem ersten Start ueber die Website. Die Waehrungsumrechnung nutzt den gespeicherten manuellen Kurs und keine Live-Abfrage. Zahlensystem-Umrechnungen der PRG-Seite erscheinen in der Statuszeile und ersetzen nicht das Hauptdisplay. Teilen, Zwischenablage, Vibration und Batterieanzeige haengen vom Browser ab. Die App-Oberflaeche selbst ist deutsch.
+Die Offline-Funktion arbeitet nur nach einem ersten Start über die Website. Die Währungsumrechnung nutzt den gespeicherten manuellen Kurs und keine Live-Abfrage. Zahlensystem-Umrechnungen der PRG-Seite erscheinen in der Statuszeile und ersetzen nicht das Hauptdisplay. Teilen, Zwischenablage, Vibration und Batterieanzeige hängen vom Browser ab. Die App-Oberfläche selbst ist deutsch.
 
 ## Versionsinformation
 

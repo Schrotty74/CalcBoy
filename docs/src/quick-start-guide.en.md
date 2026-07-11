@@ -14,6 +14,8 @@ CALC BOY is a handheld-console-style calculator. This manual teaches the everyda
 
 After the first online launch, the browser keeps the app available for later. CALC BOY can then open without a connection as long as the site's stored data remains on the device.
 
+> **💡 Tip:** After the first load, CALC BOY can open even without an internet connection.
+
 ![BASIC](../assets/screenshots/basic.png)
 
 ## Interface overview
@@ -108,6 +110,9 @@ Finance helpers for compound interest with monthly savings, interest amount, tip
 - **Bill split:** SET PERS=4, enter 80, / PERS -> 20
 - **Currency:** SET KURS=1.08, 100 EUR->$ -> 108; 108 $->EUR -> 100
 
+> **⚠ Important:** Finance values remain stored until RESET or site data is cleared.
+
+
 ### PRG
 
 ![PRG](../assets/screenshots/prg.png)
@@ -129,6 +134,9 @@ Programmer functions, integer base display, bitwise operators, random number and
 - **Base display:** 255 ->HEX shows FF; ->BIN shows 11111111
 - **Binary operations:** 5 AND 3 = 1; 5 OR 2 = 7; 9 MOD 4 = 1
 - **RPN:** RPN on: 12 =, 3 + -> 15; AC clears the stack
+
+> **⚠ Important:** RPN changes how = behaves: it pushes a value onto the stack instead of finishing a normal calculation.
+
 
 ### PLOT
 
@@ -190,6 +198,8 @@ GAME opens the menu. Press 1, 2 or 3 for Math Attack levels, or 5 for Snake.
 - `arrow keys` - Snake direction and secret-code input
 
 ## Storage and Privacy
+
+> **🔒 Privacy:** No usage data is sent to external analytics or font services.
 
 All settings stay on your device. CALC BOY does not use analytics, does not load external fonts, and does not fetch live exchange rates.
 
