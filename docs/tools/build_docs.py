@@ -315,15 +315,25 @@ def project_table(lang: str, st):
         rows.append([Paragraph(p(key), st["Smallx"]), value_cell])
     t = Table(rows, colWidths=[54 * mm, CONTENT_W - 54 * mm])
     t.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e9e3d7")),
-        ("GRID", (0, 0), (-1, -1), 0.35, colors.HexColor(COLORS["line"])),
+        ("BACKGROUND", (0, 0), (0, -1), colors.HexColor("#f3efe4")),
+        ("ROWBACKGROUNDS", (1, 0), (1, -1), [colors.white, colors.HexColor("#fbfaf6")]),
+        ("BOX", (0, 0), (-1, -1), 0.5, colors.HexColor(COLORS["line"])),
+        ("LINEBELOW", (0, 0), (-1, -2), 0.35, colors.HexColor("#e7e1d5")),
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
-        ("LEFTPADDING", (0, 0), (-1, -1), 5),
-        ("RIGHTPADDING", (0, 0), (-1, -1), 5),
-        ("TOPPADDING", (0, 0), (-1, -1), 4.5),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 4.5),
+        ("LEFTPADDING", (0, 0), (-1, -1), 7),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 7),
+        ("TOPPADDING", (0, 0), (-1, -1), 6),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
     ]))
     return t
+
+
+def project_closing_note(lang: str, st):
+    text = (
+        "Use the project website for the live app. The GitHub repository contains the source code and GPL-3.0-or-later license; use Issues for bug reports and feature requests.",
+        "Über die Projektwebsite erreichst du die laufende App. Im GitHub-Repository findest du Quellcode und die Lizenz GPL-3.0-or-later; Fehler und Funktionswünsche meldest du über Issues.",
+    )
+    return callout_pdf("good", lang, text[0 if lang == "en" else 1], st)
 
 
 def markdown(lang: str, kind: str, shots: dict[str, Path]) -> str:
@@ -800,7 +810,15 @@ def build_pdf(lang: str, kind: str, shots: dict[str, Path]):
             if page["id"] in ("fin", "prg"):
                 story += [section_callout_pdf(page["id"], lang, st)]
             story += [Paragraph(p(label("buttons", lang)), st["H2x"]), button_table(page["buttons"], lang, st, page["id"])]
-        story += [PageBreak(), Paragraph("Plotting" if lang == "en" else "Graphen", st["H1x"]), KeepTogether([centered(img(shots["plot_sin"], CONTENT_W * 0.44, 90 * mm)), Paragraph(p("A plot replaces the LCD with a pixel graph. Press any non-plot key or tap the display to close it." if lang == "en" else "Ein Plot ersetzt das LCD durch einen Pixelgraphen. Jede andere Taste oder ein Tipp auf das Display schließt ihn."), st["Introx"])])]
+        story += [
+            PageBreak(),
+            Paragraph("Plotting" if lang == "en" else "Graphen", st["H1x"]),
+            centered(img(shots["plot_sin"], CONTENT_W * 0.44, 90 * mm)),
+            Paragraph(p(page_detail("plot", lang)["overview"]), st["Introx"]),
+            *workflow_block("plot", lang, st),
+            *examples_cards("plot", lang, st),
+            callout_pdf("tip", lang, "Press any non-plot key or tap the display to close the graph." if lang == "en" else "Jede Nicht-Plot-Taste oder ein Tipp auf das Display schließt den Graphen.", st),
+        ]
         story += [PageBreak(), Paragraph(p(s["games"]), st["H1x"]), KeepTogether([centered(img(shots["snake"], CONTENT_W * 0.42, 88 * mm)), Paragraph(p("Math Attack asks arithmetic questions for 30 seconds. Snake uses the number pad 2/4/6/8 or arrow keys and stores its own high score." if lang == "en" else "Math Attack stellt 30 Sekunden lang Kopfrechenaufgaben. Snake nutzt 2/4/6/8 oder Pfeiltasten und speichert einen eigenen Highscore."), st["Introx"])])]
         story += [Paragraph("Landscape mode" if lang == "en" else "Querformat", st["H1x"]), KeepTogether([centered(img(shots["landscape"], CONTENT_W * 0.54, 74 * mm)), Paragraph(p("In landscape, the scientific shortcut column is visible beside BASIC, giving quick access to sin, cos, tan, log, ln, powers, pi and e." if lang == "en" else "Im Querformat erscheint neben BASIC eine Wissenschafts-Spalte mit sin, cos, tan, log, ln, Potenzen, pi und e."), st["Introx"])])]
     story += [PageBreak(), Paragraph(p(s["keyboard"]), st["H1x"]), table([[label("key", lang), ("Action" if lang == "en" else "Aktion")]] + keyboard_rows(lang), st, [35 * mm, CONTENT_W - 35 * mm])]
@@ -819,7 +837,9 @@ def build_pdf(lang: str, kind: str, shots: dict[str, Path]):
         story += [
             PageBreak(),
             Paragraph("Project information" if lang == "en" else "Projektinformationen", st["H1x"]),
+            Paragraph(p("Links, Lizenz und Version auf einen Blick." if lang == "de" else "Links, license and version at a glance."), st["Introx"]),
             project_table(lang, st),
+            project_closing_note(lang, st),
         ]
     doc.build(story)
     return PDF_OUT / name
@@ -971,7 +991,7 @@ def example_rows(page_id: str, lang: str):
             "conv": [("VAT", "100 MW+19 -> 119; 119 MW-19 -> 100"), ("Temperature", "20 C->F -> 68; 68 F->C -> 20"), ("Speed", "100 km/h->mph -> 62.137119224")],
             "fin": [("Compound interest", "SET K0=1000, SET P%=3, SET JAHRE=10, SET RATE/M=50, ENDWERT -> 8336.42449101"), ("Interest only", "With the same values, ZINSEN -> 1336.42449101"), ("Bill split", "SET PERS=4, enter 80, / PERS -> 20"), ("Currency", "SET KURS=1.08, 100 EUR->$ -> 108; 108 $->EUR -> 100")],
             "prg": [("Base display", "255 ->HEX shows FF; ->BIN shows 11111111"), ("Binary operations", "5 AND 3 = 1; 5 OR 2 = 7; 9 MOD 4 = 1"), ("RPN", "RPN on: 12 =, 3 + -> 15; AC clears the stack")],
-            "plot": [("Graph", "sin x draws y = sin x; any non-plot key closes it"), ("Compare", "x^2 and x^3 use different automatic scales")],
+            "plot": [("sin x", "PLOT -> sin x -> y = sin x"), ("Compare", "PLOT -> x^2 or x^3 -> automatic scaling")],
             "form": [("Percent", "SET A=20, SET B=150, % VON -> 30"), ("Pythagoras", "SET A=3, SET B=4, PYTH -> 5"), ("BMI", "SET A=80, SET B=1.8, BMI -> 24.6913580247"), ("Net/gross", "SET A=119, NET19 -> 100; SET A=100, BRU19 -> 119")],
         }
     else:
@@ -981,7 +1001,7 @@ def example_rows(page_id: str, lang: str):
             "conv": [("Mehrwertsteuer", "100 MW+19 -> 119; 119 MW-19 -> 100"), ("Temperatur", "20 C->F -> 68; 68 F->C -> 20"), ("Geschwindigkeit", "100 km/h->mph -> 62,137119224")],
             "fin": [("Zinseszins", "SET K0=1000, SET P%=3, SET JAHRE=10, SET RATE/M=50, ENDWERT -> 8336,42449101"), ("Nur Zinsen", "Mit denselben Werten: ZINSEN -> 1336,42449101"), ("Rechnung teilen", "SET PERS=4, 80 eingeben, / PERS -> 20"), ("Währung", "SET KURS=1,08, 100 EUR->$ -> 108; 108 $->EUR -> 100")],
             "prg": [("Zahlensysteme", "255 ->HEX zeigt FF; ->BIN zeigt 11111111"), ("Bitoperationen", "5 AND 3 = 1; 5 OR 2 = 7; 9 MOD 4 = 1"), ("RPN", "RPN an: 12 =, 3 + -> 15; AC leert den Stack")],
-            "plot": [("Graph", "sin x zeichnet y = sin x; jede Nicht-Plot-Taste schließt ihn"), ("Vergleich", "x^2 und x^3 nutzen jeweils automatische Skalierung")],
+            "plot": [("sin x", "PLOT -> sin x -> y = sin x"), ("Vergleich", "PLOT -> x^2 oder x^3 -> automatische Skalierung")],
             "form": [("Prozent", "SET A=20, SET B=150, % VON -> 30"), ("Pythagoras", "SET A=3, SET B=4, PYTH -> 5"), ("BMI", "SET A=80, SET B=1,8, BMI -> 24,6913580247"), ("Netto/Brutto", "SET A=119, NET19 -> 100; SET A=100, BRU19 -> 119")],
         }
     return examples.get(page_id, [])
