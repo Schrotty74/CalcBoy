@@ -2,7 +2,7 @@
 
 Version: 3.1.0
 
-CALC BOY is a local-first PWA calculator styled after classic handheld consoles. This documentation describes the current source code for version 3.1.0.
+CALC BOY is a handheld-console-style calculator. This manual teaches the everyday workflows, explains when to use each page, and shows the results you should expect.
 
 ## Installation
 
@@ -12,7 +12,7 @@ CALC BOY is a local-first PWA calculator styled after classic handheld consoles.
 
 ## Offline Mode
 
-The service worker caches the app shell, index.html and icons under calcboy-v3.1.0. Registration runs only on HTTPS. After the first online launch, the app can start from cache.
+After the first online launch, the browser keeps the app available for later. CALC BOY can then open without a connection as long as the site's stored data remains on the device.
 
 ![BASIC](../assets/screenshots/basic.png)
 
@@ -122,7 +122,7 @@ Programmer functions, integer base display, bitwise operators, random number and
 
 **Important details**
 
-- Bitwise functions use JavaScript integer behaviour and truncate decimal parts.
+- Only the integer part of the number is used for bit operations and base display.
 
 **Examples**
 
@@ -191,13 +191,13 @@ GAME opens the menu. Press 1, 2 or 3 for Math Attack levels, or 5 for Snake.
 
 ## Storage and Privacy
 
-All data remains in browser localStorage. There is no analytics code, no external font request and no live exchange-rate API.
+All settings stay on your device. CALC BOY does not use analytics, does not load external fonts, and does not fetch live exchange rates.
 
 theme, sound, angle mode, history, memory, finance parameters, exchange rate, persons, RPN mode, RPN stack, formula variables, game high scores, Virtual Boy unlock
 
 ## Limitations
 
-Service worker registration only runs on HTTPS. The inline manifest has icons only when opened via HTTP or HTTPS. Currency conversion uses a manually stored rate and no live-rate API. Programmer base conversion displays the converted value in the status line; it does not replace the main display. Browser sharing, clipboard, vibration and battery display depend on browser support. The UI language inside the app is German.
+Offline use requires a first launch from the website. Currency conversion uses the manually stored rate and does not fetch live rates. Programmer base conversion appears in the status line and does not replace the main display. Sharing, clipboard, vibration and battery display depend on browser support. The in-app interface is German.
 
 ## Version Information
 

@@ -2,7 +2,7 @@
 
 Version: 3.1.0
 
-CALC BOY ist ein lokal laufender PWA-Taschenrechner im Stil klassischer Handheld-Konsolen. Diese Dokumentation beschreibt den aktuellen Quellcode der Version 3.1.0.
+CALC BOY ist ein Taschenrechner im Stil klassischer Handheld-Konsolen. Dieses Handbuch zeigt, wie du die Rechnerseiten im Alltag nutzt und welche Ergebnisse du erwarten kannst.
 
 ## Installation
 
@@ -12,7 +12,7 @@ CALC BOY ist ein lokal laufender PWA-Taschenrechner im Stil klassischer Handheld
 
 ## Offline-Betrieb
 
-Der Service Worker speichert App-Shell, index.html und Icons im Cache calcboy-v3.1.0. Die Registrierung erfolgt nur auf HTTPS. Nach dem ersten Online-Start kann die App aus dem Cache starten.
+Nach dem ersten Online-Start speichert der Browser die App fuer spaeter. Danach kann CALC BOY auch ohne Verbindung starten, solange die Website-Daten nicht geloescht werden.
 
 ![BASIC](../assets/screenshots/basic.png)
 
@@ -220,7 +220,7 @@ Programmierfunktionen, Ganzzahl-Anzeige in anderen Zahlensystemen, Bitoperatoren
 
 **Wichtige Details**
 
-- Bitfunktionen verwenden JavaScript-Ganzzahlen; Nachkommastellen werden abgeschnitten.
+- Fuer Bitoperationen und Zahlensystem-Anzeige wird nur der ganzzahlige Anteil verwendet.
 
 **Beispiele**
 
@@ -360,13 +360,13 @@ GAME oeffnet das Menue. 1, 2 oder 3 startet Math Attack, 5 startet Snake.
 
 ## Speicher und Datenschutz
 
-Alle Daten bleiben im Browser-localStorage. Es gibt keine Analytics, keine externen Schriftaufrufe und keine Live-Wechselkurs-API.
+Alle Einstellungen bleiben lokal auf deinem Geraet. Es gibt keine Analysefunktionen, keine extern geladenen Schriften und keine automatische Wechselkursabfrage.
 
 Theme, Sound, Winkelmodus, Verlauf, Speicherwert, Finanzparameter, Wechselkurs, Personenzahl, RPN-Modus, RPN-Stack, Formelvariablen, Highscores, Virtual-Boy-Freischaltung
 
 ## Grenzen
 
-Der Service Worker wird nur auf HTTPS registriert. Das Inline-Manifest enthaelt Icons nur bei HTTP oder HTTPS. Die Waehrungsumrechnung nutzt einen manuell gespeicherten Kurs und keine Live-API. Zahlensystem-Umrechnungen der PRG-Seite erscheinen in der Statuszeile und ersetzen nicht das Hauptdisplay. Teilen, Zwischenablage, Vibration und Batterieanzeige haengen vom Browser ab. Die App-Oberflaeche selbst ist deutsch.
+Die Offline-Funktion arbeitet nur nach einem ersten Start ueber die Website. Die Waehrungsumrechnung nutzt den gespeicherten manuellen Kurs und keine Live-Abfrage. Zahlensystem-Umrechnungen der PRG-Seite erscheinen in der Statuszeile und ersetzen nicht das Hauptdisplay. Teilen, Zwischenablage, Vibration und Batterieanzeige haengen vom Browser ab. Die App-Oberflaeche selbst ist deutsch.
 
 ## Versionsinformation
 

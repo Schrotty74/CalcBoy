@@ -187,13 +187,13 @@ STR = {
     "de": {
         "quick": "Schnellstart",
         "manual": "Benutzerhandbuch",
-        "intro": "CALC BOY ist ein lokal laufender PWA-Taschenrechner im Stil klassischer Handheld-Konsolen. Diese Dokumentation beschreibt den aktuellen Quellcode der Version 3.1.0.",
+        "intro": "CALC BOY ist ein Taschenrechner im Stil klassischer Handheld-Konsolen. Dieses Handbuch zeigt, wie du die Rechnerseiten im Alltag nutzt und welche Ergebnisse du erwarten kannst.",
         "install": "Installation",
         "install_steps": ["Live-Link in Safari oder Chrome öffnen.", "Über Teilen bzw. Browsermenü Zum Home-Bildschirm hinzufügen wählen.", "CALC BOY vom Home-Bildschirm starten. Im installierten Modus läuft die App im Vollbild."],
         "offline": "Offline-Betrieb",
-        "offline_text": "Der Service Worker speichert App-Shell, index.html und Icons im Cache calcboy-v3.1.0. Die Registrierung erfolgt nur auf HTTPS. Nach dem ersten Online-Start kann die App aus dem Cache starten.",
+        "offline_text": "Nach dem ersten Online-Start speichert der Browser die App fuer spaeter. Danach kann CALC BOY auch ohne Verbindung starten, solange die Website-Daten nicht geloescht werden.",
         "storage": "Speicher und Datenschutz",
-        "storage_text": "Alle Daten bleiben im Browser-localStorage. Es gibt keine Analytics, keine externen Schriftaufrufe und keine Live-Wechselkurs-API.",
+        "storage_text": "Alle Einstellungen bleiben lokal auf deinem Geraet. Es gibt keine Analysefunktionen, keine extern geladenen Schriften und keine automatische Wechselkursabfrage.",
         "limitations": "Grenzen",
         "trouble": "Fehlerbehebung",
         "keyboard": "Tastatur",
@@ -207,13 +207,13 @@ STR = {
     "en": {
         "quick": "Quick Start Guide",
         "manual": "User Manual",
-        "intro": "CALC BOY is a local-first PWA calculator styled after classic handheld consoles. This documentation describes the current source code for version 3.1.0.",
+        "intro": "CALC BOY is a handheld-console-style calculator. This manual teaches the everyday workflows, explains when to use each page, and shows the results you should expect.",
         "install": "Installation",
         "install_steps": ["Open the live link in Safari or Chrome.", "Use Share or the browser menu and choose Add to Home Screen.", "Launch CALC BOY from the home screen. Installed mode opens the app fullscreen."],
         "offline": "Offline Mode",
-        "offline_text": "The service worker caches the app shell, index.html and icons under calcboy-v3.1.0. Registration runs only on HTTPS. After the first online launch, the app can start from cache.",
+        "offline_text": "After the first online launch, the browser keeps the app available for later. CALC BOY can then open without a connection as long as the site's stored data remains on the device.",
         "storage": "Storage and Privacy",
-        "storage_text": "All data remains in browser localStorage. There is no analytics code, no external font request and no live exchange-rate API.",
+        "storage_text": "All settings stay on your device. CALC BOY does not use analytics, does not load external fonts, and does not fetch live exchange rates.",
         "limitations": "Limitations",
         "trouble": "Troubleshooting",
         "keyboard": "Keyboard",
@@ -454,8 +454,8 @@ def page_detail(page_id: str, lang: str) -> dict[str, list[str] | str]:
                 "AND, OR, XOR, MOD, << und >> sind Zweier-Operatoren: erster Wert, Operator, zweiter Wert, =.",
                 "RPN macht = zur Stapel-Taste: Wert eingeben, = druecken, zweiten Wert eingeben, dann Operator druecken."
             ]),
-            "notes": (["Bitwise functions use JavaScript integer behaviour and truncate decimal parts."],
-                      ["Bitfunktionen verwenden JavaScript-Ganzzahlen; Nachkommastellen werden abgeschnitten."])
+            "notes": (["Only the integer part of the number is used for bit operations and base display."],
+                      ["Fuer Bitoperationen und Zahlensystem-Anzeige wird nur der ganzzahlige Anteil verwendet."])
         },
         "plot": {
             "overview": ("Draws 20 built-in function graphs as pixel plots on the LCD.",
@@ -529,8 +529,8 @@ def storage_items(lang: str):
 
 def limitation_text(lang: str):
     if lang == "de":
-        return "Der Service Worker wird nur auf HTTPS registriert. Das Inline-Manifest enthaelt Icons nur bei HTTP oder HTTPS. Die Waehrungsumrechnung nutzt einen manuell gespeicherten Kurs und keine Live-API. Zahlensystem-Umrechnungen der PRG-Seite erscheinen in der Statuszeile und ersetzen nicht das Hauptdisplay. Teilen, Zwischenablage, Vibration und Batterieanzeige haengen vom Browser ab. Die App-Oberflaeche selbst ist deutsch."
-    return " ".join(DATA["limitations"])
+        return "Die Offline-Funktion arbeitet nur nach einem ersten Start ueber die Website. Die Waehrungsumrechnung nutzt den gespeicherten manuellen Kurs und keine Live-Abfrage. Zahlensystem-Umrechnungen der PRG-Seite erscheinen in der Statuszeile und ersetzen nicht das Hauptdisplay. Teilen, Zwischenablage, Vibration und Batterieanzeige haengen vom Browser ab. Die App-Oberflaeche selbst ist deutsch."
+    return "Offline use requires a first launch from the website. Currency conversion uses the manually stored rate and does not fetch live rates. Programmer base conversion appears in the status line and does not replace the main display. Sharing, clipboard, vibration and battery display depend on browser support. The in-app interface is German."
 
 
 def trouble_text(lang: str):
