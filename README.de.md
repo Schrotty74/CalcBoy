@@ -68,6 +68,16 @@ Ein Tipp öffnet einen KI-Chat, der zuerst die Anleitung liest und dann deine Fr
 
 ## 📖 Dokumentation
 
+- **PDF-Anleitungen**
+  - [Schnellstart Deutsch (PDF)](docs/output/pdf/CALC-BOY-schnellstart-de.pdf)
+  - [Vollständiges Benutzerhandbuch Deutsch (PDF)](docs/output/pdf/CALC-BOY-benutzerhandbuch-de.pdf)
+  - [Quick Start English (PDF)](docs/output/pdf/CALC-BOY-quick-start-guide-en.pdf)
+  - [Complete User Manual English (PDF)](docs/output/pdf/CALC-BOY-user-manual-en.pdf)
+- **Bearbeitbare Quellen**
+  - [Schnellstart Deutsch](docs/src/schnellstart.de.md)
+  - [Benutzerhandbuch Deutsch](docs/src/benutzerhandbuch.de.md)
+  - [Quick Start English](docs/src/quick-start-guide.en.md)
+  - [User Manual English](docs/src/user-manual.en.md)
 - [Anleitung](MANUAL.de.md)
 - [Änderungsprotokoll](CHANGELOG.de.md)
 - [Sicherheit & Datenschutz](SECURITY.de.md)

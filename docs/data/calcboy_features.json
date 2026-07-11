@@ -1,0 +1,75 @@
+{
+  "app": {
+    "name": "CALC BOY",
+    "version": "3.1.0",
+    "cache": "calcboy-v3.1.0",
+    "repository": "https://github.com/Schrotty74/CalcBoy",
+    "live_url": "https://schrotty74.github.io/CalcBoy/",
+    "author": "Schrotty74",
+    "license": "GPL-3.0-or-later"
+  },
+  "pages": [
+    {
+      "id": "basic",
+      "title": "BASIC",
+      "buttons": ["AC", "+/-", "%", "sqrt", "7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-", "0", ",", "+", "EXT", "="],
+      "notes": ["12 entered digits maximum", "German number format", "division by zero and invalid operations show ERROR"]
+    },
+    {
+      "id": "ext",
+      "title": "EXT",
+      "buttons": ["MC", "MR", "M+", "M-", "sin", "cos", "tan", "DEG/RAD", "log", "ln", "10^x", "e^x", "x^2", "x^3", "x^y", "cbrt", "1/x", "n!", "pi", "e", "BASIC", "MEHR", "="]
+    },
+    {
+      "id": "conv",
+      "title": "CONV",
+      "buttons": ["km->mi", "mi->km", "m->ft", "ft->m", "C->F", "F->C", "kg->lb", "lb->kg", "cm->in", "in->cm", "l->gal", "gal->l", "km/h->mph", "mph->km/h", "h->min", "min->h", "MW+19", "MW-19", "MW+7", "MW-7", "BASIC", "MEHR", "="]
+    },
+    {
+      "id": "fin",
+      "title": "FIN",
+      "buttons": ["SET K0", "SET P%", "SET JAHRE", "SET RATE/M", "INFO", "ENDWERT", "ZINSEN", "RESET", "TIP+10%", "TIP+15%", "TIP+20%", "SET PERS", "/ PERS", "SET KURS", "EUR->$", "$->EUR", "BASIC", "MEHR", "="],
+      "defaults": {"k0": 1000, "p": 3, "j": 10, "rate": 50, "persons": 2, "fx": 1.08}
+    },
+    {
+      "id": "prg",
+      "title": "PRG",
+      "buttons": ["->HEX", "->BIN", "->OCT", "NOT", "AND", "OR", "XOR", "MOD", "<<", ">>", "ABS", "INT", "SGN", "ZUFALL", "pi", "e", "RPN", "BASIC", "MEHR", "="],
+      "notes": ["Bitwise operators use the integer part of the displayed value", "ZUFALL returns an integer from 1 to 100", "RPN stores at most the latest 8 stack entries"]
+    },
+    {
+      "id": "plot",
+      "title": "PLOT",
+      "buttons": ["sin x", "cos x", "tan x", "x^2", "x^3", "sqrt x", "log x", "1/x", "e^x", "ln x", "|x|", "2^x", "sinh", "cosh", "tanh", "x^4", "GAUSS", "FLOOR", "sinc x", "x*sin x", "BASIC", "MEHR", "="]
+    },
+    {
+      "id": "form",
+      "title": "FORM",
+      "buttons": ["SET A", "SET B", "SET C", "INFO", "% VON", "DREISATZ", "KREIS A", "KREIS U", "PYTH", "OHM", "BMI", "AVG ABC", "CLR ABC", "KM/H", "NET19", "BRU19", "BASIC", "MEHR", "="]
+    }
+  ],
+  "themes": ["Game Boy", "GB Color", "NES", "Super NES", "Switch", "Famicom", "Virtual Boy (unlockable)"],
+  "games": [
+    {"name": "Math Attack", "levels": ["Easy", "Normal", "Hard"], "duration_seconds": 30, "menu_key": "1, 2 or 3"},
+    {"name": "Snake", "controls": "2/4/6/8 or arrow keys", "menu_key": "5"}
+  ],
+  "keyboard": [
+    ["0-9", "digits"],
+    [", or .", "decimal separator"],
+    ["+ - * /", "basic operators"],
+    ["Enter or =", "equals"],
+    ["Escape", "AC"],
+    ["%", "percent"],
+    ["r or w", "square root"],
+    ["arrow keys", "Snake direction and secret-code input"]
+  ],
+  "storage": ["theme", "sound", "angle mode", "history", "memory", "finance parameters", "exchange rate", "persons", "RPN mode", "RPN stack", "formula variables", "game high scores", "Virtual Boy unlock"],
+  "limitations": [
+    "Service worker registration only runs on HTTPS.",
+    "The inline manifest has icons only when opened via HTTP or HTTPS.",
+    "Currency conversion uses a manually stored rate and no live-rate API.",
+    "Programmer base conversion displays the converted value in the status line; it does not replace the main display.",
+    "Browser sharing, clipboard, vibration and battery display depend on browser support.",
+    "The UI language inside the app is German."
+  ]
+}

@@ -68,6 +68,16 @@ One tap opens an AI chat that reads the manual first and then answers your quest
 
 ## 📖 Documentation
 
+- **PDF guides**
+  - [Quick Start Guide (PDF)](docs/output/pdf/CALC-BOY-quick-start-guide-en.pdf)
+  - [Complete User Manual (PDF)](docs/output/pdf/CALC-BOY-user-manual-en.pdf)
+  - [German Quick Start (PDF)](docs/output/pdf/CALC-BOY-schnellstart-de.pdf)
+  - [German User Manual (PDF)](docs/output/pdf/CALC-BOY-benutzerhandbuch-de.pdf)
+- **Editable sources**
+  - [English Quick Start](docs/src/quick-start-guide.en.md)
+  - [English User Manual](docs/src/user-manual.en.md)
+  - [German Quick Start](docs/src/schnellstart.de.md)
+  - [German User Manual](docs/src/benutzerhandbuch.de.md)
 - [Manual](MANUAL.md)
 - [Changelog](CHANGELOG.md)
 - [Security & Privacy](SECURITY.md)
