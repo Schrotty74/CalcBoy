@@ -60,6 +60,7 @@
   --btn-dark: #3b3a38; --btn-dark-light: #4a4948; --btn-dark-shadow: #1f1e1d;
   --btn-start: #9a9689; --btn-start-light: #b3afa4; --btn-start-shadow: #6f6c61;
   --fn-text: #3a382f; --brand: #4a4740;
+  --function-label-size: .68rem;
 }
 .gameboy[data-theme="color"] {
   --shell: #6a54a8; --shell-dark: #55428c; --shell-shadow: #40316b;
@@ -337,7 +338,7 @@ button.op:active, button.op.pressed {
 }
 button.fn {
   background: linear-gradient(180deg, var(--btn-start-light), var(--btn-start));
-  color: var(--fn-text); font-size: .6rem;
+  color: var(--fn-text); font-size: var(--function-label-size);
   border-radius: 999px; min-height: 40px;
   box-shadow: 0 3px 0 var(--btn-start-shadow), inset 0 1px 0 rgba(255,255,255,.4);
 }
@@ -358,9 +359,9 @@ button.extbtn { min-height: 48px; border-radius: 999px; }
 
 .keys-ext button.fn, .keys-conv button.fn, .keys-fin button.fn, .keys-form button.fn,
 .keys-prg button.fn, .keys-plot button.fn, .keys-form button.fn {
-  min-height: 52px; border-radius: 10px; font-size: .55rem;
+  min-height: 52px; border-radius: 10px;
+  font-size: var(--function-label-size); line-height: 1.2;
 }
-.keys-conv button.fn, .keys-fin button.fn { font-size: .45rem; }
 .keys-ext button.extbtn, .keys-conv button.extbtn, .keys-fin button.extbtn,
 .keys-prg button.extbtn, .keys-plot button.extbtn, .keys-form button.extbtn { border-radius: 999px; }
 
@@ -442,6 +443,7 @@ button.extbtn { min-height: 48px; border-radius: 999px; }
     border-radius: 12px;
     padding: calc(10px + env(safe-area-inset-top)) 14px calc(12px + env(safe-area-inset-bottom));
     gap: 8px;
+    --function-label-size: .56rem;
   }
   .topline { display: none; }
   .main-wrap { flex-direction: row; gap: 14px; align-items: stretch; }
@@ -453,11 +455,14 @@ button.extbtn { min-height: 48px; border-radius: 999px; }
   .keypad[data-page] .sci-keys { display: none; }
   .keys, .keys-ext, .keys-conv, .keys-fin, .keys-prg, .keys-plot, .keys-form { gap: 7px; }
   button { min-height: 34px; font-size: .7rem; }
-  button.fn { min-height: 30px; font-size: .5rem; }
+  button.fn { min-height: 30px; font-size: var(--function-label-size); }
   button.eq { min-height: 36px; font-size: .9rem; }
-  button.sci { min-height: 0; font-size: .5rem; }
-  .keys-ext button.fn, .keys-prg button.fn, .keys-plot button.fn, .keys-form button.fn { min-height: 34px; font-size: .45rem; }
-  .keys-conv button.fn, .keys-fin button.fn { min-height: 34px; font-size: .4rem; }
+  button.sci { min-height: 0; font-size: var(--function-label-size); }
+  .keys-ext button.fn, .keys-conv button.fn, .keys-fin button.fn, .keys-prg button.fn,
+  .keys-plot button.fn, .keys-form button.fn {
+    min-height: 34px;
+    font-size: var(--function-label-size);
+  }
   .brand { display: none; }
   .power { display: none; }
 }
