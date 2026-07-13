@@ -293,6 +293,7 @@ body {
   grid-template-rows: repeat(6, 1fr);
   gap: 10px;
   align-content: stretch;
+  container-type: size;
 }
 /* Untere Navigationszeile immer in Reihe 6 verankern -> einheitliche Tastengroesse auf allen Seiten */
 button.extbtn, button.eq2, button.eq3 { grid-row: 6; }
@@ -363,23 +364,76 @@ button.extbtn { min-height: 48px; border-radius: 999px; }
 .keys-ext button.extbtn, .keys-conv button.extbtn, .keys-fin button.extbtn,
 .keys-prg button.extbtn, .keys-plot button.extbtn, .keys-form button.extbtn { border-radius: 999px; }
 
-.sound-toggle, .theme-toggle, .game-toggle {
-  position: absolute; top: calc(12px + env(safe-area-inset-top));
-  font-size: .45rem; letter-spacing: 1px;
+/* Runde Grundtasten passen sich stets der kleineren Rasterdimension an. */
+.keys > button.op, .keys > button.fn,
+.keys-ext > button.extbtn, .keys-conv > button.extbtn, .keys-fin > button.extbtn,
+.keys-prg > button.extbtn, .keys-plot > button.extbtn, .keys-form > button.extbtn {
+  width: min(calc(25cqw - 8px), calc(16.667cqh - 8px));
+  height: min(calc(25cqw - 8px), calc(16.667cqh - 8px));
+  min-height: 0;
+  place-self: center;
+  border-radius: 50%;
+}
+
+.top-menu {
+  position: absolute; top: calc(12px + env(safe-area-inset-top)); right: 18px;
+  z-index: 20;
+}
+.menu-toggle {
+  min-height: 0; width: 34px; height: 30px; padding: 0;
+  display: grid; place-items: center;
+  font-size: .9rem; line-height: 1;
   color: var(--fn-text);
   background: linear-gradient(180deg, var(--btn-start-light), var(--btn-start));
   border-radius: 999px;
-  min-height: 0; padding: 7px 12px;
   box-shadow: 0 2px 0 var(--btn-start-shadow), inset 0 1px 0 rgba(255,255,255,.4);
-  z-index: 2;
 }
-.sound-toggle { right: 18px; }
-.theme-toggle { left: 18px; }
-.game-toggle { left: 0; right: 0; margin: 0 auto; width: max-content; }
-.sound-toggle:active, .theme-toggle:active, .game-toggle:active {
+.menu-toggle:active, .menu-toggle[aria-expanded="true"] {
   transform: translateY(2px); box-shadow: 0 0 0 var(--btn-start-shadow);
 }
-.sound-toggle.off { opacity: .55; }
+.app-menu {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  width: min(238px, calc(100vw - 36px));
+  padding: 6px;
+  background: var(--shell);
+  border: 2px solid var(--shell-dark);
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.24);
+}
+.app-menu[hidden], .about-backdrop[hidden] { display: none; }
+.menu-action, .menu-link {
+  width: 100%; min-height: 36px; padding: 8px 10px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  color: var(--fn-text); text-decoration: none;
+  background: transparent; border-radius: 7px;
+  font-size: .7rem; letter-spacing: .2px; text-align: left;
+}
+.menu-action:hover, .menu-link:hover, .menu-action:focus-visible, .menu-link:focus-visible {
+  background: rgba(255,255,255,.18); outline: none;
+}
+.menu-value { color: var(--brand); font-size: .6rem; letter-spacing: .7px; }
+.menu-divider { height: 1px; margin: 5px 4px; background: var(--shell-dark); opacity: .45; }
+.about-backdrop {
+  position: fixed; inset: 0; z-index: 40;
+  display: grid; place-items: center; padding: 20px;
+  background: rgba(15, 18, 20, .46);
+}
+.about-panel {
+  width: min(330px, 100%); padding: 20px;
+  color: #3a382f; background: #d8d4c9;
+  border: 2px solid #8d897f; border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.24);
+}
+.about-panel h2 { margin: 0 0 4px; font-size: 1.1rem; letter-spacing: .4px; }
+.about-version { margin: 0 0 14px; color: #4a4740; font-size: .65rem; letter-spacing: .8px; }
+.about-panel p { margin: 0 0 10px; font-size: .76rem; line-height: 1.45; }
+.about-close {
+  display: block; margin: 14px 0 0 auto; min-height: 0; padding: 7px 13px;
+  color: #3a382f; background: linear-gradient(180deg, #b3afa4, #9a9689);
+  border-radius: 999px; font-size: .62rem; letter-spacing: .8px;
+  box-shadow: 0 2px 0 #6f6c61, inset 0 1px 0 rgba(255,255,255,.4);
+}
+.about-close:active { transform: translateY(2px); box-shadow: none; }
 
 /* ---------- Quermodus ---------- */
 @media (orientation: landscape) and (max-height: 560px) {
@@ -412,9 +466,18 @@ button.extbtn { min-height: 48px; border-radius: 999px; }
 <body>
 
 <div class="gameboy">
-  <button class="theme-toggle" id="themeBtn" aria-label="Theme wechseln">THEME</button>
-  <button class="game-toggle" id="gameBtn" aria-label="Spiel starten">GAME</button>
-  <button class="sound-toggle" id="soundBtn" aria-label="Sound an/aus">SND ON</button>
+  <div class="top-menu" id="topMenu">
+    <button class="menu-toggle" id="menuBtn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="appMenu">☰</button>
+    <div class="app-menu" id="appMenu" hidden>
+      <button class="menu-action" id="themeMenuBtn" type="button"><span>Theme</span><strong class="menu-value" id="themeMenuValue"></strong></button>
+      <button class="menu-action" id="gameMenuBtn" type="button"><span>Spiel</span><strong class="menu-value">START</strong></button>
+      <button class="menu-action" id="soundMenuBtn" type="button"><span>Sound</span><strong class="menu-value" id="soundMenuValue"></strong></button>
+      <div class="menu-divider"></div>
+      <button class="menu-action" id="aboutBtn" type="button"><span>Über CALC BOY</span><strong class="menu-value">INFO</strong></button>
+      <a class="menu-link" href="https://github.com/Schrotty74/CalcBoy" target="_blank" rel="noopener noreferrer"><span>GitHub</span><strong class="menu-value">↗</strong></a>
+      <a class="menu-link" href="https://discord.gg/RbsvqRCPQ" target="_blank" rel="noopener noreferrer"><span>Discord</span><strong class="menu-value">↗</strong></a>
+    </div>
+  </div>
   <div class="topline"></div>
 
   <div class="main-wrap">
@@ -649,6 +712,16 @@ button.extbtn { min-height: 48px; border-radius: 999px; }
       </div>
     </div>
   </div>
+</div>
+
+<div class="about-backdrop" id="aboutBackdrop" hidden>
+  <section class="about-panel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <h2 id="aboutTitle">CALC BOY</h2>
+    <p class="about-version">VERSION 3.1.0</p>
+    <p>Ein Taschenrechner im Stil klassischer Handheld-Konsolen, als installierbare Web-App.</p>
+    <p>Deine Einstellungen und Berechnungen bleiben auf deinem Gerät gespeichert.</p>
+    <button class="about-close" id="aboutClose" type="button">SCHLIESSEN</button>
+  </section>
 </div>
 
 <script>
@@ -1251,12 +1324,52 @@ function jingle(notes) {
   } catch (e) {}
 }
 
-const soundBtn = document.getElementById("soundBtn");
+const topMenu = document.getElementById("topMenu");
+const menuBtn = document.getElementById("menuBtn");
+const appMenu = document.getElementById("appMenu");
+const aboutBackdrop = document.getElementById("aboutBackdrop");
+const aboutBtn = document.getElementById("aboutBtn");
+const aboutClose = document.getElementById("aboutClose");
+
+function closeAppMenu() {
+  appMenu.hidden = true;
+  menuBtn.setAttribute("aria-expanded", "false");
+  menuBtn.setAttribute("aria-label", "Menü öffnen");
+}
+function openAppMenu() {
+  appMenu.hidden = false;
+  menuBtn.setAttribute("aria-expanded", "true");
+  menuBtn.setAttribute("aria-label", "Menü schließen");
+}
+menuBtn.addEventListener("click", () => appMenu.hidden ? openAppMenu() : closeAppMenu());
+document.addEventListener("pointerdown", ev => {
+  if (!topMenu.contains(ev.target)) closeAppMenu();
+});
+document.addEventListener("keydown", ev => {
+  if (ev.key === "Escape") {
+    closeAppMenu();
+    aboutBackdrop.hidden = true;
+  }
+});
+aboutBtn.addEventListener("click", () => {
+  closeAppMenu();
+  aboutBackdrop.hidden = false;
+  aboutClose.focus();
+});
+aboutClose.addEventListener("click", () => { aboutBackdrop.hidden = true; });
+aboutBackdrop.addEventListener("click", ev => {
+  if (ev.target === aboutBackdrop) aboutBackdrop.hidden = true;
+});
+appMenu.querySelectorAll("a").forEach(link => link.addEventListener("click", closeAppMenu));
+
+const soundBtn = document.getElementById("soundMenuBtn");
+const soundMenuValue = document.getElementById("soundMenuValue");
 function renderSoundBtn() {
-  soundBtn.textContent = soundOn ? "SND ON" : "SND OFF";
-  soundBtn.classList.toggle("off", !soundOn);
+  soundMenuValue.textContent = soundOn ? "AN" : "AUS";
+  soundBtn.setAttribute("aria-label", soundOn ? "Sound ausschalten" : "Sound einschalten");
 }
 soundBtn.addEventListener("click", () => {
+  closeAppMenu();
   soundOn = !soundOn;
   store.save({ sound: soundOn });
   renderSoundBtn();
@@ -1276,10 +1389,13 @@ const THEMES = [
 let vbUnlocked = saved.vbUnlocked === true;
 if (vbUnlocked) THEMES.push({ id: "virtualboy", name: "VIRTUAL BOY" });
 
+const themeMenuValue = document.getElementById("themeMenuValue");
+const themeMenuBtn = document.getElementById("themeMenuBtn");
 function applyTheme(idx) {
   const t = THEMES[idx % THEMES.length];
   if (t.id) gameboyEl.dataset.theme = t.id;
   else delete gameboyEl.dataset.theme;
+  themeMenuValue.textContent = t.name;
   return t;
 }
 let themeIdx = 0;
@@ -1296,7 +1412,8 @@ function flashExpr(text, ms) {
   themeTimer = setTimeout(render, ms || 1200);
 }
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-document.getElementById("themeBtn").addEventListener("click", () => {
+themeMenuBtn.addEventListener("click", () => {
+  closeAppMenu();
   if (snake) return;
   themeIdx = (themeIdx + 1) % THEMES.length;
   toggleHist(false);
@@ -1511,7 +1628,7 @@ let pendingLevel = false;
 const LEVELS = { 1: "EASY", 2: "NORMAL", 3: "HARD" };
 let hiscores = (saved.hiscores && typeof saved.hiscores === "object") ? saved.hiscores : {};
 if (Number.isFinite(saved.hiscore)) { hiscores[2] = Math.max(hiscores[2] || 0, saved.hiscore); }
-const gameBtn = document.getElementById("gameBtn");
+const gameBtn = document.getElementById("gameMenuBtn");
 
 function genQuestion(level) {
   let ops = ["+", "-", "*", "/"];
@@ -1603,6 +1720,7 @@ function handleGameKey(a) {
   return false;
 }
 gameBtn.addEventListener("click", () => {
+  closeAppMenu();
   if (snake) { quitSnake(); return; }
   if (game) { quitGame(); return; }
   if (pendingLevel) { pendingLevel = false; render(); return; }
