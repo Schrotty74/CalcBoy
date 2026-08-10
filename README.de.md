@@ -22,7 +22,13 @@
 ## 👀 Vorschau
 
 <p align="center">
-  <img src="docs/assets/screenshots/menu-closed.png" width="320" alt="CALC BOY BASIC Taschenrechner">
+  <a href="docs/assets/screenshots/menu-closed.png"><img src="docs/assets/screenshots/menu-closed.png" width="200" alt="CALC BOY BASIC Taschenrechner"></a>
+  <a href="docs/assets/screenshots/github-preview/ext.png"><img src="docs/assets/screenshots/github-preview/ext.png" width="200" alt="CALC BOY erweiterter wissenschaftlicher Rechner"></a>
+  <a href="docs/assets/screenshots/github-preview/conv.png"><img src="docs/assets/screenshots/github-preview/conv.png" width="200" alt="CALC BOY Einheitenumrechnung"></a>
+  <a href="docs/assets/screenshots/github-preview/fin.png"><img src="docs/assets/screenshots/github-preview/fin.png" width="200" alt="CALC BOY Finanzseite"></a>
+  <a href="docs/assets/screenshots/github-preview/prg.png"><img src="docs/assets/screenshots/github-preview/prg.png" width="200" alt="CALC BOY Programmiererseite"></a>
+  <a href="docs/assets/screenshots/github-preview/plot.png"><img src="docs/assets/screenshots/github-preview/plot.png" width="200" alt="CALC BOY Plot-Seite"></a>
+  <a href="docs/assets/screenshots/github-preview/form.png"><img src="docs/assets/screenshots/github-preview/form.png" width="200" alt="CALC BOY Formel-Assistent"></a>
 </p>
 
 ## 📱 Als App aufs iPhone
