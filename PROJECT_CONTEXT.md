@@ -1,6 +1,6 @@
 # CALC BOY – Projektkontext
 
-**Stand:** 2026-07-23  
+**Stand:** 2026-08-10
 **Zweck:** Diese Datei ist die zentrale Einstiegshilfe für neue Chats und nach einer Neuinstallation. Sie beschreibt den belegten Projektstand, keine Produkt-Roadmap.
 
 ## Zuerst lesen
@@ -26,6 +26,7 @@ CALC BOY ist eine deutschsprachige, installierbare Taschenrechner-PWA im Stil kl
 - `docs/src/`: Bearbeitbare Markdown-Quellen für deutsch- und englischsprachigen Schnellstart sowie Handbuch.
 - `docs/assets/screenshots/`: Dokumentationsbilder.
 - `docs/tools/build_docs.py`: Erzeugt Dokumentationsbilder, Markdown und PDFs.
+- `docs/requirements.txt`: Versionierte Python-Abhängigkeiten für den Dokumentations-Build.
 - `docs/output/pdf/`: Erzeugte PDFs.
 
 Es gibt keine gefundenen Paketmanifeste, Lockfiles, CI-Konfigurationen oder automatisierten Anwendungstests im Repository. Eine nicht vorhandene Konfiguration nicht als bestehend voraussetzen.
@@ -51,10 +52,12 @@ Die fachlichen Bedienungsdetails stehen in den Handbüchern, nicht zusätzlich i
 Die Anwendung selbst benötigt keinen Build-Schritt. Für die Dokumentation ist der vorhandene Generator vorgesehen:
 
 ```sh
-python3 docs/tools/build_docs.py
+python3 -m venv docs/.venv
+docs/.venv/bin/python -m pip install -r docs/requirements.txt
+docs/.venv/bin/python docs/tools/build_docs.py
 ```
 
-Der Generator importiert `reportlab`, `Pillow` und `pypdf`. Diese Python-Pakete sind projektgebundene Build-Abhängigkeiten; es gibt dafür keine im Repository versionierte Abhängigkeitsdatei. Nicht automatisch global installieren oder aktualisieren. Vor einem Dokumentations-Build zuerst die lokale Python-Umgebung und die vorhandenen Pakete prüfen.
+Der Generator importiert `reportlab`, `Pillow` und `pypdf`. Diese Python-Pakete sind projektgebundene Build-Abhängigkeiten und in `docs/requirements.txt` festgehalten. Die lokale Umgebung `docs/.venv/` ist absichtlich nicht versioniert. Nicht automatisch global installieren oder aktualisieren.
 
 Vor jeder neuen App-Arbeit außerdem Projekt-Dokumentation, Manifeste, Lockfiles, Build-Skripte und CI-Konfiguration lesen. Allgemein wiederverwendbare Werkzeuge nur als Vorschlag mit Zweck, Quelle, offiziellem Installationsweg und Verifikation dokumentieren. Projektgebundene oder lockfile-gesteuerte Abhängigkeiten nicht global aufnehmen. Zugangsdaten und Zertifikate niemals automatisch anlegen oder speichern.
 
@@ -71,11 +74,10 @@ Vor jeder neuen App-Arbeit außerdem Projekt-Dokumentation, Manifeste, Lockfiles
 
 - Offline-Betrieb erfordert einen ersten erfolgreichen Aufruf über HTTPS. Browser-Funktionen wie Teilen, Zwischenablage, Vibration und Batterieanzeige sind abhängig von der Plattform.
 - Die App-Oberfläche ist deutsch; die Dokumentation liegt zusätzlich auf Englisch vor.
-- Der aktuelle Menüaufbau in `index.html` ersetzt die früheren einzelnen THEME-, GAME- und SND-Kopfbuttons. Mehrere bestehende Handbuchtexte und der Dokumentations-Screenshot-Generator beschreiben bzw. zeichnen noch die frühere Kopfbutton-Anordnung. Diese Dokumentationsabweichung ist in [NEXT_STEPS.md](NEXT_STEPS.md) festgehalten.
+- Die Dokumentation beschreibt das aktuelle Kopfmenü. Die beiden Ansichten `menu-closed.png` und `menu-open.png` werden vom Generator in alle vier Handbücher eingebunden.
 - Die Sicherheitsdokumente nennen einen älteren Audit-Stand. Eine erneute Sicherheitsprüfung wurde in diesem Arbeitsgang nicht durchgeführt.
 
 ## Unbekannt oder nicht geprüft
 
-- Es ist nicht belegt, welche Python-Umgebung die Dokumentationsabhängigkeiten aktuell bereitstellt.
 - Es ist nicht belegt, ob außerhalb dieses Repositorys eine CI-Pipeline oder ein Hosting-Workflow konfiguriert ist.
 - Es wurde in diesem Arbeitsgang kein vollständiger manueller Browser-Test aller Rechnerseiten ausgeführt.

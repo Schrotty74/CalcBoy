@@ -8,7 +8,7 @@ CALC BOY is a calculator PWA in classic Nintendo style. This manual mirrors the 
 
 1. [Getting started](#getting-started)
 2. [Operating concept](#operating-concept)
-3. [The three top buttons](#the-three-top-buttons)
+3. [Menu](#menu)
 4. [The display (LCD)](#the-display-lcd)
 5. [BASIC page](#basic-page)
 6. [EXT page (scientific)](#ext-page-scientific)
@@ -32,7 +32,7 @@ A short boot animation plays on startup. Numbers use the German format: comma as
 
 ## Operating concept
 
-The app has three areas: the **pill buttons on top** (THEME, GAME, SND), the **LCD** and the **keypad**. The keypad has seven pages:
+The app has three areas: the round **☰ menu button** in the top-right corner, the **LCD** and the **keypad**. The keypad has seven pages:
 
 `BASIC → EXT → CONV → FIN → PRG → PLOT → FORM → BASIC`
 
@@ -41,13 +41,15 @@ The app has three areas: the **pill buttons on top** (THEME, GAME, SND), the **L
 - **BASIC** (on every extra page) returns to the standard keypad.
 - **=** works on every page.
 
-## The three top buttons
+## Menu
 
-**THEME** (left) – switches to the next console look. Six themes are available: Game Boy (default), GB Color, NES, Super NES, Switch and Famicom; a seventh (Virtual Boy) is unlockable (see [Secret theme unlock](#secret-theme-unlock)). The name flashes in the LCD, switching plays a cartridge-swap animation, and each theme has its own key sound (NES darker, Switch brighter etc.). Your choice is saved.
+Tap the round **☰** button in the top-right corner to open the menu. It keeps settings, games and project links out of the way until you need them.
 
-**GAME** (center) – opens the game menu (see [Games](#games)). During a running game the button quits the game.
-
-**SND** (right) – toggles the 8-bit key sounds on (SND ON) or off (SND OFF, button dims). Saved.
+- **Theme** – switches to the next console look and shows the active theme. Six themes are available: Game Boy (default), GB Color, NES, Super NES, Switch and Famicom; a seventh (Virtual Boy) is unlockable (see [Secret theme unlock](#secret-theme-unlock)). The selection is saved.
+- **Spiel** – opens the game selection (see [Games](#games)). Selecting it while a game is running quits that game.
+- **Sound** – toggles the 8-bit key sounds on or off. The setting is saved.
+- **Über CALC BOY** – shows the version and the local-storage privacy note.
+- **GitHub / Discord** – open the project repository or Discord community in a new tab.
 
 ## The display (LCD)
 
@@ -225,7 +227,7 @@ Every formula result goes to the history; the status line briefly shows the vari
 
 ## Games
 
-**GAME** opens the menu: `1`, `2` or `3` starts MATH ATTACK at that level, `5` starts SNAKE, `AC` cancels.
+Open **☰**, choose **Spiel**, then select `1`, `2` or `3` to start MATH ATTACK at that level, or `5` to start SNAKE. **AC** cancels.
 
 **MATH ATTACK** – 30 seconds of mental arithmetic. The task appears in the status line, type the answer, press **=**. Correct = 1 point; wrong counts as a mistake; either way the next task appears immediately. The status line shows remaining time (T) and score (S).
 - Level 1 **EASY**: only + and − with small numbers (up to 20).
@@ -233,7 +235,7 @@ Every formula result goes to the history; the status line briefly shows the vari
 - Level 3 **HARD**: + − up to 999, × ÷ up to 19.
 - Each level keeps its **own high score**. A round **without a single mistake** ends with **PERFECT!** and its own jingle. **AC** quits early.
 
-**SNAKE** – the classic on the LCD. Controls: **8** = up, **2** = down, **4** = left, **6** = right (or arrow keys). Eating food grows the snake, and the speed increases with every bite. Walls or your own tail end the game; the high score is saved. **AC** or **GAME** quits.
+**SNAKE** – the classic on the LCD. Controls: **8** = up, **2** = down, **4** = left, **6** = right (or arrow keys). Eating food grows the snake, and the speed increases with every bite. Walls or your own tail end the game; the high score is saved. **AC** or **☰ → Spiel** quits.
 
 ## Landscape mode
 
@@ -249,7 +251,7 @@ Enter:
 
 `8 8 2 2 4 6 4 6 − +`
 
-This unlocks the Virtual Boy theme, stores it permanently in local storage and makes it available through the **THEME** button.
+This unlocks the Virtual Boy theme, stores it permanently in local storage and makes it available through **☰ → Theme**.
 
 ## Storage & privacy
 

@@ -8,7 +8,7 @@ CALC BOY ist eine Taschenrechner-PWA im klassischen Nintendo-Stil. Dieses Handbu
 
 1. [Erste Schritte](#erste-schritte)
 2. [Bedienkonzept](#bedienkonzept)
-3. [Die drei Tasten oben](#die-drei-tasten-oben)
+3. [Menü](#menü)
 4. [Das Display (LCD)](#das-display-lcd)
 5. [BASIC-Seite](#basic-seite)
 6. [EXT-Seite (wissenschaftlich)](#ext-seite-wissenschaftlich)
@@ -32,7 +32,7 @@ Beim Start läuft eine kurze Boot-Animation. Zahlen werden im deutschen Format a
 
 ## Bedienkonzept
 
-Die App besteht aus drei Bereichen: den **Pill-Tasten oben** (THEME, GAME, SND), dem **LCD** und dem **Tastenfeld**. Das Tastenfeld hat sieben Seiten:
+Die App besteht aus drei Bereichen: der runden **☰-Menütaste** oben rechts, dem **LCD** und dem **Tastenfeld**. Das Tastenfeld hat sieben Seiten:
 
 `BASIC → EXT → CONV → FIN → PRG → PLOT → FORM → BASIC`
 
@@ -41,13 +41,15 @@ Die App besteht aus drei Bereichen: den **Pill-Tasten oben** (THEME, GAME, SND),
 - **BASIC** (auf jeder Zusatzseite) kehrt zum Standard-Tastenfeld zurück.
 - **=** funktioniert auf jeder Seite.
 
-## Die drei Tasten oben
+## Menü
 
-**THEME** (links) – schaltet zum nächsten Konsolen-Look. Verfügbar sind sechs Themes: Game Boy (Standard), GB Color, NES, Super NES, Switch und Famicom; ein siebtes (Virtual Boy) ist freischaltbar (siehe [Geheim-Theme](#geheim-theme-freischalten)). Der Name erscheint kurz im LCD, der Wechsel spielt eine Cartridge-Animation, und jedes Theme hat einen eigenen Tastenklang (z. B. NES dumpfer, Switch heller). Die Auswahl wird gespeichert.
+Die runde **☰-Taste** oben rechts öffnet das Menü. Einstellungen, Spiele und Projektlinks bleiben so aus dem Weg, bis du sie brauchst.
 
-**GAME** (Mitte) – öffnet das Spielemenü (siehe [Spiele](#spiele)). Während eines laufenden Spiels beendet die Taste das Spiel.
-
-**SND** (rechts) – schaltet die 8-Bit-Tastentöne ein (SND ON) oder aus (SND OFF, Taste erscheint gedimmt). Wird gespeichert.
+- **Theme** – schaltet zum nächsten Konsolen-Look und zeigt das aktive Theme. Verfügbar sind sechs Themes: Game Boy (Standard), GB Color, NES, Super NES, Switch und Famicom; ein siebtes (Virtual Boy) ist freischaltbar (siehe [Geheim-Theme](#geheim-theme-freischalten)). Die Auswahl wird gespeichert.
+- **Spiel** – öffnet die Spieleauswahl (siehe [Spiele](#spiele)). Bei einem laufenden Spiel beendet die Auswahl das Spiel.
+- **Sound** – schaltet die 8-Bit-Tastentöne ein oder aus. Die Einstellung wird gespeichert.
+- **Über CALC BOY** – zeigt Versions- und Datenschutzhinweis zur lokalen Speicherung.
+- **GitHub / Discord** – öffnen das Projekt-Repository beziehungsweise die Discord-Community in einem neuen Tab.
 
 ## Das Display (LCD)
 
@@ -225,7 +227,7 @@ Jedes Formel-Ergebnis landet im Verlauf; die Statuszeile zeigt kurz die verwende
 
 ## Spiele
 
-**GAME** öffnet das Menü: `1`, `2` oder `3` startet MATH ATTACK im jeweiligen Level, `5` startet SNAKE, `AC` bricht ab.
+**☰** öffnen, **Spiel** wählen und dann `1`, `2` oder `3` für MATH ATTACK im jeweiligen Level oder `5` für SNAKE wählen. **AC** bricht ab.
 
 **MATH ATTACK** – 30 Sekunden Kopfrechnen. Die Aufgabe steht in der Statuszeile, Antwort eintippen, **=** drücken. Richtig = 1 Punkt; falsch zählt als Fehler; in beiden Fällen kommt sofort die nächste Aufgabe. Die Statuszeile zeigt Restzeit (T) und Punkte (S).
 - Level 1 **EASY**: nur + und − mit kleinen Zahlen (bis 20).
@@ -233,7 +235,7 @@ Jedes Formel-Ergebnis landet im Verlauf; die Statuszeile zeigt kurz die verwende
 - Level 3 **HARD**: + − bis 999, × ÷ bis 19.
 - Jedes Level hat einen **eigenen Highscore**. Eine Runde **ohne einen einzigen Fehler** endet mit **PERFECT!** samt eigenem Jingle. **AC** bricht vorzeitig ab.
 
-**SNAKE** – Klassiker im LCD. Steuerung: **8** = hoch, **2** = runter, **4** = links, **6** = rechts (oder Pfeiltasten). Futter fressen lässt die Schlange wachsen, das Tempo steigt mit jedem Bissen. Wand oder eigener Schwanz beendet das Spiel; der Highscore wird gespeichert. **AC** oder **GAME** beendet.
+**SNAKE** – Klassiker im LCD. Steuerung: **8** = hoch, **2** = runter, **4** = links, **6** = rechts (oder Pfeiltasten). Futter fressen lässt die Schlange wachsen, das Tempo steigt mit jedem Bissen. Wand oder eigener Schwanz beendet das Spiel; der Highscore wird gespeichert. **AC** oder **☰ → Spiel** beendet.
 
 ## Quermodus
 
@@ -249,7 +251,7 @@ Gib ein:
 
 `8 8 2 2 4 6 4 6 − +`
 
-Dadurch wird das Virtual-Boy-Theme freigeschaltet, dauerhaft lokal gespeichert und kann anschließend über die **THEME**-Taste ausgewählt werden.
+Dadurch wird das Virtual-Boy-Theme freigeschaltet, dauerhaft lokal gespeichert und kann anschließend über **☰ → Theme** ausgewählt werden.
 
 ## Speicherung & Datenschutz
 

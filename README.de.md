@@ -19,6 +19,12 @@
 
 **[➤ CALC BOY jetzt öffnen](https://schrotty74.github.io/CalcBoy/)**
 
+## 👀 Vorschau
+
+<p align="center">
+  <img src="docs/assets/screenshots/menu-closed.png" width="320" alt="CALC BOY BASIC Taschenrechner">
+</p>
+
 ## 📱 Als App aufs iPhone
 
 1. Link oben in **Safari** öffnen.
@@ -26,7 +32,7 @@
 3. **Zum Home-Bildschirm** auswählen.
 4. CALC BOY startet als Vollbild-PWA.
 
-Die App unterstützt die iPhone-PWA-Safe-Area, damit die oberen Schaltflächen unterhalb der iOS-Statusleiste erreichbar bleiben.
+Die App unterstützt die iPhone-PWA-Safe-Area, damit die Menütaste unterhalb der iOS-Statusleiste erreichbar bleibt.
 
 ## ✨ Funktionen
 

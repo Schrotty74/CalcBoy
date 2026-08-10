@@ -18,6 +18,18 @@ After the first online launch, the browser keeps the app available for later. CA
 
 ![BASIC](../assets/screenshots/basic.png)
 
+## Menu
+
+Use the round menu button in the top-right corner to open central settings and links.
+
+![Menu closed](../assets/screenshots/menu-closed.png)
+
+Closed: The button remains available above the calculator.
+
+![Menu open](../assets/screenshots/menu-open.png)
+
+Open: Theme changes the look, Spiel opens the game selection, and Sound toggles key sounds. Über CALC BOY shows version and privacy information; GitHub and Discord open their respective external pages.
+
 ## Interface overview
 
 Use EXT to leave BASIC, MEHR to cycle through the extra pages, and BASIC to return.
@@ -156,8 +168,8 @@ Draws 20 built-in function graphs as pixel plots on the LCD.
 
 **Examples**
 
-- **Graph:** sin x draws y = sin x; any non-plot key closes it
-- **Compare:** x^2 and x^3 use different automatic scales
+- **sin x:** PLOT -> sin x -> y = sin x
+- **Compare:** PLOT -> x^2 or x^3 -> automatic scaling
 
 ### FORM
 
@@ -184,7 +196,7 @@ Formula assistant based on three stored variables A, B and C.
 
 ## Games
 
-GAME opens the menu. Press 1, 2 or 3 for Math Attack levels, or 5 for Snake.
+Open the menu, choose Spiel, then press 1, 2 or 3 for Math Attack levels, or 5 for Snake.
 
 ## Keyboard
 

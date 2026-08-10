@@ -14,10 +14,12 @@ The application files are not modified by this documentation build.
 
 ## Build
 
-Use the bundled Codex Python runtime or any Python environment with `reportlab`, `Pillow` and `pypdf`:
+Use the project-local virtual environment. Create it once and install the pinned documentation dependencies:
 
 ```bash
-python3 docs/tools/build_docs.py
+python3 -m venv docs/.venv
+docs/.venv/bin/python -m pip install -r docs/requirements.txt
+docs/.venv/bin/python docs/tools/build_docs.py
 ```
 
 The generated PDFs are written to `docs/output/pdf/`.

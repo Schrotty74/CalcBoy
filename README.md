@@ -19,6 +19,12 @@
 
 **[➤ Open CALC BOY now](https://schrotty74.github.io/CalcBoy/)**
 
+## 👀 Preview
+
+<p align="center">
+  <img src="docs/assets/screenshots/menu-closed.png" width="320" alt="CALC BOY BASIC calculator">
+</p>
+
 ## 📱 Install on iPhone
 
 1. Open the link above in **Safari**.
@@ -26,7 +32,7 @@
 3. Choose **Add to Home Screen**.
 4. CALC BOY launches as a fullscreen PWA.
 
-The app supports the iPhone PWA Safe Area, so the top buttons stay reachable below the iOS status bar.
+The app supports the iPhone PWA Safe Area, so the menu button stays reachable below the iOS status bar.
 
 ## ✨ Features
 

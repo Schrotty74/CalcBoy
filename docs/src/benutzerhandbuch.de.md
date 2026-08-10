@@ -18,6 +18,18 @@ Nach dem ersten Online-Start speichert der Browser die App für später. Danach 
 
 ![BASIC](../assets/screenshots/basic.png)
 
+## Menü
+
+Über die runde Menü-Taste oben rechts öffnest du die zentralen Einstellungen und Verweise.
+
+![Menu closed](../assets/screenshots/menu-closed.png)
+
+Geschlossen: Die Taste bleibt über dem Rechner erreichbar.
+
+![Menu open](../assets/screenshots/menu-open.png)
+
+Geöffnet: Theme wechselt das Aussehen, Spiel öffnet die Spieleauswahl und Sound schaltet Tastentöne. Über CALC BOY zeigt Versions- und Datenschutzinformationen; GitHub und Discord öffnen die jeweiligen externen Seiten.
+
 ## Bedienüberblick
 
 Mit EXT verlässt du BASIC, mit MEHR wechselst du durch die Zusatzseiten, mit BASIC kehrst du zurück.
@@ -277,8 +289,8 @@ Zeichnet 20 eingebaute Funktionsgraphen als Pixelgrafik im LCD.
 
 **Beispiele**
 
-- **Graph:** sin x zeichnet y = sin x; jede Nicht-Plot-Taste schließt ihn
-- **Vergleich:** x^2 und x^3 nutzen jeweils automatische Skalierung
+- **sin x:** PLOT -> sin x -> y = sin x
+- **Vergleich:** PLOT -> x^2 oder x^3 -> automatische Skalierung
 
 **Tastenübersicht**
 
@@ -353,7 +365,7 @@ Formel-Assistent mit drei gespeicherten Variablen A, B und C.
 
 ## Spiele
 
-GAME öffnet das Menü. 1, 2 oder 3 startet Math Attack, 5 startet Snake.
+Menü öffnen, Spiel wählen und dann 1, 2 oder 3 für Math Attack oder 5 für Snake drücken.
 
 ## Tastatur
 

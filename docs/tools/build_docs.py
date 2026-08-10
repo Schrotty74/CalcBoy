@@ -93,10 +93,11 @@ def make_calculator_shot(page_id: str, title: str, buttons: list[str], filename:
     rounded(d, case, 34 * scale, COLORS["case"], COLORS["case_dark"], 4 * scale)
     d.text((case[0] + 28 * scale, case[1] + 20 * scale), "CALC BOY", fill="#2b2b2e", font=f_title)
     d.text((case[2] - 170 * scale, case[1] + 28 * scale), title, fill=COLORS["red"], font=f_small)
-    for i, label in enumerate(["THEME", "GAME", "SND ON"]):
-        x = case[0] + (48 + i * 168) * scale if not landscape else case[0] + (250 + i * 142) * scale
-        rounded(d, (x, case[1] + 68 * scale, x + 110 * scale, case[1] + 102 * scale), 16 * scale, "#d8d3c9", "#67635c", 2 * scale)
-        d.text((x + 18 * scale, case[1] + 79 * scale), label, fill="#222", font=f_small)
+    menu_x = case[2] - 68 * scale
+    menu_y = case[1] + 24 * scale
+    d.ellipse((menu_x, menu_y, menu_x + 42 * scale, menu_y + 42 * scale), fill=COLORS["yellow"], outline="#8f7318", width=2 * scale)
+    for offset in (14, 20, 26):
+        d.line((menu_x + 12 * scale, menu_y + offset * scale, menu_x + 30 * scale, menu_y + offset * scale), fill="#3d2e08", width=2 * scale)
     if landscape:
         lcd = (case[0] + 34 * scale, case[1] + 134 * scale, case[0] + 390 * scale, case[1] + 430 * scale)
         key = (case[0] + 420 * scale, case[1] + 132 * scale, case[2] - 34 * scale, case[2] - 36 * scale)
@@ -145,7 +146,7 @@ def make_calculator_shot(page_id: str, title: str, buttons: list[str], filename:
         tw = d.textlength(b, font=f_btn)
         d.text((x + max(4 * scale, (bw - tw) / 2), y + bh / 2 - 9 * scale), b, fill="#111", font=f_btn)
     if annotate:
-        items = [("1", "Top controls", (case[0] + 80 * scale, case[1] + 78 * scale)), ("2", "LCD", (lcd[0] + 28 * scale, lcd[1] + 28 * scale)), ("3", "Keys", (bx0 + 30 * scale, by0 + 30 * scale))]
+        items = [("1", "Menu", (menu_x + 20 * scale, menu_y + 20 * scale)), ("2", "LCD", (lcd[0] + 28 * scale, lcd[1] + 28 * scale)), ("3", "Keys", (bx0 + 30 * scale, by0 + 30 * scale))]
         for n, label, pos in items:
             d.ellipse((pos[0] - 12 * scale, pos[1] - 12 * scale, pos[0] + 12 * scale, pos[1] + 12 * scale), fill=COLORS["yellow"], outline="#665500", width=2 * scale)
             d.text((pos[0] - 5 * scale, pos[1] - 9 * scale), n, fill="#111", font=f_small)
@@ -169,7 +170,9 @@ def create_screenshots():
         "history": "history.png",
         "plot_sin": "plot-sin.png",
         "snake": "snake.png",
-        "landscape": "landscape.png"
+        "landscape": "landscape.png",
+        "menu_closed": "menu-closed.png",
+        "menu_open": "menu-open.png",
     }
     if os.environ.get("CALCBOY_USE_EXISTING_SCREENSHOTS") == "1" and all((SHOT_DIR / f).exists() for f in expected.values()):
         return {k: SHOT_DIR / v for k, v in expected.items()}
@@ -180,6 +183,8 @@ def create_screenshots():
     paths["plot_sin"] = make_calculator_shot("plot", "PLOT", DATA["pages"][5]["buttons"], "plot-sin.png", display="sin")
     paths["snake"] = make_calculator_shot("snake", "SNAKE", DATA["pages"][0]["buttons"], "snake.png", display="S:3")
     paths["landscape"] = make_calculator_shot("landscape", "LANDSCAPE", DATA["pages"][1]["buttons"], "landscape.png", landscape=True, display="3,14159265", expr="EXT")
+    paths["menu_closed"] = SHOT_DIR / "menu-closed.png"
+    paths["menu_open"] = SHOT_DIR / "menu-open.png"
     return paths
 
 
@@ -336,6 +341,22 @@ def project_closing_note(lang: str, st):
     return callout_pdf("good", lang, text[0 if lang == "en" else 1], st)
 
 
+def menu_copy(lang: str) -> tuple[str, str, str, str]:
+    if lang == "de":
+        return (
+            "Menü",
+            "Über die runde Menü-Taste oben rechts öffnest du die zentralen Einstellungen und Verweise.",
+            "Geschlossen: Die Taste bleibt über dem Rechner erreichbar.",
+            "Geöffnet: Theme wechselt das Aussehen, Spiel öffnet die Spieleauswahl und Sound schaltet Tastentöne. Über CALC BOY zeigt Versions- und Datenschutzinformationen; GitHub und Discord öffnen die jeweiligen externen Seiten.",
+        )
+    return (
+        "Menu",
+        "Use the round menu button in the top-right corner to open central settings and links.",
+        "Closed: The button remains available above the calculator.",
+        "Open: Theme changes the look, Spiel opens the game selection, and Sound toggles key sounds. Über CALC BOY shows version and privacy information; GitHub and Discord open their respective external pages.",
+    )
+
+
 def markdown(lang: str, kind: str, shots: dict[str, Path]) -> str:
     s = STR[lang]
     title = s["quick"] if kind == "quick" else s["manual"]
@@ -344,6 +365,8 @@ def markdown(lang: str, kind: str, shots: dict[str, Path]) -> str:
     for i, step in enumerate(s["install_steps"], 1):
         lines.append(f"{i}. {step}")
     lines += ["", f"## {s['offline']}", "", s["offline_text"], "", callout_md("tip", lang, "Nach dem ersten Laden kannst du CALC BOY auch ohne Internetverbindung öffnen." if lang == "de" else "After the first load, CALC BOY can open even without an internet connection."), "", "![BASIC](../assets/screenshots/basic.png)", ""]
+    menu_title, menu_intro, menu_closed, menu_open = menu_copy(lang)
+    lines += [f"## {menu_title}", "", menu_intro, "", "![Menu closed](../assets/screenshots/menu-closed.png)", "", menu_closed, "", "![Menu open](../assets/screenshots/menu-open.png)", "", menu_open, ""]
     sections = ["basic", "ext", "conv", "fin", "prg", "plot", "form"]
     lines += ["## Interface overview" if lang == "en" else "## Bedienüberblick", ""]
     lines += ["Use EXT to leave BASIC, MEHR to cycle through the extra pages, and BASIC to return." if lang == "en" else "Mit EXT verlässt du BASIC, mit MEHR wechselst du durch die Zusatzseiten, mit BASIC kehrst du zurück.", ""]
@@ -367,7 +390,7 @@ def markdown(lang: str, kind: str, shots: dict[str, Path]) -> str:
             for b in page["buttons"]:
                 lines.append(f"- `{b}` - {describe_button(b, lang)}")
         lines.append("")
-    lines += [f"## {s['games']}", "", "GAME opens the menu. Press 1, 2 or 3 for Math Attack levels, or 5 for Snake." if lang == "en" else "GAME öffnet das Menü. 1, 2 oder 3 startet Math Attack, 5 startet Snake.", "", f"## {s['keyboard']}", ""]
+    lines += [f"## {s['games']}", "", "Open the menu, choose Spiel, then press 1, 2 or 3 for Math Attack levels, or 5 for Snake." if lang == "en" else "Menü öffnen, Spiel wählen und dann 1, 2 oder 3 für Math Attack oder 5 für Snake drücken.", "", f"## {s['keyboard']}", ""]
     for key, desc in keyboard_rows(lang):
         lines.append(f"- `{key}` - {desc}")
     lines += ["", f"## {s['storage']}", "", callout_md("privacy", lang, "Es werden keine Nutzungsdaten an externe Analyse- oder Schrift-Dienste gesendet." if lang == "de" else "No usage data is sent to external analytics or font services."), "", s["storage_text"], "", ", ".join(storage_items(lang)), "", f"## {s['limitations']}", "", limitation_text(lang)]
@@ -758,8 +781,8 @@ def limitation_text(lang: str):
 
 def trouble_text(lang: str):
     if lang == "de":
-        return "Wenn nach einem Update noch die alte Version erscheint, App oder Tab komplett schließen und zweimal neu öffnen. Wenn kein Ton kommt, einmal in die App tippen und SND ON prüfen. Wenn Teilen nicht verfügbar ist, Zwischenablage oder Download-Fallback verwenden. Zum kompletten Zurücksetzen die Website-Daten dieser Domain löschen."
-    return "If an old version appears after update, close and reopen the app twice. If sound does not play, tap once inside the app and check SND ON. If sharing is unavailable, use clipboard copy or browser download fallback. To reset all data, delete website data for this domain."
+        return "Wenn nach einem Update noch die alte Version erscheint, App oder Tab komplett schließen und zweimal neu öffnen. Wenn kein Ton kommt, einmal in die App tippen und Sound im Menü prüfen. Wenn Teilen nicht verfügbar ist, Zwischenablage oder Download-Fallback verwenden. Zum kompletten Zurücksetzen die Website-Daten dieser Domain löschen."
+    return "If an old version appears after update, close and reopen the app twice. If sound does not play, tap once inside the app and check Sound in the menu. If sharing is unavailable, use clipboard copy or browser download fallback. To reset all data, delete website data for this domain."
 
 
 def build_pdf(lang: str, kind: str, shots: dict[str, Path]):
@@ -769,9 +792,9 @@ def build_pdf(lang: str, kind: str, shots: dict[str, Path]):
     doc = NumberedDoc(str(PDF_OUT / name), f"{title} ({lang.upper()})", lang)
     st = styles()
     story = []
-    toc_items = ["Installation", "PWA / Offline", "Interface", "Pages", "History", "Games", "Themes", "Keyboard", "Storage", "Troubleshooting", "Version"]
+    toc_items = ["Installation", "PWA / Offline", "Menu", "Interface", "Pages", "History", "Games", "Themes", "Keyboard", "Storage", "Troubleshooting", "Version"]
     if lang == "de":
-        toc_items = ["Installation", "PWA / Offline", "Oberfläche", "Seiten", "Verlauf", "Spiele", "Themes", "Tastatur", "Speicher", "Fehlerbehebung", "Version"]
+        toc_items = ["Installation", "PWA / Offline", "Menü", "Oberfläche", "Seiten", "Verlauf", "Spiele", "Themes", "Tastatur", "Speicher", "Fehlerbehebung", "Version"]
     story += [
         Spacer(1, 16 * mm),
         Paragraph("CALC BOY", st["CoverTitle"]),
@@ -786,6 +809,10 @@ def build_pdf(lang: str, kind: str, shots: dict[str, Path]):
     ]
     story += [Paragraph("Introduction" if lang == "en" else "Einleitung", st["H1x"]), Paragraph(p(s["intro"]), st["Bodyx"]), callout_pdf("tip", lang, "The display is interactive. Tap it for history; long-press it to copy the current result." if lang == "en" else "Das Display ist interaktiv. Tippen öffnet den Verlauf; langes Drücken kopiert das aktuelle Ergebnis.", st)]
     story += [Paragraph(p(s["install"]), st["H1x"]), bullet_list(s["install_steps"], st), Paragraph(p(s["offline"]), st["H2x"]), Paragraph(p(s["offline_text"]), st["Bodyx"]), callout_pdf("tip", lang, "After the first load, CALC BOY can open even without an internet connection." if lang == "en" else "Nach dem ersten Laden kannst du CALC BOY auch ohne Internetverbindung öffnen.", st)]
+    menu_title, menu_intro, menu_closed, menu_open = menu_copy(lang)
+    menu_images = Table([[img(shots["menu_closed"], CONTENT_W * 0.26, 85 * mm), img(shots["menu_open"], CONTENT_W * 0.26, 85 * mm)]], colWidths=[CONTENT_W / 2, CONTENT_W / 2], hAlign="CENTER")
+    menu_images.setStyle(TableStyle([("ALIGN", (0, 0), (-1, -1), "CENTER"), ("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 2), ("RIGHTPADDING", (0, 0), (-1, -1), 2), ("TOPPADDING", (0, 0), (-1, -1), 0), ("BOTTOMPADDING", (0, 0), (-1, -1), 0)]))
+    story += [KeepTogether([Paragraph(p(menu_title), st["H1x"]), Paragraph(p(menu_intro), st["Introx"]), menu_images, Spacer(1, 2 * mm), Paragraph(p(menu_closed), st["Smallx"]), Paragraph(p(menu_open), st["Smallx"])])]
     story += [KeepTogether([Paragraph("First calculation" if lang == "en" else "Erste Rechnung", st["H1x"]), centered(img(shots["basic"], CONTENT_W * 0.42, 88 * mm)), Paragraph(p("Example: 12 + 30 = shows 42 and adds the expression to history." if lang == "en" else "Beispiel: 12 + 30 = zeigt 42 und legt die Rechnung im Verlauf ab."), st["Introx"])])]
     story += [KeepTogether([Paragraph("History, copy and share" if lang == "en" else "Verlauf, Kopieren und Teilen", st["H1x"]), centered(img(shots["history"], CONTENT_W * 0.42, 88 * mm)), Paragraph(p("The last ten successful calculations are saved. The history view also shows sum and average. Text and PNG export are available when the browser supports sharing or clipboard APIs." if lang == "en" else "Die letzten zehn erfolgreichen Rechnungen werden gespeichert. Der Verlauf zeigt auch Summe und Durchschnitt. Text- und PNG-Export nutzen Teilen- oder Zwischenablagefunktionen des Browsers."), st["Introx"])])]
     if kind == "quick":
@@ -796,7 +823,7 @@ def build_pdf(lang: str, kind: str, shots: dict[str, Path]):
             Paragraph(p(", ".join(DATA["themes"])), st["Bodyx"]),
             Paragraph(p(s["games"]), st["H1x"]),
             centered(img(shots["snake"], CONTENT_W * 0.42, 88 * mm)),
-            Paragraph(p("GAME opens the menu. Press 1, 2 or 3 for Math Attack levels, or 5 for Snake." if lang == "en" else "GAME öffnet das Menü. 1, 2 oder 3 startet Math Attack, 5 startet Snake."), st["Introx"]),
+            Paragraph(p("Open the menu, choose Spiel, then press 1, 2 or 3 for Math Attack levels, or 5 for Snake." if lang == "en" else "Menü öffnen, Spiel wählen und dann 1, 2 oder 3 für Math Attack oder 5 für Snake drücken."), st["Introx"]),
         ])]
     else:
         for page in DATA["pages"]:
@@ -819,7 +846,7 @@ def build_pdf(lang: str, kind: str, shots: dict[str, Path]):
             *examples_cards("plot", lang, st),
             callout_pdf("tip", lang, "Press any non-plot key or tap the display to close the graph." if lang == "en" else "Jede Nicht-Plot-Taste oder ein Tipp auf das Display schließt den Graphen.", st),
         ]
-        story += [PageBreak(), Paragraph(p(s["games"]), st["H1x"]), KeepTogether([centered(img(shots["snake"], CONTENT_W * 0.42, 88 * mm)), Paragraph(p("Math Attack asks arithmetic questions for 30 seconds. Snake uses the number pad 2/4/6/8 or arrow keys and stores its own high score." if lang == "en" else "Math Attack stellt 30 Sekunden lang Kopfrechenaufgaben. Snake nutzt 2/4/6/8 oder Pfeiltasten und speichert einen eigenen Highscore."), st["Introx"])])]
+        story += [PageBreak(), Paragraph(p(s["games"]), st["H1x"]), KeepTogether([centered(img(shots["snake"], CONTENT_W * 0.42, 88 * mm)), Paragraph(p("Open the menu and choose Spiel to reach the game selection. Math Attack asks arithmetic questions for 30 seconds. Snake uses the number pad 2/4/6/8 or arrow keys and stores its own high score." if lang == "en" else "Menü öffnen und Spiel wählen, um zur Spieleauswahl zu gelangen. Math Attack stellt 30 Sekunden lang Kopfrechenaufgaben. Snake nutzt 2/4/6/8 oder Pfeiltasten und speichert einen eigenen Highscore."), st["Introx"])])]
         story += [Paragraph("Landscape mode" if lang == "en" else "Querformat", st["H1x"]), KeepTogether([centered(img(shots["landscape"], CONTENT_W * 0.54, 74 * mm)), Paragraph(p("In landscape, the scientific shortcut column is visible beside BASIC, giving quick access to sin, cos, tan, log, ln, powers, pi and e." if lang == "en" else "Im Querformat erscheint neben BASIC eine Wissenschafts-Spalte mit sin, cos, tan, log, ln, Potenzen, pi und e."), st["Introx"])])]
     story += [PageBreak(), Paragraph(p(s["keyboard"]), st["H1x"]), table([[label("key", lang), ("Action" if lang == "en" else "Aktion")]] + keyboard_rows(lang), st, [35 * mm, CONTENT_W - 35 * mm])]
     story += [
