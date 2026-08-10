@@ -80,6 +80,7 @@ Ein Tipp öffnet einen KI-Chat, der zuerst die Anleitung liest und dann deine Fr
 
 ## 📖 Dokumentation
 
+- [**Offline-Paket (ZIP)**](CALC-BOY-Offline-3.1.0.zip) - App, Icons, Lizenz und beide vollständigen PDF-Handbücher.
 - **PDF-Anleitungen**
   - [Schnellstart Deutsch (PDF)](docs/output/pdf/CALC-BOY-schnellstart-de.pdf)
   - [Vollständiges Benutzerhandbuch Deutsch (PDF)](docs/output/pdf/CALC-BOY-benutzerhandbuch-de.pdf)

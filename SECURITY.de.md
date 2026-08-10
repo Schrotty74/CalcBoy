@@ -1,38 +1,55 @@
-# 🔒 Sicherheit & Datenschutz
+# Sicherheit & Datenschutz
 
 🇬🇧 [English version](SECURITY.md)
 
-CALC BOY wurde auf private Daten, externe Verbindungen und Tracking geprüft. Stand: Juli 2026, aktueller hochgeladener Stand v3.0.2 / 1.7.
+- **Prüfdatum:** 10. August 2026
+- **Geprüfte Version:** CALC BOY 3.1.0
+- **Methode:** Statische Prüfung von `index.html`, `sw.js`, den Sicherheitsdokumenten und dem Dokumentations-Build. Die App wurde nicht ausgeführt und während der Prüfung wurde kein Netzwerkdienst aufgerufen.
 
 ## Ergebnis der Prüfung
 
-**Es sind keine privaten Daten enthalten und es werden keine erhoben.**
+Die Prüfung hat eine Cache-Einschränkung im Service Worker ergeben, die am 10. August 2026 behoben und mit einem gezielten Regressionstest geprüft wurde. Für Tracking, Analytics, eingebettete Zugangsdaten, XSS, Remote-Code-Ausführung oder eine automatische Übertragung von Rechnerdaten bleibt kein offener quellcodebasierter Befund.
 
-| Prüfpunkt | Ergebnis |
+| Bereich | Ergebnis |
 |---|---|
-| Persönliche Daten (Namen, E-Mails, IDs) | ❌ keine enthalten |
-| Lokale Pfade (z. B. `/Users/…`, `C:\…`) | ❌ keine enthalten |
-| API-Keys, Tokens, Passwörter | ❌ keine enthalten |
-| Externe Verbindungen / Requests | ❌ keine – Schrift ist als Base64 eingebettet |
-| Tracking, Analytics, Cookies | ❌ nicht vorhanden |
-| Datenspeicherung | ⚙️ nur lokal (localStorage): Theme, Sound, Rechenverlauf, Highscores, Speicherwert, Winkelmodus, Finanz-Parameter, Wechselkurs, RPN-Stack, Formelvariablen – verlässt nie das Gerät, löschbar über die Website-Daten des Browsers |
+| Persönliche Daten, lokale Pfade, API-Keys, Tokens und Passwörter | Im geprüften Quellcode nicht gefunden |
+| Analytics, Cookies und Werbedienste | Nicht gefunden |
+| Automatische Drittanbieter-Requests | Nicht gefunden |
+| Schrift | Lokal als Base64 eingebettet, kein Font-CDN-Request |
+| Rechnerdaten | Ausschließlich lokal im Browser-`localStorage` |
+| Service-Worker-Cache | Auf die vier bekannten lokalen App-Dateien begrenzt; Query-URLs und andere Pfade werden nicht gecacht |
 
-## Was das konkret bedeutet
+## Lokale Daten und bewusstes Teilen
 
-- Die App besteht aus einer HTML-Datei plus Service Worker (sw.js) fürs Offline-Caching – gecacht werden **nur eigene Dateien derselben Domain**. Nach dem ersten Laden funktioniert sie vollständig offline.
-- Es verlässt **keine einzige Information** das Gerät – keine IP-Übertragung an Font-CDNs, keine Telemetrie, nichts.
-- Gespeichert werden ausschließlich Einstellungen, Rechenverlauf, Spieldaten und Rechner-Hilfswerte – **lokal im Browser**, ohne Übertragung an irgendwen. Löschen: Website-Daten der Domain im Browser entfernen.
-- Damit ist die App **DSGVO-unkritisch**: Es findet keine Verarbeitung personenbezogener Daten durch Dritte statt, nichts verlässt das Gerät.
+CALC BOY speichert Einstellungen und Rechnerzustand nur lokal im Browser: Theme, Sound, Rechenverlauf, Highscores, Speicherwert, Winkelmodus, Finanzparameter, Wechselkurs, RPN-Stack und Formelwerte. Die App hat kein Konto, keine Serverdatenbank und keinen Analytics-Endpunkt.
 
-## Berechtigungen
+Die App überträgt Berechnungen oder Einstellungen nicht automatisch an andere Dienste. Verlaufsexport und Teilen verwenden die Zwischenablage beziehungsweise Web Share **nur nach einer ausdrücklichen Aktion**. Das Ziel wählst du im Teilen-Dialog des Betriebssystems.
 
-Die App fordert keine Berechtigungen an. Optional genutzt werden nur:
+Im Menü befinden sich optionale Links zu GitHub und Discord. Das Öffnen eines solchen Links ist eine bewusste Navigation zu diesem externen Dienst; dafür gelten dessen übliche Browser-Verbindung und Datenschutzregeln.
 
-- **Web Audio API** für die 8-Bit-Tastentöne (lokal erzeugt, abschaltbar)
-- **Vibration API** für haptisches Feedback, sofern das Gerät sie unterstützt
-- **Battery Status API** (wo der Browser sie anbietet) zum Einfärben der BATTERY-LED – wird nur lokal gelesen, nie übertragen
-- **Clipboard-/Web-Share-API** nur bei ausdrücklicher Nutzeraktion (Langdruck zum Kopieren, Teilen-Button im Verlauf)
+Zum Löschen der lokal gespeicherten Rechnerdaten entfernst du die Website-Daten dieser Domain im Browser.
+
+## Schutz des Offline-Caches
+
+Der Service Worker legt die vier bekannten App-Dateien im Cache ab und aktualisiert nur diese gleichoriginären, erlaubten URLs. Anfragen mit Query-String, unbekannten Pfaden, anderen HTTP-Methoden oder fremden Ursprüngen werden nicht vom Laufzeit-Cache verarbeitet. Mit der Behebung wurde die Cache-Revision geändert, sodass beim Aktivieren die frühere Cache-Version entfernt wird.
+
+Ein Regressionstest bestätigt, dass `index.html` weiterhin cachebar bleibt und Query-URLs, unbekannte Pfade, externe URLs sowie `POST`-Anfragen nicht gecacht werden. Damit ist die zuvor festgestellte Verfügbarkeits-Einschränkung des lokalen Speichers behoben.
+
+## Optionale Browser-APIs
+
+CALC BOY fordert keine eigenen Berechtigungsdialoge an. Soweit der Browser sie unterstützt, kann die App diese APIs lokal verwenden:
+
+- **Web Audio API** für optionale 8-Bit-Tastentöne
+- **Vibration API** für optionale haptische Rückmeldung
+- **Battery Status API** für die lokale Batterieanzeige
+- **Clipboard- und Web-Share-APIs** nach einer ausdrücklichen Kopier- oder Teilen-Aktion
+
+Unterstützung und Berechtigungen werden vom Browser beziehungsweise Betriebssystem gesteuert.
+
+## Umfang und Grenzen
+
+Dies ist eine technische Quellcodeprüfung und keine Rechtsberatung. Hosting-Header, Browser-Speicherquoten und die bereitgestellte GitHub-Pages-Konfiguration liegen außerhalb dieses Repositorys und wurden nicht getestet. Das Cache-Verhalten wurde über einen isolierten Service-Worker-Regressionstest geprüft; ein vollständiger manueller Browser-Test war nicht Teil dieser Prüfung.
 
 ## Sicherheitslücken melden
 
-Falls dir dennoch etwas auffällt, eröffne bitte ein [Issue](../../issues) in diesem Repository.
+Melde mögliche Sicherheitslücken bitte über einen privaten Sicherheitskanal, falls verfügbar, oder ansonsten als [Issue](../../issues), ohne sensible Proof-of-Concept-Details öffentlich zu veröffentlichen.

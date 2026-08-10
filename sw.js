@@ -2,8 +2,19 @@
   CALC BOY Service Worker — Offline-Caching (GPL-3.0, siehe LICENSE)
   Cached nur eigene Dateien derselben Domain. Keine externen Requests.
 */
-const CACHE = "calcboy-v3.1.0";
+const CACHE = "calcboy-v3.1.0-cache2";
 const ASSETS = ["./", "./index.html", "./apple-touch-icon.png", "./icon-512.png"];
+const CACHEABLE_URLS = new Set(
+  ASSETS.map((asset) => new URL(asset, self.registration.scope).href)
+);
+
+function isCacheableRequest(request) {
+  const url = new URL(request.url);
+  return request.method === "GET" &&
+    url.origin === self.location.origin &&
+    url.search === "" &&
+    CACHEABLE_URLS.has(url.href);
+}
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));
@@ -21,7 +32,7 @@ self.addEventListener("activate", (e) => {
 
 // Cache-first, im Hintergrund aktualisieren (stale-while-revalidate)
 self.addEventListener("fetch", (e) => {
-  if (e.request.method !== "GET") return;
+  if (!isCacheableRequest(e.request)) return;
   e.respondWith(
     caches.match(e.request).then((cached) => {
       const update = fetch(e.request)

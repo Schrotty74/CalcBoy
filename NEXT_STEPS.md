@@ -4,10 +4,6 @@
 
 Diese Liste enthält nur aus dem aktuellen Repository belegte, offene Punkte. Bei größeren Änderungen aktualisieren.
 
-## Priorität normal
-
-- **Sicherheitsdokumentation prüfen:** `SECURITY.md` und `SECURITY.de.md` nennen einen älteren Audit-Stand als den aktuellen Anwendungscode. Erst nach einer tatsächlichen neuen Prüfung aktualisieren.
-
 ## Vor einer öffentlichen Veröffentlichung
 
 - [PORTFOLIO_UPDATE.md](PORTFOLIO_UPDATE.md) prüfen und gegebenenfalls die zentrale Portfolio-Darstellung aktualisieren.

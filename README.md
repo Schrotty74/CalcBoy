@@ -80,6 +80,7 @@ One tap opens an AI chat that reads the manual first and then answers your quest
 
 ## 📖 Documentation
 
+- [**Offline package (ZIP)**](CALC-BOY-Offline-3.1.0.zip) - app, icons, license and both complete PDF manuals.
 - **PDF guides**
   - [Quick Start Guide (PDF)](docs/output/pdf/CALC-BOY-quick-start-guide-en.pdf)
   - [Complete User Manual (PDF)](docs/output/pdf/CALC-BOY-user-manual-en.pdf)

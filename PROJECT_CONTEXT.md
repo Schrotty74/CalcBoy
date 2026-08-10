@@ -28,6 +28,7 @@ CALC BOY ist eine deutschsprachige, installierbare Taschenrechner-PWA im Stil kl
 - `docs/tools/build_docs.py`: Erzeugt Dokumentationsbilder, Markdown und PDFs.
 - `docs/requirements.txt`: Versionierte Python-Abhängigkeiten für den Dokumentations-Build.
 - `docs/output/pdf/`: Erzeugte PDFs.
+- `CALC-BOY-Offline-3.1.0.zip`: Schlankes Offline-Paket mit App, Icons, GPL-Lizenz und den vollständigen DE/EN-Handbüchern.
 
 Es gibt keine gefundenen Paketmanifeste, Lockfiles, CI-Konfigurationen oder automatisierten Anwendungstests im Repository. Eine nicht vorhandene Konfiguration nicht als bestehend voraussetzen.
 
@@ -75,7 +76,6 @@ Vor jeder neuen App-Arbeit außerdem Projekt-Dokumentation, Manifeste, Lockfiles
 - Offline-Betrieb erfordert einen ersten erfolgreichen Aufruf über HTTPS. Browser-Funktionen wie Teilen, Zwischenablage, Vibration und Batterieanzeige sind abhängig von der Plattform.
 - Die App-Oberfläche ist deutsch; die Dokumentation liegt zusätzlich auf Englisch vor.
 - Die Dokumentation beschreibt das aktuelle Kopfmenü. Die beiden Ansichten `menu-closed.png` und `menu-open.png` werden vom Generator in alle vier Handbücher eingebunden.
-- Die Sicherheitsdokumente nennen einen älteren Audit-Stand. Eine erneute Sicherheitsprüfung wurde in diesem Arbeitsgang nicht durchgeführt.
 
 ## Unbekannt oder nicht geprüft
 
