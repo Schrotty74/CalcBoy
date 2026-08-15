@@ -2,14 +2,14 @@
   <img src="icon-512.png" width="128" height="128" alt="CALC BOY icon">
 </p>
 
-<h1 align="center">CALC BOY</h1>
+<h1 align="center">CALC BOY – Retro Scientific Calculator & Unit Converter PWA</h1>
 
 <p align="center">
   🇩🇪 <a href="README.de.md">Deutsche Version</a>
 </p>
 
 <p align="center">
-  <strong>Classic Nintendo-style calculator PWA</strong><br>
+  <strong>Classic Nintendo-style scientific calculator, unit converter and programmer calculator PWA</strong><br>
   One HTML file, offline-capable, local-only, no tracking.
 </p>
 
