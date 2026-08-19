@@ -95,6 +95,10 @@ One tap opens an AI chat that reads the manual first and then answers your quest
 - [Changelog](CHANGELOG.md)
 - [Security & Privacy](SECURITY.md)
 
+## Repo activity
+
+![Repobeats analytics image](https://repobeats.axiom.co/api/embed/f66ff4181041cc7c4d53b3bac872f403ff0c76b4.svg "Repobeats analytics image")
+
 ## 📄 License
 
 GPL-3.0-or-later. See [LICENSE](LICENSE).
