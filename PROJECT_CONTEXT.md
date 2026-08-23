@@ -1,15 +1,7 @@
 # CALC BOY – Projektkontext
 
 **Stand:** 2026-08-10
-**Zweck:** Diese Datei ist die zentrale Einstiegshilfe für neue Chats und nach einer Neuinstallation. Sie beschreibt den belegten Projektstand, keine Produkt-Roadmap.
-
-## Zuerst lesen
-
-1. Diese Datei.
-2. [NEXT_STEPS.md](NEXT_STEPS.md) für den aktuellen, tatsächlich offenen Stand.
-3. [README.de.md](README.de.md) und [SECURITY.de.md](SECURITY.de.md) für Produkt- und Datenschutzinformationen.
-4. Bei Dokumentationsarbeit: [docs/README.md](docs/README.md), die passenden Quellen in `docs/src/` und [PORTFOLIO_UPDATE.md](PORTFOLIO_UPDATE.md).
-5. Vor einer Veröffentlichung außerdem [CHANGELOG.de.md](CHANGELOG.de.md) und [PORTFOLIO_UPDATE.md](PORTFOLIO_UPDATE.md).
+**Zweck:** Diese Datei beschreibt den belegten Projektstand, keine Produkt-Roadmap.
 
 Die englischen Gegenstücke liegen jeweils neben den deutschen Dateien. Bestehende Dokumentation nicht ohne Anlass umstrukturieren oder doppeln.
 
