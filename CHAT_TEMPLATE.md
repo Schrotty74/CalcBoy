@@ -16,17 +16,15 @@ Bitte lies vor Beginn:
 
 Lies danach die für die Aufgabe relevanten vorhandenen Dokumente, insbesondere `README.de.md`, `SECURITY.de.md`, `docs/README.md` und bei Dokumentationsarbeit die passenden Dateien in `docs/src/`.
 
+Die verbindlichen allgemeinen Arbeits-, Git-, Veröffentlichungs- und Repository-Datenschutzregeln stehen in `AGENTS.md` und gelten vollständig.
+
 Prüfe vor Aussagen oder Änderungen den tatsächlichen Projektzustand. Behalte Architektur, Datenformate, Ordnerstruktur und bestehenden PDF-Workflow bei. Aktualisiere `PROJECT_CONTEXT.md` und `NEXT_STEPS.md` bei größeren, bestätigten Änderungen.
 
-Schutzregeln:
+CalcBoy-spezifisch:
 
-- Keine Zugangsdaten, Tokens, lokalen Pfade, privaten Daten, Backups oder echten Nutzerdaten dokumentieren oder veröffentlichen.
-- Öffentliche Namen nur als `Schrotty74` verwenden.
 - Keine Projekt- oder Build-Abhängigkeiten automatisch global installieren oder aktualisieren.
 - Vor Abhängigkeitsarbeit Projekt-Dokumentation, Manifeste, Lockfiles, Build-Skripte und CI-Konfiguration prüfen.
-- Keine Releases, Tags, Commits oder Pushes ohne ausdrücklichen Auftrag.
 - Vor öffentlichen Veröffentlichungen `PORTFOLIO_UPDATE.md` prüfen.
-- Vor einer Änderung kurz die betroffenen Dateien nennen und das Ergebnis anschließend passend zum Umfang prüfen.
 
 Aktueller Auftrag:
 
