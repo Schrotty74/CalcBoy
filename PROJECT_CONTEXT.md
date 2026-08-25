@@ -3,7 +3,7 @@
 **Stand:** 2026-08-10
 **Zweck:** Diese Datei beschreibt den belegten Projektstand, keine Produkt-Roadmap.
 
-Die englischen Gegenstücke liegen jeweils neben den deutschen Dateien. Bestehende Dokumentation nicht ohne Anlass umstrukturieren oder doppeln.
+Die allgemeinen Arbeits-, Git-, Veröffentlichungs- und Repository-Datenschutzregeln stehen verbindlich in `AGENTS.md`. Die englischen Gegenstücke liegen jeweils neben den deutschen Dateien. Bestehende Dokumentation nicht ohne Anlass umstrukturieren oder doppeln.
 
 ## Projektziel
 
@@ -28,7 +28,7 @@ Es gibt keine gefundenen Paketmanifeste, Lockfiles, CI-Konfigurationen oder auto
 
 Die App verwendet `localStorage` ausschließlich lokal für Theme, Sound, Winkelmodus, Verlauf, Speicherwert, FIN-Parameter, Wechselkurs, Personenzahl, RPN-Modus und -Stack, Formelvariablen, Highscores und die Virtual-Boy-Freischaltung. Es gibt keine Live-Wechselkurse, Analyse- oder Tracking-Dienste. Details stehen in [SECURITY.de.md](SECURITY.de.md).
 
-Keine lokalen Pfade, Zugangsdaten, Tokens, privaten Testdaten, Exporte oder Backups in das Repository oder öffentliche Materialien aufnehmen. Öffentliche Namen ausschließlich als `Schrotty74` verwenden.
+Für Repository-Inhalte und öffentliche Materialien gelten die Datenschutz- und Namensregeln aus `AGENTS.md`.
 
 ## Umgesetzte Funktionen
 
@@ -52,15 +52,12 @@ docs/.venv/bin/python docs/tools/build_docs.py
 
 Der Generator importiert `reportlab`, `Pillow` und `pypdf`. Diese Python-Pakete sind projektgebundene Build-Abhängigkeiten und in `docs/requirements.txt` festgehalten. Die lokale Umgebung `docs/.venv/` ist absichtlich nicht versioniert. Nicht automatisch global installieren oder aktualisieren.
 
-Vor jeder neuen App-Arbeit außerdem Projekt-Dokumentation, Manifeste, Lockfiles, Build-Skripte und CI-Konfiguration lesen. Allgemein wiederverwendbare Werkzeuge nur als Vorschlag mit Zweck, Quelle, offiziellem Installationsweg und Verifikation dokumentieren. Projektgebundene oder lockfile-gesteuerte Abhängigkeiten nicht global aufnehmen. Zugangsdaten und Zertifikate niemals automatisch anlegen oder speichern.
-
-## Feste Arbeitsregeln
+## Feste Projektregeln
 
 - Bestehende App-Dateien nur für die konkret angeforderte Änderung bearbeiten.
 - Bei Änderungen an `index.html` die PWA-Version und `sw.js` nicht beiläufig verändern. Bei einer echten Versionsveröffentlichung beide bewusst abgleichen und die vorhandene Versionshistorie aktualisieren.
 - Dokumentationsquellen, Screenshots und PDFs sind ein zusammenhängender Workflow. Keine generierten PDFs manuell als Ersatz für ihre Markdown-Quellen pflegen.
 - Vor Veröffentlichungen, Beta-Ankündigungen oder neuen öffentlichen Materialien die Portfolio-Regel in [PORTFOLIO_UPDATE.md](PORTFOLIO_UPDATE.md) anwenden.
-- Keine Releases, Tags, Commits oder Pushes ohne ausdrücklichen Auftrag erstellen.
 - Bei größeren Änderungen diese Datei und [NEXT_STEPS.md](NEXT_STEPS.md) aktualisieren.
 
 ## Bekannte Einschränkungen und belegte Inkonsistenzen
