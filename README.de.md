@@ -95,6 +95,10 @@ Ein Tipp öffnet einen KI-Chat, der zuerst die Anleitung liest und dann deine Fr
 - [Änderungsprotokoll](CHANGELOG.de.md)
 - [Sicherheit & Datenschutz](SECURITY.de.md)
 
+## Community
+
+Fragen, Feedback und Diskussionen sind auf [Discord](https://discord.gg/Zy93AaYFaj) willkommen.
+
 ## 📄 Lizenz
 
 GPL-3.0-or-later. Siehe [LICENSE](LICENSE).
