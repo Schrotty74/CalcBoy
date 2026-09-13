@@ -22,9 +22,8 @@ Prüfe vor Aussagen oder Änderungen den tatsächlichen Projektzustand. Behalte 
 
 CalcBoy-spezifisch:
 
-- Keine Projekt- oder Build-Abhängigkeiten automatisch global installieren oder aktualisieren.
-- Vor Abhängigkeitsarbeit Projekt-Dokumentation, Manifeste, Lockfiles, Build-Skripte und CI-Konfiguration prüfen.
-- Vor öffentlichen Veröffentlichungen `PORTFOLIO_UPDATE.md` prüfen.
+
+- Die projektspezifischen Abhängigkeits- und Veröffentlichungsregeln stehen in `PROJECT_CONTEXT.md` und `AGENTS.md`.
 
 Aktueller Auftrag:
 
